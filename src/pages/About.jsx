@@ -1,10 +1,14 @@
-import profilePic from 'webAppDev_portfolio/src/assets/headshot.jpg';
-import resumePdf from 'webAppDev_portfolio/src/assets/Anton_Ilin.pdf';
+// About page: legal name, headshot image, and resume pdf link
+import profilePic from '../assets/headshot.jpg';
+// TODO: replace with your actual resume file if different
+import resumePdf from '../assets/Anton_Ilin.pdf';
 export default function About() {
   return (
     <article className="card">
       <h1>About Me</h1>
+      {/* TODO: ensure your legal name below */}
       <p>My name is <strong>Anton Ilin</strong>. I build with React, Java, and C#.</p>
+      <p>I am passionate about bringing back the tradition of creating free software and making it accessible to everyone.</p>
       <img src={profilePic} alt="Anton Ilin" style={{ width: '150px', borderRadius: '8px' }} />
       <a href={resumePdf} download className="button-link" style={{
         display: 'inline-block',

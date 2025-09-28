@@ -5,6 +5,7 @@ import './App.css'
 export default function App() {
   return (
     <div className="app">
+      {/* Site header with logo and primary nav */}
       <header className="site-header">
         <div className="brand">
           <Logo />
@@ -19,10 +20,12 @@ export default function App() {
         </nav>
       </header>
 
+      {/* Route outlet renders the active page */}
       <main className="site-main">
         <Outlet />
       </main>
 
+      {/* TODO: personalize if name changes */}
       <footer className="site-footer">
         © {new Date().getFullYear()} Anton Ilin
       </footer>

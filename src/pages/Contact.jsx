@@ -1,3 +1,4 @@
+// Contact page: captures fields and redirects to Home with state
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,17 +18,31 @@ export default function Contact() {
 	}
 
 	function onSubmit(e) {
-		e.preventDefault()
-		// For now, just log and redirect back to Home as per assignment guidance
+			e.preventDefault()
+			// No backend: log to console and redirect to Home
 		console.log('Contact form submitted', form)
-		alert(`Thanks, ${form.firstName}! Your message has been captured.`)
-		navigate('/')
+		// Redirect to Home and show a confirmation banner
+		navigate('/', { state: { submittedName: form.firstName } })
 	}
 
 	return (
 		<section className="card">
 			<h1>Contact Me</h1>
 			<p>Feel free to reach out using the form below.</p>
+
+			{/* Static contact info (personalize as needed) */}
+			<div className="contact-info" style={{ marginBottom: '16px' }}>
+				<p style={{ margin: 0 }}>
+					<strong>Email:</strong>
+					{' '}
+					{/* TODO: update to your preferred email */}
+					<a href="mailto:antonilin107@gmail.com">antonilin107@gmail.com</a>
+				</p>
+				<p style={{ margin: '6px 0 0' }}>
+					{/* TODO: update to your preferred phone or remove */}
+					<strong>Phone:</strong> (416) 278-9778
+				</p>
+			</div>
 
 			<form className="contact-form" onSubmit={onSubmit}>
 				<div className="row">

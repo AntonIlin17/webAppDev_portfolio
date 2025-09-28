@@ -4,7 +4,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import './index.css'
 import App from './App.jsx'
-// Route components
+// Route components (each file under src/pages)
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
@@ -12,6 +12,8 @@ import Projects from './pages/Projects.jsx';
 import Education from './pages/Education.jsx';
 import Services from './pages/Services.jsx';
 
+// Router config: App is the layout; child routes render in <Outlet />
+// Note: Home reads optional state (submittedName) for a banner after form submit
 const router = createBrowserRouter([
   {
     path: "/",
