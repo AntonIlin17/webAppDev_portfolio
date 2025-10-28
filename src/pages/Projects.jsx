@@ -93,9 +93,13 @@ export default function Projects() {
     useEffect(() => {
         function onKey(e) {
             if (!lightboxOpen) return
-            if (e.key === 'Escape') closeLightbox()
-            if (e.key === 'ArrowRight') next()
-            if (e.key === 'ArrowLeft') prev()
+            if (e.key === 'Escape') {
+                closeLightbox()
+            } else if (e.key === 'ArrowRight') {
+                setLightboxIndex((i) => (i + 1) % lightboxImages.length)
+            } else if (e.key === 'ArrowLeft') {
+                setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)
+            }
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)

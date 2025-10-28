@@ -11,12 +11,12 @@ export default function App() {
           <Logo />
         </div>
         <nav className="site-nav">
-          <NavLink to="/" end>Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/projects">Projects</NavLink>
-          <NavLink to="/education">Education</NavLink>
-          <NavLink to="/services">Services</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : undefined)}>Home</NavLink>
+          <NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : undefined)}>About</NavLink>
+          <NavLink to="/projects" className={({ isActive }) => (isActive ? 'active' : undefined)}>Projects</NavLink>
+          <NavLink to="/education" className={({ isActive }) => (isActive ? 'active' : undefined)}>Education</NavLink>
+          <NavLink to="/services" className={({ isActive }) => (isActive ? 'active' : undefined)}>Services</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => (isActive ? 'active' : undefined)}>Contact</NavLink>
         </nav>
       </header>
 
