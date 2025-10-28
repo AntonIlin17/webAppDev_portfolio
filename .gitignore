@@ -26,13 +26,5 @@ dist-ssr
 # Environment variables (NEVER commit sensitive data)
 .env
 
-# Assignment instruction files (not needed in repo)
-ASSIGNMENT_SUBMISSION_GUIDE.md
-QUICK_REFERENCE.txt
-QUICK_START.md
-README_ASSIGNMENT.md
-START_HERE.txt
-SUBMISSION_CHECKLIST.md
-WORD_DOCUMENT_TEMPLATE.md
 test-api.ps1
 *.zip
