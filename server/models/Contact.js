@@ -4,6 +4,7 @@ const contactSchema = new mongoose.Schema(
   {
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
+    phone: { type: String, trim: true },
     email: {
       type: String,
       required: true,
@@ -11,6 +12,7 @@ const contactSchema = new mongoose.Schema(
       trim: true,
       match: /[^@\s]+@[^@\s]+\.[^@\s]+/,
     },
+    message: { type: String, required: true, trim: true },
   },
   { timestamps: true }
 );

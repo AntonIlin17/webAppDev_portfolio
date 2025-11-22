@@ -11,9 +11,9 @@ import { protect } from '../middleware/auth.js';
 
 const router = Router();
 
-router.get('/', getContacts);
-router.get('/:id', getContactById);
-router.post('/', protect, createContact);
+router.get('/', protect, getContacts);
+router.get('/:id', protect, getContactById);
+router.post('/', createContact);
 router.put('/:id', protect, updateContact);
 router.delete('/:id', protect, deleteContact);
 router.delete('/', protect, deleteAllContacts);

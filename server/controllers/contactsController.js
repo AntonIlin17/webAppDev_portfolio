@@ -12,16 +12,16 @@ export async function getContactById(req, res) {
 }
 
 export async function createContact(req, res) {
-  const { firstname, lastname, email } = req.body;
-  const created = await Contact.create({ firstname, lastname, email });
+  const { firstname, lastname, email, phone, message } = req.body;
+  const created = await Contact.create({ firstname, lastname, email, phone, message });
   res.status(201).json(created);
 }
 
 export async function updateContact(req, res) {
-  const { firstname, lastname, email } = req.body;
+  const { firstname, lastname, email, phone, message } = req.body;
   const updated = await Contact.findByIdAndUpdate(
     req.params.id,
-    { firstname, lastname, email },
+    { firstname, lastname, email, phone, message },
     { new: true, runValidators: true }
   );
   if (!updated) return res.status(404).json({ message: 'Contact not found' });

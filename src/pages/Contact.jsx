@@ -17,12 +17,34 @@ export default function Contact() {
 		setForm((f) => ({ ...f, [name]: value }))
 	}
 
-	function onSubmit(e) {
+	async function onSubmit(e) {
 			e.preventDefault()
-			// No backend: log to console and redirect to Home
-		console.log('Contact form submitted', form)
-		// Redirect to Home and show a confirmation banner
-		navigate('/', { state: { submittedName: form.firstName } })
+			
+			try {
+				const res = await fetch('/api/contacts', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						firstname: form.firstName,
+						lastname: form.lastName,
+						phone: form.phone,
+						email: form.email,
+						message: form.message
+					})
+				});
+
+				if (res.ok) {
+					console.log('Contact form submitted', form)
+					// Redirect to Home and show a confirmation banner
+					navigate('/', { state: { submittedName: form.firstName } })
+				} else {
+					console.error('Failed to submit contact form');
+					alert('Failed to send message. Please try again.');
+				}
+			} catch (err) {
+				console.error('Error submitting contact form:', err);
+				alert('Error sending message.');
+			}
 	}
 
 	return (
