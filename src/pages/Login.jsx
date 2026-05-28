@@ -21,36 +21,35 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '2rem auto', padding: '1rem' }}>
+    <div className="auth-card">
+      <span className="section-eyebrow">Welcome back</span>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
-          <label htmlFor="email">Email:</label>
+      {error && <p className="form-error">{error}</p>}
+      <form className="form" onSubmit={handleSubmit}>
+        <label htmlFor="email">
+          Email
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        </label>
+        <label htmlFor="password">
+          Password
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
-        </div>
-        <button type="submit">Login</button>
+        </label>
+        <button type="submit" className="btn btn-primary">Login</button>
       </form>
-      <p style={{ marginTop: '1rem' }}>
-        Don't have an account? <Link to="/register">Register here</Link>
+      <p className="auth-switch">
+        Don&apos;t have an account? <Link to="/register">Register here</Link>
       </p>
     </div>
   );

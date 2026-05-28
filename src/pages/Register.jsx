@@ -22,46 +22,44 @@ export default function Register() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '2rem auto', padding: '1rem' }}>
+    <div className="auth-card">
+      <span className="section-eyebrow">Create an account</span>
       <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
-          <label htmlFor="name">Name:</label>
+      {error && <p className="form-error">{error}</p>}
+      <form className="form" onSubmit={handleSubmit}>
+        <label htmlFor="name">
+          Name
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
+        </label>
+        <label htmlFor="email">
+          Email
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        </label>
+        <label htmlFor="password">
+          Password
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}
           />
-        </div>
-        <button type="submit">Register</button>
+        </label>
+        <button type="submit" className="btn btn-primary">Register</button>
       </form>
-      <p style={{ marginTop: '1rem' }}>
+      <p className="auth-switch">
         Already have an account? <Link to="/login">Login here</Link>
       </p>
     </div>
