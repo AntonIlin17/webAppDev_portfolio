@@ -21,8 +21,8 @@ const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 
 // Loading fallback component
 const PageLoader = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-    <p>Loading...</p>
+  <div className="page-loader">
+    <p>Loading…</p>
   </div>
 );
 

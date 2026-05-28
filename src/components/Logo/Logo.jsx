@@ -12,12 +12,12 @@ export default function Logo({ size = 56 }) {
         aria-label="Anton Ilin monogram"
       >
         {/* Split circle */}
-        <path d="M120 18 a102 102 0 0 0 0 204" fill="none" stroke="#414141" strokeWidth="11" />
+        <path d="M120 18 a102 102 0 0 0 0 204" fill="none" stroke="currentColor" strokeWidth="11" />
         <path d="M120 222 a102 102 0 0 0 0 -204" fill="none" stroke="#DC3535" strokeWidth="11" />
 
         {/* Stylized A with simple circuits */}
         <g>
-          <polygon points="71,173 120,45 125,63 99,119 139,119 144,132 89,132" fill="#414141" />
+          <polygon points="71,173 120,45 125,63 99,119 139,119 144,132 89,132" fill="currentColor" />
           <line x1="99" y1="119" x2="89" y2="132" stroke="#fff" strokeWidth="2" />
           <line x1="99" y1="119" x2="120" y2="80" stroke="#fff" strokeWidth="2" />
           <line x1="120" y1="80" x2="110" y2="63" stroke="#fff" strokeWidth="2" />
