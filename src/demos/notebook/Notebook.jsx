@@ -47,7 +47,10 @@ export default function Notebook({ notebook }) {
   const kernelRef = useRef(null)
   const counterRef = useRef(0)
   const mounted = useRef(true)
-  useEffect(() => () => { mounted.current = false }, [])
+  useEffect(() => {
+    mounted.current = true
+    return () => { mounted.current = false }
+  }, [])
   if (!kernelRef.current) kernelRef.current = {}
 
   // Reset when the notebook changes.
@@ -80,7 +83,6 @@ export default function Notebook({ notebook }) {
   return (
     <div className="nb">
       <div className="nb-bar">
-        <span className="nb-logo" aria-hidden="true">CO</span>
         <div className="nb-file">
           <b>{notebook.file}</b>
           <span>{notebook.subtitle}</span>

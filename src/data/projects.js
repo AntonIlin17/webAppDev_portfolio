@@ -3,7 +3,7 @@ export const FEATURED = [
   {
     id: 'stingysplitter',
     title: 'StingySplitter',
-    tags: [{ label: 'Live at stingysplitter.com', kind: 'live' }, 'React 19', 'TypeScript', 'Express 5', 'Claude vision', 'Firebase'],
+    stack: 'Live at **stingysplitter.com**. Built with **React 19** and **TypeScript** on the client, **Express 5** on the server, **Claude vision** for receipt parsing, and **Firebase** for hosting and optional sync.',
     description:
       'Snap a photo of a receipt, let a vision model turn it into line items, tap who had what, and get a penny-perfect "who owes whom" you can share with a link. No sign-in.',
     stats: [
@@ -25,7 +25,7 @@ export const FEATURED = [
   {
     id: 'warehouse-robot',
     title: 'Autonomous Warehouse Robot',
-    tags: [{ label: '5-person team · my parts below', kind: 'team' }, 'ROS 2 Jazzy', 'Nav2', 'Gazebo', 'Python · C++', 'Mistral'],
+    stack: 'A five-person team project on **ROS 2 Jazzy** with **Nav2** navigation, a custom **Gazebo** world, nodes in **Python** and **C++**, and a **Mistral** language resolver.',
     description:
       'A LiDAR robot navigates a custom Gazebo warehouse between seven named destinations. Type a plain-English request; a keyword parser or an allow-listed Mistral resolver picks the destination and Nav2 drives there.',
     role: 'My parts: the Gazebo environment, manual mapping with SLAM Toolbox, and the Mistral natural-language resolver (built after the course, verified end to end).',
@@ -45,7 +45,7 @@ export const FEATURED = [
     id: 'ml-coursework',
     layout: 'wide',
     title: 'Neural networks & machine learning',
-    tags: ['COMP 258 Neural Networks', 'COMP 257 Unsupervised ML', 'COMP 247', 'TensorFlow / Keras', 'scikit-learn'],
+    stack: 'Coursework from **COMP 258** (neural networks), **COMP 257** (unsupervised learning) and **COMP 247** (data analysis), written in **NumPy**, **TensorFlow / Keras** and **scikit-learn**.',
     description:
       'Course assignments where I implemented the models myself rather than calling a library: a perceptron and ADALINE in NumPy, a manual MLP with hand-derived backprop (gradient-checked), Keras MLPs on CIFAR-10 and the hepatitis dataset, plus PCA, K-Means, DBSCAN and Gaussian mixtures on faces and MNIST.',
     stats: [

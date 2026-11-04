@@ -35,32 +35,6 @@
 .project-demo {
   min-width: 0;
 }
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0 0 0.9rem;
-}
-.tag {
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-}
-.tag--live {
-  background: color-mix(in srgb, var(--demo-ok) 14%, var(--surface));
-  border-color: color-mix(in srgb, var(--demo-ok) 40%, var(--border));
-  color: var(--demo-ok);
-}
-.tag--team {
-  background: color-mix(in srgb, var(--chart-1) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--chart-1) 40%, var(--border));
-  color: var(--chart-1);
-}
 .project-role {
   font-size: 0.88rem;
   color: var(--text-muted);
@@ -145,13 +119,6 @@
   align-items: center;
   gap: 8px;
 }
-.demo-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--demo-ok);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--demo-ok) 25%, transparent);
-}
 .demo-hint {
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -200,6 +167,9 @@
   color: var(--text);
   font: inherit;
   font-size: 0.92rem;
+}
+.demo-row--command .demo-field--wide {
+  flex: 1 1 100%;
 }
 .demo-field:focus {
   border-color: var(--accent);
@@ -267,6 +237,10 @@
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
+  scrollbar-width: none;
+}
+.demo-log::-webkit-scrollbar {
+  display: none;
 }
 .demo-log .ok { color: var(--demo-ok); }
 .demo-log .warn { color: var(--demo-warn); }
@@ -593,6 +567,59 @@
   .dest,
   .avatar,
   .nb {
+    transition: none;
+  }
+}
+
+/* Glowing keywords ------------------------------------------- */
+.project-stack {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 1.1rem;
+  max-width: 60ch;
+}
+@property --lit {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --sweep {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --wand {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+.glow-word {
+  --wand: 0;
+  --lit: 0;
+  --sweep: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--accent) calc(min(1, var(--wand) + var(--lit)) * 100%), var(--text));
+  text-shadow:
+    0 0 calc(min(1, var(--wand) + var(--sweep)) * 14px) color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 calc(min(1, var(--wand) + var(--sweep)) * 32px) color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: --wand 0.18s var(--ease);
+}
+.glow-text.is-lit .glow-word {
+  animation: glow-sweep 1.5s var(--ease) both;
+  animation-delay: calc(var(--i) * 150ms);
+}
+@keyframes glow-sweep {
+  0% { --lit: 0; --sweep: 0; }
+  35% { --lit: 1; --sweep: 1; }
+  100% { --lit: 0.6; --sweep: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-text.is-lit .glow-word {
+    animation: none;
+    --lit: 0.6;
+  }
+  .glow-word {
     transition: none;
   }
 }

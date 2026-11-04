@@ -5,6 +5,7 @@ import systemDiagram from '../assets/systemDiagram.jpg'
 import rssFeedMain from '../assets/rssFeedMain.png'
 import rssFeed1 from '../assets/rssFeed1.png'
 import Reveal from '../components/Reveal.jsx'
+import GlowText from '../components/GlowText.jsx'
 import { EARLIER, FEATURED } from '../data/projects.js'
 import SplitEngineDemo from '../demos/SplitEngineDemo.jsx'
 import WarehouseSimDemo from '../demos/WarehouseSimDemo.jsx'
@@ -19,21 +20,15 @@ const DEMOS = {
   'ml-coursework': NotebookDemo,
 }
 
-function Tag({ tag }) {
-  const label = typeof tag === 'string' ? tag : tag.label
-  const kind = typeof tag === 'string' ? '' : ` tag--${tag.kind}`
-  return <span className={`tag${kind}`}>{label}</span>
-}
-
 function FeaturedProject({ project, index, onOpen }) {
   const Demo = DEMOS[project.id]
   const wide = project.layout === 'wide'
   return (
     <Reveal as="li" className={`project project--featured ${wide ? 'project--wide' : ''}`} delay={index * 60}>
       <div className="project-body">
-        <div className="project-tags">{project.tags.map((t) => <Tag key={typeof t === 'string' ? t : t.label} tag={t} />)}</div>
         <h3>{project.title}</h3>
         <p>{project.description}</p>
+        <GlowText className="project-stack" text={project.stack} />
         {project.role && <p className="project-role">{project.role}</p>}
         <div className="project-stats">
           {project.stats.map((s) => (

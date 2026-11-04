@@ -62,7 +62,7 @@ export default function SplitEngineDemo() {
   return (
     <div className="demo">
       <div className="demo-head">
-        <span className="demo-title"><span className="demo-dot" />Try the split engine</span>
+        <span className="demo-title">Try the split engine</span>
         <span className="demo-hint">same math as production · tap avatars</span>
       </div>
       <div className="demo-body">

@@ -61,19 +61,6 @@
   border-bottom: 1px solid var(--border);
   background: var(--surface-2);
 }
-.nb-logo {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  background: #f9ab00;
-  color: #1a1a1a;
-  font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  flex: none;
-}
 .nb-file {
   display: grid;
   min-width: 0;

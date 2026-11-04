@@ -224,7 +224,7 @@ export default function WarehouseSimDemo({ onOpenImage }) {
   return (
     <div className="demo">
       <div className="demo-head">
-        <span className="demo-title"><span className="demo-dot" />Warehouse navigation sim</span>
+        <span className="demo-title">Warehouse navigation sim</span>
         <div className="demo-tabs" role="tablist">
           <button type="button" role="tab" aria-selected={tab === 'sim'} className={tab === 'sim' ? 'on' : ''} onClick={() => setTab('sim')}>Sim</button>
           <button type="button" role="tab" aria-selected={tab === 'media'} className={tab === 'media' ? 'on' : ''} onClick={() => setTab('media')}>Real run</button>
@@ -240,9 +240,9 @@ export default function WarehouseSimDemo({ onOpenImage }) {
               <span>path <b>{hud.path}</b></span>
               <span>status <b>{hud.status}</b></span>
             </div>
-            <form className="demo-row" onSubmit={handleSubmit}>
+            <form className="demo-row demo-row--command" onSubmit={handleSubmit}>
               <input
-                className="demo-field"
+                className="demo-field demo-field--wide"
                 value={command}
                 onChange={(e) => setCommand(e.target.value)}
                 placeholder='Try "the battery is almost dead" or "go to aisle 2"'
