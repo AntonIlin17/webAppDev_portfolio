@@ -33,6 +33,21 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* Demo / chart palette (CVD-safe categorical order) */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #6250d6;
+  --demo-ok: #1a7f4b;
+  --demo-warn: #b7791f;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sim-floor: #f4f2ee;
+  --sim-grid: #e2dfd9;
+  --sim-shelf: #b98a5a;
+  --sim-shelf-edge: #8a6239;
+  --sim-robot: #1fbf7a;
+
   color-scheme: light;
 }
 
@@ -52,6 +67,19 @@
   --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 22px 56px rgba(0, 0, 0, 0.6);
   --ring: rgba(224, 86, 76, 0.4);
+
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #9085e9;
+  --demo-ok: #3ccf87;
+  --demo-warn: #e0a84a;
+  --sim-floor: #1c1c20;
+  --sim-grid: #2a2a2f;
+  --sim-shelf: #8a6a48;
+  --sim-shelf-edge: #5c452c;
+  --sim-robot: #3ddc97;
 
   color-scheme: dark;
 }
