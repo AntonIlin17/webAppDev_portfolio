@@ -1,249 +1,421 @@
 {
- "v": 3,
- "createdOnFiles": {
-  "v": 1,
-  "at": "2026-11-04T06:39:02Z"
- },
- "title": "Portfolio Design Variants",
- "launch": {
-  "view": "canvas"
- },
- "pages": [],
- "boards": {
-  "Main.dc.html": {
-   "x": 0,
-   "y": 0,
-   "w": 1280,
-   "h": 1934,
-   "title": "01 Swiss Grid",
-   "expand": "fill"
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "02-editorial.dc.html": {
+      "expand": "fill",
+      "h": 2273,
+      "title": "02 Editorial Magazine",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "03-zen.dc.html": {
+      "expand": "fill",
+      "h": 2360,
+      "title": "03 Zen Minimal",
+      "w": 1280,
+      "x": 2720,
+      "y": 0
+    },
+    "04-bento.dc.html": {
+      "expand": "fill",
+      "h": 1936,
+      "title": "04 Bento Dashboard",
+      "w": 1280,
+      "x": 4080,
+      "y": 0
+    },
+    "05-scandi.dc.html": {
+      "expand": "fill",
+      "h": 2243,
+      "title": "05 Scandinavian Warm",
+      "w": 1280,
+      "x": 0,
+      "y": 2720
+    },
+    "06-neobrutal.dc.html": {
+      "expand": "fill",
+      "h": 1906,
+      "title": "06 Neo-Brutalist Pop",
+      "w": 1280,
+      "x": 1360,
+      "y": 2720
+    },
+    "07-brutalist.dc.html": {
+      "expand": "fill",
+      "h": 1389,
+      "title": "07 Raw Brutalist",
+      "w": 1280,
+      "x": 2720,
+      "y": 2720
+    },
+    "08-bauhaus.dc.html": {
+      "expand": "fill",
+      "h": 1991,
+      "title": "08 Bauhaus Geometric",
+      "w": 1280,
+      "x": 4080,
+      "y": 2720
+    },
+    "09-sketchbook.dc.html": {
+      "expand": "fill",
+      "h": 1997,
+      "title": "09 Sketchbook",
+      "w": 1280,
+      "x": 0,
+      "y": 5323
+    },
+    "10-testreport.dc.html": {
+      "expand": "fill",
+      "h": 1729,
+      "title": "10 QA Test Report",
+      "w": 1280,
+      "x": 1360,
+      "y": 5323
+    },
+    "11-clay.dc.html": {
+      "expand": "fill",
+      "h": 1914,
+      "title": "11 Claymorphism",
+      "w": 1280,
+      "x": 2720,
+      "y": 5323
+    },
+    "12-transit.dc.html": {
+      "expand": "fill",
+      "h": 1773,
+      "title": "12 Transit Map",
+      "w": 1280,
+      "x": 4080,
+      "y": 5323
+    },
+    "13-departures.dc.html": {
+      "expand": "fill",
+      "h": 1656,
+      "title": "13 Departures Board",
+      "w": 1280,
+      "x": 0,
+      "y": 7680
+    },
+    "14-riso.dc.html": {
+      "expand": "fill",
+      "h": 2015,
+      "title": "14 Risograph Zine",
+      "w": 1280,
+      "x": 1360,
+      "y": 7680
+    },
+    "15-terminal.dc.html": {
+      "expand": "fill",
+      "h": 1361,
+      "title": "15 Terminal",
+      "w": 1280,
+      "x": 2720,
+      "y": 7680
+    },
+    "16-ide.dc.html": {
+      "expand": "fill",
+      "h": 1949,
+      "title": "16 IDE Window",
+      "w": 1280,
+      "x": 4080,
+      "y": 7680
+    },
+    "17-fieldguide.dc.html": {
+      "expand": "fill",
+      "h": 1991,
+      "title": "17 Field Guide",
+      "w": 1280,
+      "x": 0,
+      "y": 10055
+    },
+    "18-tradingcards.dc.html": {
+      "expand": "fill",
+      "h": 1626,
+      "title": "18 Trading Cards",
+      "w": 1280,
+      "x": 1360,
+      "y": 10055
+    },
+    "19-pixel.dc.html": {
+      "expand": "fill",
+      "h": 1967,
+      "title": "19 Pixel Arcade",
+      "w": 1280,
+      "x": 2720,
+      "y": 10055
+    },
+    "20-blueprint.dc.html": {
+      "expand": "fill",
+      "h": 1878,
+      "title": "20 Blueprint",
+      "w": 1280,
+      "x": 4080,
+      "y": 10055
+    },
+    "Artboard-0u8p.dc.html": {
+      "h": 600,
+      "page": "page-wki75i",
+      "title": "Artboard 1",
+      "w": 800,
+      "x": 0,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1934,
+      "title": "01 Swiss Grid",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "r2-01-kinetic.dc.html": {
+      "x": 0,
+      "y": 1000,
+      "w": 1280,
+      "h": 2758,
+      "title": "R2\u00b701 Kinetic Name",
+      "expand": "fill",
+      "page": "page-wki75i"
+    },
+    "r2-02-diptych.dc.html": {
+      "x": 1360,
+      "y": 1000,
+      "w": 1280,
+      "h": 3411,
+      "title": "R2\u00b702 Diptych",
+      "expand": "fill",
+      "page": "page-wki75i"
+    },
+    "r2-03-filmstrip.dc.html": {
+      "x": 2720,
+      "y": 1000,
+      "w": 1280,
+      "h": 1482,
+      "title": "R2\u00b703 Film Strip",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-04-index.dc.html": {
+      "x": 4080,
+      "y": 1000,
+      "w": 1280,
+      "h": 1610,
+      "title": "R2\u00b704 Index",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-05-statements.dc.html": {
+      "x": 5440,
+      "y": 1000,
+      "w": 1280,
+      "h": 1120,
+      "title": "R2\u00b705 Statements",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-07-desktop.dc.html": {
+      "x": 1360,
+      "y": 4771,
+      "w": 1280,
+      "h": 1716,
+      "title": "R2\u00b707 Desktop",
+      "expand": "fill",
+      "page": "page-wki75i"
+    },
+    "r2-08-palette.dc.html": {
+      "x": 2720,
+      "y": 4771,
+      "w": 1280,
+      "h": 1276,
+      "title": "R2\u00b708 Command Palette",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-09-scrollbuilt.dc.html": {
+      "x": 4080,
+      "y": 4771,
+      "w": 1280,
+      "h": 1824,
+      "title": "R2\u00b709 Scroll-built",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-06-android.dc.html": {
+      "x": 0,
+      "y": 4771,
+      "w": 1280,
+      "h": 2013,
+      "title": "R2\u00b706 Android Interface",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    },
+    "r2-10-flashlight.dc.html": {
+      "x": 5440,
+      "y": 4771,
+      "w": 1280,
+      "h": 1398,
+      "title": "R2\u00b710 Flashlight",
+      "expand": "fill",
+      "page": "page-wki75i",
+      "is_interactive": true
+    }
   },
-  "02-editorial.dc.html": {
-   "x": 1360,
-   "y": 0,
-   "w": 1280,
-   "h": 2273,
-   "title": "02 Editorial Magazine",
-   "expand": "fill"
+  "createdOnFiles": {
+    "at": "2026-11-04T06:39:02Z",
+    "v": 1
   },
-  "03-zen.dc.html": {
-   "x": 2720,
-   "y": 0,
-   "w": 1280,
-   "h": 2360,
-   "title": "03 Zen Minimal",
-   "expand": "fill"
+  "designSystems": [],
+  "launch": {
+    "view": "canvas",
+    "page": "page-wki75i"
   },
-  "04-bento.dc.html": {
-   "x": 4080,
-   "y": 0,
-   "w": 1280,
-   "h": 1936,
-   "title": "04 Bento Dashboard",
-   "expand": "fill"
+  "noteOrder": [
+    "intro",
+    "row1",
+    "row2",
+    "row3",
+    "row4",
+    "row5",
+    "howto",
+    "r2title",
+    "r2how",
+    "r2row2"
+  ],
+  "notes": {
+    "howto": {
+      "fill": "gray",
+      "size": 24,
+      "text": "How to use this canvas: open any board full-size, then comment on it (or reply in chat with its number) with what to keep, drop, or combine. Every board uses the real site copy and the same page structure (nav, hero, selected work, services, footer) so only the design changes. The grey strip at the bottom of each board is a spec card, not part of the design.",
+      "w": 1280,
+      "x": 0,
+      "y": -560
+    },
+    "intro": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Portfolio Design Variants \u00b7 20 directions for antonilin.dev",
+      "w": 240,
+      "x": 0,
+      "y": -700
+    },
+    "row1": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Row 1 \u00b7 Light & structured",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "row2": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Row 2 \u00b7 Warm & playful",
+      "w": 240,
+      "x": 0,
+      "y": 2420
+    },
+    "row3": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Row 3 \u00b7 Handmade & soft",
+      "w": 240,
+      "x": 0,
+      "y": 5023
+    },
+    "row4": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Row 4 \u00b7 Dev tools & print",
+      "w": 240,
+      "x": 0,
+      "y": 7380
+    },
+    "row5": {
+      "kind": "title1",
+      "maxW": 5360,
+      "text": "Row 5 \u00b7 Objects & documents",
+      "w": 240,
+      "x": 0,
+      "y": 9755
+    },
+    "r2title": {
+      "x": 0,
+      "y": 700,
+      "text": "Round 2 \u00b7 Ten landing pages, ten different structures",
+      "kind": "title1",
+      "maxW": 6720,
+      "w": 240,
+      "page": "page-wki75i"
+    },
+    "r2how": {
+      "x": 1000,
+      "y": 0,
+      "w": 1100,
+      "text": "Each board is the full landing page plus the first stretch of scroll. Open a board full-size and press Play to scroll it and use its interactions (hover previews, the flashlight, the command palette, the horizontal strip). Round 1 is archived on the other page.",
+      "fill": "gray",
+      "size": 24,
+      "page": "page-wki75i"
+    },
+    "r2row2": {
+      "x": 0,
+      "y": 4471,
+      "text": "Boards 06 \u2013 10",
+      "kind": "title1",
+      "maxW": 6720,
+      "w": 240,
+      "page": "page-wki75i"
+    }
   },
-  "05-scandi.dc.html": {
-   "x": 0,
-   "y": 2720,
-   "w": 1280,
-   "h": 2243,
-   "title": "05 Scandinavian Warm",
-   "expand": "fill"
-  },
-  "06-neobrutal.dc.html": {
-   "x": 1360,
-   "y": 2720,
-   "w": 1280,
-   "h": 1906,
-   "title": "06 Neo-Brutalist Pop",
-   "expand": "fill"
-  },
-  "07-brutalist.dc.html": {
-   "x": 2720,
-   "y": 2720,
-   "w": 1280,
-   "h": 1389,
-   "title": "07 Raw Brutalist",
-   "expand": "fill"
-  },
-  "08-bauhaus.dc.html": {
-   "x": 4080,
-   "y": 2720,
-   "w": 1280,
-   "h": 1991,
-   "title": "08 Bauhaus Geometric",
-   "expand": "fill"
-  },
-  "09-sketchbook.dc.html": {
-   "x": 0,
-   "y": 5323,
-   "w": 1280,
-   "h": 1997,
-   "title": "09 Sketchbook",
-   "expand": "fill"
-  },
-  "10-testreport.dc.html": {
-   "x": 1360,
-   "y": 5323,
-   "w": 1280,
-   "h": 1729,
-   "title": "10 QA Test Report",
-   "expand": "fill"
-  },
-  "11-clay.dc.html": {
-   "x": 2720,
-   "y": 5323,
-   "w": 1280,
-   "h": 1914,
-   "title": "11 Claymorphism",
-   "expand": "fill"
-  },
-  "12-transit.dc.html": {
-   "x": 4080,
-   "y": 5323,
-   "w": 1280,
-   "h": 1773,
-   "title": "12 Transit Map",
-   "expand": "fill"
-  },
-  "13-departures.dc.html": {
-   "x": 0,
-   "y": 7680,
-   "w": 1280,
-   "h": 1656,
-   "title": "13 Departures Board",
-   "expand": "fill"
-  },
-  "14-riso.dc.html": {
-   "x": 1360,
-   "y": 7680,
-   "w": 1280,
-   "h": 2015,
-   "title": "14 Risograph Zine",
-   "expand": "fill"
-  },
-  "15-terminal.dc.html": {
-   "x": 2720,
-   "y": 7680,
-   "w": 1280,
-   "h": 1361,
-   "title": "15 Terminal",
-   "expand": "fill"
-  },
-  "16-ide.dc.html": {
-   "x": 4080,
-   "y": 7680,
-   "w": 1280,
-   "h": 1949,
-   "title": "16 IDE Window",
-   "expand": "fill"
-  },
-  "17-fieldguide.dc.html": {
-   "x": 0,
-   "y": 10055,
-   "w": 1280,
-   "h": 1991,
-   "title": "17 Field Guide",
-   "expand": "fill"
-  },
-  "18-tradingcards.dc.html": {
-   "x": 1360,
-   "y": 10055,
-   "w": 1280,
-   "h": 1626,
-   "title": "18 Trading Cards",
-   "expand": "fill"
-  },
-  "19-pixel.dc.html": {
-   "x": 2720,
-   "y": 10055,
-   "w": 1280,
-   "h": 1967,
-   "title": "19 Pixel Arcade",
-   "expand": "fill"
-  },
-  "20-blueprint.dc.html": {
-   "x": 4080,
-   "y": 10055,
-   "w": 1280,
-   "h": 1878,
-   "title": "20 Blueprint",
-   "expand": "fill"
-  }
- },
- "order": [
-  "Main.dc.html",
-  "02-editorial.dc.html",
-  "03-zen.dc.html",
-  "04-bento.dc.html",
-  "05-scandi.dc.html",
-  "06-neobrutal.dc.html",
-  "07-brutalist.dc.html",
-  "08-bauhaus.dc.html",
-  "09-sketchbook.dc.html",
-  "10-testreport.dc.html",
-  "11-clay.dc.html",
-  "12-transit.dc.html",
-  "13-departures.dc.html",
-  "14-riso.dc.html",
-  "15-terminal.dc.html",
-  "16-ide.dc.html",
-  "17-fieldguide.dc.html",
-  "18-tradingcards.dc.html",
-  "19-pixel.dc.html",
-  "20-blueprint.dc.html"
- ],
- "notes": {
-  "intro": {
-   "x": 0,
-   "y": -700,
-   "text": "Portfolio Design Variants \u00b7 20 directions for antonilin.dev",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "row1": {
-   "x": 0,
-   "y": -300,
-   "text": "Row 1 \u00b7 Light & structured",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "row2": {
-   "x": 0,
-   "y": 2420,
-   "text": "Row 2 \u00b7 Warm & playful",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "row3": {
-   "x": 0,
-   "y": 5023,
-   "text": "Row 3 \u00b7 Handmade & soft",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "row4": {
-   "x": 0,
-   "y": 7380,
-   "text": "Row 4 \u00b7 Dev tools & print",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "row5": {
-   "x": 0,
-   "y": 9755,
-   "text": "Row 5 \u00b7 Objects & documents",
-   "kind": "title1",
-   "maxW": 5360
-  },
-  "howto": {
-   "x": 0,
-   "y": -560,
-   "w": 1280,
-   "text": "How to use this canvas: open any board full-size, then comment on it (or reply in chat with its number) with what to keep, drop, or combine. Every board uses the real site copy and the same page structure (nav, hero, selected work, services, footer) so only the design changes. The grey strip at the bottom of each board is a spec card, not part of the design.",
-   "fill": "gray",
-   "size": "m"
-  }
- },
- "designSystems": []
+  "order": [
+    "Main.dc.html",
+    "02-editorial.dc.html",
+    "03-zen.dc.html",
+    "04-bento.dc.html",
+    "05-scandi.dc.html",
+    "06-neobrutal.dc.html",
+    "07-brutalist.dc.html",
+    "08-bauhaus.dc.html",
+    "09-sketchbook.dc.html",
+    "10-testreport.dc.html",
+    "11-clay.dc.html",
+    "12-transit.dc.html",
+    "13-departures.dc.html",
+    "14-riso.dc.html",
+    "15-terminal.dc.html",
+    "16-ide.dc.html",
+    "17-fieldguide.dc.html",
+    "18-tradingcards.dc.html",
+    "19-pixel.dc.html",
+    "20-blueprint.dc.html",
+    "Artboard-0u8p.dc.html",
+    "r2-01-kinetic.dc.html",
+    "r2-02-diptych.dc.html",
+    "r2-03-filmstrip.dc.html",
+    "r2-04-index.dc.html",
+    "r2-05-statements.dc.html",
+    "r2-06-android.dc.html",
+    "r2-07-desktop.dc.html",
+    "r2-08-palette.dc.html",
+    "r2-09-scrollbuilt.dc.html",
+    "r2-10-flashlight.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Round 1 \u00b7 archived"
+    },
+    {
+      "id": "page-wki75i",
+      "name": "Round 2 \u00b7 Landing pages"
+    }
+  ],
+  "title": "Portfolio Design Variants"
 }

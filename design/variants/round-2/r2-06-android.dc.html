@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·06 Android Interface</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@200;300;400;500&family=Michroma&display=swap">
+<style>
+body{margin:0;background:#f4f7fa;color:#0b1420;font-family:Saira,system-ui,sans-serif;font-size:16px;line-height:1.55;font-weight:300}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mic{font-family:Michroma,"Saira",sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase}
+.cy{color:#0288d1}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#f4f7fa}
+.stage{position:relative;height:820px;overflow:hidden;background:#f4f7fa;background-image:linear-gradient(rgba(11,20,32,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(11,20,32,.05) 1px,transparent 1px);background-size:80px 80px}
+.stage::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(244,247,250,0),#e6edf3)}
+.br{position:absolute;width:22px;height:22px;border:1px solid #4fc3f7}
+.br.a{top:22px;left:22px;border-right:0;border-bottom:0}.br.b{top:22px;right:22px;border-left:0;border-bottom:0}.br.c{bottom:22px;left:22px;border-right:0;border-top:0}.br.d{bottom:22px;right:22px;border-left:0;border-top:0}
+.wm{position:absolute;top:30px;left:56px;display:flex;align-items:center;gap:12px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;font-size:12px}
+.tri{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:12px solid #0288d1}
+.vnav{position:absolute;left:56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px}
+.vnav a{display:flex;align-items:center;gap:12px;min-height:28px}
+.vnav i{width:6px;height:6px;border:1px solid #0b1420;transform:rotate(45deg);display:inline-block}
+.vnav a.on i{background:#0288d1;border-color:#0288d1;box-shadow:0 0 10px rgba(79,195,247,.9)}
+.panel{position:absolute;left:50%;top:70px;transform:translateX(-50%);width:400px;height:520px;background:#0b1420;overflow:hidden;box-shadow:0 30px 60px -30px rgba(11,20,32,.45),0 0 0 1px rgba(79,195,247,.5)}
+.panel img{width:100%;height:100%;object-fit:cover;object-position:50% 10%;display:block;filter:grayscale(.6) contrast(1.05) brightness(1.02);opacity:.95}
+.panel .scan{position:absolute;left:0;right:0;top:0;height:2px;background:#4fc3f7;box-shadow:0 0 16px 4px rgba(79,195,247,.6);animation:scan 6s linear infinite}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.panel .cb{position:absolute;width:16px;height:16px;border:1px solid #4fc3f7}
+.panel .cb.a{top:14px;left:14px;border-right:0;border-bottom:0}.panel .cb.b{top:14px;right:14px;border-left:0;border-bottom:0}.panel .cb.c{bottom:14px;left:14px;border-right:0;border-top:0}.panel .cb.d{bottom:14px;right:14px;border-left:0;border-top:0}
+.panel .tag{position:absolute;left:24px;bottom:22px;color:#f4f7fa}
+.panel .tag b{display:block;font-weight:400;font-size:20px;letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+.led{position:absolute;right:26px;top:26px;width:14px;height:14px;border-radius:50%;background:#4fc3f7;box-shadow:0 0 0 3px rgba(79,195,247,.25),0 0 18px rgba(79,195,247,.9);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(79,195,247,.15),0 0 10px rgba(79,195,247,.6)}}
+.read{position:absolute;right:56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:22px;width:230px}
+.read div{border-left:1px solid #4fc3f7;padding-left:14px}
+.read b{display:block;font-weight:400;font-size:17px;letter-spacing:.06em;margin-top:4px}
+.line{position:absolute;height:1px;background:#4fc3f7;opacity:.8}
+.h{position:absolute;left:56px;right:56px;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.h h1{margin:0;font-weight:200;font-size:64px;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.h h1 span{display:block;font-size:22px;letter-spacing:.3em;font-weight:300;margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:48px;padding:0 26px;border:1px solid #0b1420;font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:400;transition:background .3s,color .3s,box-shadow .3s}
+.btn:hover{background:#0288d1;border-color:#0288d1;color:#fff;box-shadow:0 0 24px rgba(79,195,247,.6)}
+.btn.f{background:#0b1420;color:#fff}
+.sec{padding:80px 56px 40px;position:relative}
+.sec .ttl{display:flex;align-items:center;gap:18px;margin-bottom:40px}
+.sec .ttl i{flex:1;height:1px;background:#4fc3f7;opacity:.6}
+.cap3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.hc{position:relative;padding:28px 24px 24px;border:1px solid rgba(11,20,32,.18);background:rgba(255,255,255,.6);min-height:220px;display:flex;flex-direction:column;gap:10px}
+.hc::before,.hc::after{content:"";position:absolute;width:14px;height:14px;border:1px solid #4fc3f7}
+.hc::before{top:-1px;left:-1px;border-right:0;border-bottom:0}.hc::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.hc b{font-weight:400;font-size:30px;letter-spacing:.08em;text-transform:uppercase}
+.hc span{font-size:14px;color:#3b4a5a}
+.hc .lvl{margin-top:auto;height:3px;background:rgba(11,20,32,.1);position:relative}
+.hc .lvl i{position:absolute;left:0;top:0;bottom:0;background:#0288d1;box-shadow:0 0 8px rgba(79,195,247,.8)}
+.flow{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:60px;align-items:start;padding-top:20px}
+.flow::before{content:"";position:absolute;left:8%;right:8%;top:38px;height:1px;background:#4fc3f7;opacity:.7}
+.node{position:relative;padding-top:50px}
+.node .pt{position:absolute;left:50%;top:30px;width:16px;height:16px;transform:translateX(-50%) rotate(45deg);background:#f4f7fa;border:1px solid #0288d1;box-shadow:0 0 10px rgba(79,195,247,.8)}
+.node .pt.done{background:#0288d1}
+.node .box{border:1px solid rgba(11,20,32,.18);background:rgba(255,255,255,.7);padding:22px}
+.node .box .st{display:flex;justify-content:space-between;margin-bottom:12px}
+.node .box b{display:block;font-weight:400;font-size:24px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.node .box p{margin:0;font-size:14px;color:#3b4a5a}
+.cta{margin:40px 56px 0;padding:56px;border-top:1px solid rgba(11,20,32,.18);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+.cta h2{margin:0 0 8px;font-weight:200;font-size:44px;letter-spacing:.1em;text-transform:uppercase}
+.cta p{margin:0;color:#3b4a5a}
+.foot{padding:20px 56px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media (prefers-reduced-motion:reduce){.panel .scan,.led{animation:none}}
+@media (max-width:900px){.stage{height:auto;padding:90px 20px 40px}.panel{position:relative;left:auto;top:auto;transform:none;width:100%;height:440px;margin-bottom:28px}.vnav,.read,.line{display:none}.h{position:relative;left:auto;right:auto;bottom:auto;flex-direction:column;align-items:flex-start}.h h1{font-size:34px}.cap3,.flow{grid-template-columns:1fr}.flow::before{display:none}.sec,.cta,.foot{padding-inline:20px}.cta{margin-inline:0;grid-template-columns:1fr}.wm{left:20px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<section class="stage" aria-label="Anton Ilin">
+  <i class="br a"></i><i class="br b"></i><i class="br c"></i><i class="br d"></i>
+  <div class="wm"><i class="tri"></i>Anton Ilin</div>
+  <nav class="vnav mic" aria-label="Sections"><a href="#" class="on"><i></i>Home</a><a href="#cap"><i></i>Capabilities</a><a href="#mis"><i></i>Projects</a><a href="#"><i></i>Education</a><a href="#con"><i></i>Contact</a></nav>
+  <div class="panel">
+    <img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin">
+    <i class="scan" aria-hidden="true"></i>
+    <i class="cb a"></i><i class="cb b"></i><i class="cb c"></i><i class="cb d"></i>
+    <i class="led" aria-hidden="true"></i>
+    <div class="tag"><span class="mic" style="color:#4fc3f7">Model AI-800 · #2024 0901</span><b>Anton Ilin</b><span class="mic" style="opacity:.8">Status · Operational</span></div>
+  </div>
+  <i class="line" style="left:50%;margin-left:200px;top:170px;width:60px" aria-hidden="true"></i>
+  <i class="line" style="left:50%;margin-left:200px;top:300px;width:60px" aria-hidden="true"></i>
+  <i class="line" style="left:50%;margin-left:200px;top:430px;width:60px" aria-hidden="true"></i>
+  <div class="read">
+    <div><span class="mic cy">Designation</span><b>AI &amp; Software Engineering Student</b></div>
+    <div><span class="mic cy">Primary stack</span><b>React · Java · C#</b></div>
+    <div><span class="mic cy">Assigned to</span><b>Centennial College · 2024 –</b></div>
+    <div><span class="mic cy">Location</span><b>Toronto, Canada</b></div>
+  </div>
+  <div class="h">
+    <h1><span class="cy">Software engineering</span>Software that earns its keep</h1>
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn f" href="#mis">View projects</a><a class="btn" href="#con">Initiate contact</a></div>
+  </div>
+</section>
+<section class="sec" id="cap">
+  <div class="ttl"><span class="mic cy">01 · Capabilities</span><i></i><span class="mic">Self-reported · Verified by tests</span></div>
+  <div class="cap3">
+    <div class="hc"><span class="mic cy">Module 01</span><b>React</b><span>Responsive, accessible front ends and full-stack apps built with modern tooling.</span><div class="lvl"><i style="width:88%"></i></div></div>
+    <div class="hc"><span class="mic cy">Module 02</span><b>Java · C#</b><span>Clean, maintainable solutions from data structures to APIs.</span><div class="lvl"><i style="width:78%"></i></div></div>
+    <div class="hc"><span class="mic cy">Module 03</span><b>QA &amp; Testing</b><span>Thorough suites covering boundary, negative and security edge cases.</span><div class="lvl"><i style="width:92%"></i></div></div>
+  </div>
+</section>
+<section class="sec" id="mis">
+  <div class="ttl"><span class="mic cy">02 · Projects</span><i></i><span class="mic">3 completed · 0 failed</span></div>
+  <div class="flow">
+    <div class="node"><i class="pt done"></i><div class="box"><div class="st mic"><span class="cy">01</span><span>Completed ✓</span></div><b>RSS Aggregator</b><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p></div></div>
+    <div class="node"><i class="pt done"></i><div class="box"><div class="st mic"><span class="cy">02</span><span>Completed ✓</span></div><b>TourConnect</b><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p></div></div>
+    <div class="node"><i class="pt done"></i><div class="box"><div class="st mic"><span class="cy">03</span><span>Completed ✓</span></div><b>QA Automation</b><p>Boundary, negative and security test suites for a User API and authentication flows: JWT, lockout, session expiry.</p></div></div>
+  </div>
+</section>
+<section class="cta" id="con">
+  <div><span class="mic cy">03 · Contact</span><h2>Initiate contact</h2><p>antonilin107@gmail.com · (416) 278-9778 · Open to co-op and internship roles.</p></div>
+  <a class="btn f" href="#">Send message</a>
+</section>
+<footer class="foot mic"><span>© 2026 Anton Ilin</span><span>Centennial College · AI &amp; Software Engineering</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2013}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

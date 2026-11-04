@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·04 Index</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#faf8f3;color:#121212;font-family:Newsreader,Georgia,serif;font-size:18px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#faf8f3}
+.grid{display:grid;grid-template-columns:1fr 420px;align-items:start}
+.toc{padding:36px 40px 40px 40px;border-right:1px solid #121212}
+.toc .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px}
+.toc .head h1{margin:0;font-size:22px;font-weight:400;font-style:italic}
+.row{display:flex;align-items:baseline;gap:14px;padding:10px 0;border:0;background:none;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;min-height:44px}
+.row:focus-visible{outline:2px solid #121212;outline-offset:4px}
+.row .n{flex:none;width:34px;font-family:"Geist Mono",monospace;font-size:12px;color:#6f6a62}
+.row .t{font-size:34px;line-height:1.05;font-weight:400;letter-spacing:-.01em;white-space:nowrap;transition:font-style .2s,padding-left .3s}
+.row:hover .t,.row:focus-visible .t{font-style:italic;padding-left:6px}
+.row .ld{flex:1;border-bottom:1px dotted #121212;transform:translateY(-8px);min-width:24px}
+.row .m{flex:none;font-family:"Geist Mono",monospace;font-size:12px;color:#6f6a62;text-transform:uppercase;letter-spacing:.06em}
+.row.big .t{font-size:60px;letter-spacing:-.02em}
+.row.sec{padding-top:26px}
+.row.sec .t{font-size:13px;font-family:"Geist Mono",monospace;text-transform:uppercase;letter-spacing:.14em;color:#6f6a62}
+.row.sec .ld{border-bottom-style:solid;border-color:#d9d4c8}
+.prev{position:sticky;top:0;height:820px;padding:36px 36px 36px 36px;display:flex;flex-direction:column}
+.prev .box{flex:1;position:relative;overflow:hidden;background:#121212;color:#faf8f3;display:flex;align-items:flex-end;padding:22px}
+.prev .box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block}
+.prev .box .cap{position:relative;z-index:1}
+.prev .box .cap b{display:block;font-size:40px;font-weight:400;line-height:1;margin-bottom:8px;font-style:italic}
+.prev .box.p1{background:#1d3bff}.prev .box.p2{background:#faf8f3;color:#121212;border:1px solid #121212}.prev .box.p3{background:#0f5f3f}.prev .box.p4{background:#b6412a}
+.prev .box .huge{position:absolute;right:16px;top:6px;font-size:220px;line-height:1;font-weight:300;opacity:.18;font-style:italic}
+.prev .box .word{position:relative;z-index:1;font-size:72px;line-height:.95;font-weight:300;letter-spacing:-.02em}
+.prev .foot{display:flex;justify-content:space-between;padding-top:12px}
+.dossiers{border-top:1px solid #121212;padding:56px 40px 40px}
+.dossiers h2{margin:0 0 26px;font-size:14px;font-family:"Geist Mono",monospace;text-transform:uppercase;letter-spacing:.14em;font-weight:500;color:#6f6a62}
+.dos{display:grid;grid-template-columns:60px 1fr 1.2fr 160px;gap:24px;padding:26px 0;border-top:1px solid #d9d4c8;align-items:baseline}
+.dos b{font-size:40px;font-weight:400;line-height:1;letter-spacing:-.01em}
+.dos p{margin:0;font-size:17px;color:#3a3732}
+.dos .m{text-align:right}
+.end{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 40px 32px;border-top:1px solid #121212}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.toc{border-right:0;padding:24px 20px}.prev{position:relative;height:420px;padding:0 20px 24px}.row .t{font-size:22px;white-space:normal}.row.big .t{font-size:34px}.dos{grid-template-columns:1fr;gap:8px}.dos .m{text-align:left}.dossiers,.end{padding-inline:20px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<div class="grid">
+  <nav class="toc" aria-label="Contents">
+    <div class="head"><h1>Contents</h1><span class="mono">Anton Ilin · Portfolio · 2026</span></div>
+    <button class="row big" onMouseEnter="{{ hMe }}" onFocus="{{ hMe }}"><span class="n">00</span><span class="t">Anton Ilin</span><span class="ld"></span><span class="m">2026</span></button>
+    <button class="row" onMouseEnter="{{ hMe }}" onFocus="{{ hMe }}"><span class="n">01</span><span class="t">AI &amp; Software Engineering Student</span><span class="ld"></span><span class="m">Centennial</span></button>
+    <div class="row sec" aria-hidden="true"><span class="n"></span><span class="t">Selected work</span><span class="ld"></span><span class="m">p. 2</span></div>
+    <button class="row" onMouseEnter="{{ hRss }}" onFocus="{{ hRss }}"><span class="n">02</span><span class="t">RSS Aggregator</span><span class="ld"></span><span class="m">React</span></button>
+    <button class="row" onMouseEnter="{{ hTour }}" onFocus="{{ hTour }}"><span class="n">03</span><span class="t">TourConnect</span><span class="ld"></span><span class="m">Full-stack</span></button>
+    <button class="row" onMouseEnter="{{ hQa }}" onFocus="{{ hQa }}"><span class="n">04</span><span class="t">QA Automation Examples</span><span class="ld"></span><span class="m">Testing</span></button>
+    <div class="row sec" aria-hidden="true"><span class="n"></span><span class="t">Stack &amp; services</span><span class="ld"></span><span class="m">p. 3</span></div>
+    <button class="row" onMouseEnter="{{ hStack }}" onFocus="{{ hStack }}"><span class="n">05</span><span class="t">React · Java · C#</span><span class="ld"></span><span class="m">Daily</span></button>
+    <button class="row" onMouseEnter="{{ hStack }}" onFocus="{{ hStack }}"><span class="n">06</span><span class="t">Web Development</span><span class="ld"></span><span class="m">Service</span></button>
+    <button class="row" onMouseEnter="{{ hStack }}" onFocus="{{ hStack }}"><span class="n">07</span><span class="t">General Programming</span><span class="ld"></span><span class="m">Service</span></button>
+    <button class="row" onMouseEnter="{{ hStack }}" onFocus="{{ hStack }}"><span class="n">08</span><span class="t">QA &amp; Testing</span><span class="ld"></span><span class="m">Service</span></button>
+    <div class="row sec" aria-hidden="true"><span class="n"></span><span class="t">Education &amp; contact</span><span class="ld"></span><span class="m">p. 4</span></div>
+    <button class="row" onMouseEnter="{{ hMe }}" onFocus="{{ hMe }}"><span class="n">09</span><span class="t">Centennial College</span><span class="ld"></span><span class="m">2024 –</span></button>
+    <button class="row" onMouseEnter="{{ hContact }}" onFocus="{{ hContact }}"><span class="n">10</span><span class="t">antonilin107@gmail.com</span><span class="ld"></span><span class="m">Email</span></button>
+    <button class="row" onMouseEnter="{{ hContact }}" onFocus="{{ hContact }}"><span class="n">11</span><span class="t">Résumé</span><span class="ld"></span><span class="m">PDF</span></button>
+  </nav>
+  <aside class="prev" aria-live="polite">
+    <sc-if value="{{ isMe }}" hint-placeholder-val="{{ true }}"><div class="box"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin"><div class="cap"><b>Anton Ilin</b><span class="mono">Toronto · Centennial College · 2024 –</span></div></div></sc-if>
+    <sc-if value="{{ isRss }}" hint-placeholder-val="{{ false }}"><div class="box p1"><span class="huge">02</span><div class="cap"><b>RSS Aggregator</b><span>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</span></div></div></sc-if>
+    <sc-if value="{{ isTour }}" hint-placeholder-val="{{ false }}"><div class="box p2"><span class="huge">03</span><div class="cap"><b>TourConnect</b><span>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</span></div></div></sc-if>
+    <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}"><div class="box p3"><span class="huge">04</span><div class="cap"><b>QA Automation</b><span>Boundary, negative and security test suites for a User API and authentication flows.</span></div></div></sc-if>
+    <sc-if value="{{ isStack }}" hint-placeholder-val="{{ false }}"><div class="box p4"><div class="word">React<br>Java<br>C#<br><span style="font-size:18px;font-style:italic">and the tests that prove them.</span></div></div></sc-if>
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}"><div class="box p2"><div class="word" style="font-size:40px;word-break:break-all">antonilin107<br>@gmail.com<br><span style="font-size:18px;font-style:italic">(416) 278-9778</span></div></div></sc-if>
+    <div class="foot mono"><span>Preview</span><span>Hover a line</span></div>
+  </aside>
+</div>
+<section class="dossiers">
+  <h2>Dossiers · Selected work</h2>
+  <article class="dos"><span class="mono">02</span><b>RSS Aggregator</b><p>Built a feed aggregator that parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><span class="m mono">React · RSS · Search</span></article>
+  <article class="dos"><span class="mono">03</span><b>TourConnect</b><p>Full-stack prototype connecting local tour guides with travelers; React front end with a simple Node API mock.</p><span class="m mono">React · Node</span></article>
+  <article class="dos"><span class="mono">04</span><b>QA Automation Examples</b><p>Boundary and negative test cases for a User API (CRUD, pagination, rate limiting) and account authentication: JWT and refresh tokens, session expiry, lockout after repeated failures.</p><span class="m mono">Testing · Security</span></article>
+</section>
+<footer class="end mono"><span>© 2026 Anton Ilin</span><span>Set in Newsreader and Geist Mono</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1610}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const k = (this.state && this.state.k) || 'me';
+    const set = (key) => () => this.setState({ k: key });
+    return {
+      isMe: k === 'me', isRss: k === 'rss', isTour: k === 'tour', isQa: k === 'qa', isStack: k === 'stack', isContact: k === 'contact',
+      hMe: set('me'), hRss: set('rss'), hTour: set('tour'), hQa: set('qa'), hStack: set('stack'), hContact: set('contact')
+    };
+  }
+}
+</script>
+</body>
+</html>

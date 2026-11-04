@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·01 Kinetic Name</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#f1efe9;color:#101010;font-family:Anybody,system-ui,sans-serif;font-size:17px;line-height:1.5;font-variation-settings:"wdth" 100,"wght" 400}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.m{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#f1efe9}
+.stage{position:relative;height:820px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid #101010}
+.corner{position:absolute;display:flex;gap:28px}
+.tl{top:28px;left:32px}.tr{top:28px;right:32px}.bl{bottom:28px;left:32px;max-width:40ch;line-height:1.6}.br{bottom:28px;right:32px}
+.tr a{position:relative;min-height:32px;display:inline-flex;align-items:center}
+.tr a::after{content:"";position:absolute;left:0;right:100%;bottom:4px;height:1px;background:#101010;transition:right .4s cubic-bezier(.2,.8,.2,1)}
+.tr a:hover::after{right:0}
+.name{text-align:center;line-height:.82;text-transform:uppercase;font-size:272px;letter-spacing:-.02em;user-select:none}
+.name span{display:block;font-variation-settings:"wdth" 60,"wght" 300;animation:breathe 7s cubic-bezier(.45,0,.55,1) infinite alternate}
+.name span:nth-child(2){animation-delay:-3.5s}
+@keyframes breathe{0%{font-variation-settings:"wdth" 58,"wght" 250}100%{font-variation-settings:"wdth" 140,"wght" 900}}
+.dot{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#ff4d00}
+@media (prefers-reduced-motion:reduce){.name span{animation:none;font-variation-settings:"wdth" 100,"wght" 800}}
+.mast{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 32px;background:#f1efe9;border-bottom:1px solid #101010}
+.mast b{font-size:22px;text-transform:uppercase;font-variation-settings:"wdth" 120,"wght" 800;letter-spacing:-.01em}
+.mast nav{display:flex;gap:24px}
+.manif{padding:120px 32px 100px;display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start}
+.manif .m{padding-top:14px}
+.manif p{margin:0 0 .3em;font-size:72px;line-height:1;text-wrap:balance;letter-spacing:-.02em}
+.manif p:nth-child(1){font-variation-settings:"wdth" 125,"wght" 800}
+.manif p:nth-child(2){font-variation-settings:"wdth" 75,"wght" 300}
+.manif p:nth-child(3){font-variation-settings:"wdth" 100,"wght" 600}
+.manif p em{font-style:normal;color:#ff4d00}
+.work{background:#101010;color:#f1efe9;display:grid;grid-template-columns:1fr 1.2fr;min-height:760px}
+.work .ph{position:relative;overflow:hidden;border-right:1px solid #3a3a3a}
+.work .ph img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.1)}
+.work .ph .m{position:absolute;left:24px;bottom:22px;color:#f1efe9;mix-blend-mode:difference}
+.work ol{list-style:none;margin:0;padding:48px 32px 40px;display:flex;flex-direction:column}
+.work li{border-top:1px solid #3a3a3a;padding:30px 0;display:grid;grid-template-columns:70px 1fr auto;gap:20px;align-items:baseline;transition:padding-left .4s cubic-bezier(.2,.8,.2,1)}
+.work li:hover{padding-left:16px}
+.work li:last-child{border-bottom:1px solid #3a3a3a}
+.work li .n{font-family:"JetBrains Mono",monospace;font-size:13px;color:#8a8a8a}
+.work li h3{margin:0 0 6px;font-size:52px;line-height:.95;font-variation-settings:"wdth" 110,"wght" 700;text-transform:uppercase;letter-spacing:-.02em;transition:font-variation-settings .5s}
+.work li:hover h3{font-variation-settings:"wdth" 140,"wght" 900}
+.work li p{margin:0;max-width:44ch;color:#bdbdbd;font-size:15px}
+.work li .t{font-family:"JetBrains Mono",monospace;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.1em}
+.work .h{padding:48px 32px 0;display:flex;justify-content:space-between;align-items:baseline}
+.work .h h2{margin:0;font-size:20px;text-transform:uppercase;font-variation-settings:"wdth" 120,"wght" 700}
+.contact{padding:110px 32px 80px;display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:end}
+.contact a.big{font-size:88px;line-height:1;font-variation-settings:"wdth" 70,"wght" 200;letter-spacing:-.03em;transition:font-variation-settings .6s;word-break:break-all}
+.contact a.big:hover{font-variation-settings:"wdth" 130,"wght" 800}
+.contact .row{display:flex;justify-content:space-between;gap:24px;margin-top:36px;padding-top:18px;border-top:1px solid #101010;flex-wrap:wrap}
+@media (max-width:900px){.name{font-size:88px}.corner.bl,.corner.tr{display:none}.manif,.contact,.work{grid-template-columns:1fr}.manif p{font-size:38px}.work .ph{height:360px}.work li h3{font-size:30px}.contact a.big{font-size:34px}.manif,.contact,.mast{padding-inline:20px}.work ol,.work .h{padding-inline:20px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<section class="stage" aria-label="Anton Ilin">
+  <div class="corner tl m">Anton Ilin — Portfolio</div>
+  <nav class="corner tr m"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  <h1 class="name" style="margin:0"><span>Anton</span><span>Ilin</span></h1>
+  <i class="dot" aria-hidden="true"></i>
+  <div class="corner bl m">AI &amp; Software Engineering Student<br>Centennial College · React, Java, C#</div>
+  <div class="corner br m">Toronto · 2026 · Scroll ↓</div>
+</section>
+<header class="mast"><b>Anton Ilin</b><nav class="m"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav></header>
+<section class="manif" id="about">
+  <div class="m">About · 01</div>
+  <div>
+    <p>I build clean, reliable software.</p>
+    <p>React out front. Java and C# behind it.</p>
+    <p>Tested <em>before</em> it ships.</p>
+    <p style="font-size:20px;line-height:1.5;margin-top:36px;max-width:56ch;font-variation-settings:'wdth' 100,'wght' 400;color:#3a3a3a">Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+  </div>
+</section>
+<section class="work" id="work">
+  <div class="ph"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin"><span class="m">Fig. 01 — the author</span></div>
+  <div>
+    <div class="h"><h2>Selected work</h2><span class="m" style="color:#8a8a8a">2024 — 2026</span></div>
+    <ol>
+      <li><span class="n">01</span><div><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p></div><span class="t">React</span></li>
+      <li><span class="n">02</span><div><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p></div><span class="t">Full-stack</span></li>
+      <li><span class="n">03</span><div><h3>QA Automation</h3><p>Boundary, negative and security test suites for a User API and authentication flows: JWT, lockout, session expiry.</p></div><span class="t">Testing</span></li>
+    </ol>
+  </div>
+</section>
+<section class="contact" id="contact">
+  <div class="m">Contact · 03</div>
+  <div>
+    <a class="big" href="#">antonilin107@gmail.com</a>
+    <div class="row m"><span>(416) 278-9778</span><span>Centennial College · AI &amp; SE · 2024 –</span><span>© 2026 Anton Ilin</span></div>
+  </div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2758}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

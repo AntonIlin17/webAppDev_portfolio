@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·08 Command Palette</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#0e0f12;color:#e9eaee;font-family:Geist,system-ui,sans-serif;font-size:15px;line-height:1.5;color-scheme:dark}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"Geist Mono",ui-monospace,monospace;font-size:12px}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#0e0f12}
+.stage{position:relative;height:820px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ghost{position:absolute;inset:0;padding:48px 64px;opacity:.16;filter:blur(1px);pointer-events:none;user-select:none}
+.ghost h1{margin:120px 0 20px;font-size:120px;font-weight:600;letter-spacing:-.05em;line-height:.9}
+.ghost p{max-width:50ch;font-size:20px}
+.ghost .nav{display:flex;justify-content:space-between;font-size:14px}
+.hint{position:absolute;left:50%;top:92px;transform:translateX(-50%);color:#8b8f99;display:flex;gap:10px;align-items:center}
+.kbd{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border:1px solid #2a2e36;border-bottom-width:2px;border-radius:5px;background:#16181d;font-family:"Geist Mono",monospace;font-size:11px;color:#c9ccd4}
+.pal{position:relative;width:980px;max-width:calc(100% - 32px);height:540px;background:#16181d;border:1px solid #2a2e36;border-radius:14px;box-shadow:0 40px 100px -30px rgba(0,0,0,.8);display:grid;grid-template-columns:400px 1fr;overflow:hidden}
+.left{border-right:1px solid #2a2e36;display:flex;flex-direction:column;min-width:0}
+.q{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #2a2e36}
+.q input{flex:1;background:transparent;border:0;outline:0;color:#e9eaee;font:inherit;font-size:16px;min-height:28px}
+.q input::placeholder{color:#6b7079}
+.grp{padding:10px 8px 4px;color:#6b7079;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.row{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border:0;border-radius:8px;background:transparent;color:#e9eaee;font:inherit;text-align:left;cursor:pointer;min-height:44px}
+.row:hover{background:#1e2128}
+.row.on{background:#23272f;box-shadow:inset 3px 0 0 #9ec1ff}
+.row .ic{width:24px;height:24px;border-radius:6px;background:#2a2e36;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#c9ccd4;flex:none}
+.row .lbl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .lbl small{display:block;color:#8b8f99;font-size:12px}
+.row .kbd{opacity:0}
+.row.on .kbd,.row:hover .kbd{opacity:1}
+.list{padding:6px 8px;overflow:auto;flex:1}
+.lfoot{display:flex;gap:16px;padding:10px 16px;border-top:1px solid #2a2e36;color:#8b8f99;font-size:12px}
+.prev{padding:28px 30px;display:flex;flex-direction:column;min-width:0;position:relative;overflow:hidden}
+.prev .k{color:#8b8f99;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;display:flex;justify-content:space-between}
+.prev h2{margin:0 0 10px;font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.prev p{margin:0 0 14px;color:#c9ccd4;max-width:46ch;font-size:15px}
+.prev .big{position:absolute;right:-10px;bottom:-30px;font-size:220px;font-weight:600;letter-spacing:-.06em;color:#1e2128;line-height:1;pointer-events:none}
+.prev .tags{display:flex;gap:6px;flex-wrap:wrap}
+.prev .tags span{border:1px solid #2a2e36;border-radius:999px;padding:3px 10px;font-size:12px;color:#c9ccd4}
+.prev .ph{width:150px;height:150px;border-radius:12px;overflow:hidden;margin-bottom:18px;border:1px solid #2a2e36}
+.prev .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block}
+.prev .act{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:8px;background:#e9eaee;color:#0e0f12;font-weight:600;font-size:14px}
+.btn.o{background:transparent;color:#e9eaee;border:1px solid #2a2e36}
+.stackl{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:15px}
+.stackl b{font-weight:600}
+.stackl span{color:#8b8f99;font-size:13px;display:block}
+.below{padding:64px 64px 40px;border-top:1px solid #2a2e36}
+.below .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;color:#8b8f99}
+.below h3{margin:0;font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#e9eaee}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.cols div{border-top:1px solid #2a2e36;padding-top:14px}
+.cols b{display:block;font-size:18px;font-weight:600;margin-bottom:6px}
+.cols p{margin:0;color:#8b8f99;font-size:14px}
+.foot{padding:20px 64px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:#8b8f99;font-size:13px}
+@media (max-width:900px){.stage{height:auto;padding:80px 16px 40px}.pal{grid-template-columns:1fr;height:auto}.prev{min-height:320px}.prev .big{display:none}.ghost{display:none}.hint{top:28px}.cols{grid-template-columns:1fr}.below,.foot{padding-inline:20px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<section class="stage" aria-label="Command palette">
+  <div class="ghost" aria-hidden="true"><div class="nav"><span>Anton Ilin</span><span>About · Projects · Education · Services · Contact</span></div><h1>Anton Ilin</h1><p>AI &amp; Software Engineering Student at Centennial College. Clean, reliable software with React, Java, and C#.</p></div>
+  <div class="hint mono"><span>Press</span><span class="kbd">⌘</span><span class="kbd">K</span><span>anywhere, or just scroll</span></div>
+  <div class="pal" role="dialog" aria-label="Navigate the portfolio">
+    <div class="left">
+      <label class="q"><span class="mono" style="color:#8b8f99">›</span><input id="q" type="text" placeholder="Search Anton's portfolio…" value="{{ q }}" onChange="{{ onQ }}" autocomplete="off"><span class="kbd">esc</span></label>
+      <div class="list">
+        <sc-if value="{{ showAbout }}" hint-placeholder-val="{{ true }}"><div class="grp">About</div><button class="row {{ cAbout }}" onClick="{{ sAbout }}"><span class="ic">AI</span><span class="lbl">Anton Ilin<small>AI &amp; Software Engineering Student · Toronto</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showProjects }}" hint-placeholder-val="{{ true }}"><div class="grp">Projects</div></sc-if>
+        <sc-if value="{{ showRss }}" hint-placeholder-val="{{ true }}"><button class="row {{ cRss }}" onClick="{{ sRss }}"><span class="ic">01</span><span class="lbl">RSS Aggregator<small>React · RSS · Search</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showTour }}" hint-placeholder-val="{{ true }}"><button class="row {{ cTour }}" onClick="{{ sTour }}"><span class="ic">02</span><span class="lbl">TourConnect<small>React · Node · Full-stack</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showQa }}" hint-placeholder-val="{{ true }}"><button class="row {{ cQa }}" onClick="{{ sQa }}"><span class="ic">03</span><span class="lbl">QA Automation Examples<small>Testing · API · Security</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showMore }}" hint-placeholder-val="{{ true }}"><div class="grp">More</div></sc-if>
+        <sc-if value="{{ showStack }}" hint-placeholder-val="{{ true }}"><button class="row {{ cStack }}" onClick="{{ sStack }}"><span class="ic">{ }</span><span class="lbl">Stack &amp; services<small>React · Java · C# · QA</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showEdu }}" hint-placeholder-val="{{ true }}"><button class="row {{ cEdu }}" onClick="{{ sEdu }}"><span class="ic">Ed</span><span class="lbl">Education<small>Centennial College · 2024 –</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ showContact }}" hint-placeholder-val="{{ true }}"><button class="row {{ cContact }}" onClick="{{ sContact }}"><span class="ic">@</span><span class="lbl">Contact<small>antonilin107@gmail.com</small></span><span class="kbd">↵</span></button></sc-if>
+        <sc-if value="{{ none }}" hint-placeholder-val="{{ false }}"><div class="grp" style="padding-top:20px">No matches. Try "react", "test" or "contact".</div></sc-if>
+      </div>
+      <div class="lfoot mono"><span><span class="kbd">↑</span> <span class="kbd">↓</span> navigate</span><span><span class="kbd">↵</span> open</span></div>
+    </div>
+    <div class="prev">
+      <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ true }}"><div class="k"><span>About</span><span>00</span></div><div class="ph"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin"></div><h2>Anton Ilin</h2><p>Hi — I'm a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. Clean architecture, thoughtful interfaces, code that holds up under real-world use.</p><div class="act"><a class="btn" href="#">Open about page</a><a class="btn o" href="#">Résumé</a></div></sc-if>
+      <sc-if value="{{ isRss }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Project</span><span>01 / 03</span></div><h2>RSS Aggregator</h2><p>Built a feed aggregator that parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>React</span><span>RSS</span><span>Search</span></div><span class="big">01</span><div class="act"><a class="btn" href="#">Open project</a></div></sc-if>
+      <sc-if value="{{ isTour }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Project</span><span>02 / 03</span></div><h2>TourConnect</h2><p>Full-stack prototype connecting local tour guides with travelers; React front end with a simple Node API mock.</p><div class="tags"><span>React</span><span>Node</span><span>Full-stack</span></div><span class="big">02</span><div class="act"><a class="btn" href="#">Open project</a></div></sc-if>
+      <sc-if value="{{ isQa }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Project</span><span>03 / 03</span></div><h2>QA Automation Examples</h2><p>Boundary and negative test cases for a User API (CRUD, pagination, rate limiting) and authentication: JWT and refresh tokens, session expiry, lockout after repeated failures.</p><div class="tags"><span>Testing</span><span>API</span><span>Security</span></div><span class="big">03</span><div class="act"><a class="btn" href="#">Open project</a></div></sc-if>
+      <sc-if value="{{ isStack }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Stack &amp; services</span><span>{ }</span></div><h2>What I work with</h2><div class="stackl"><div><b>React</b><span>Front ends, routing, accessible UI</span></div><div><b>Java · C#</b><span>Data structures, OOP, APIs</span></div><div><b>Node · MongoDB</b><span>APIs, JWT auth</span></div><div><b>Vitest · Cypress</b><span>Unit, integration, e2e</span></div></div><p style="margin-top:18px">Services: Web Development · General Programming · QA &amp; Testing.</p></sc-if>
+      <sc-if value="{{ isEdu }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Education</span><span>2024 –</span></div><h2>Centennial College</h2><p>AI &amp; Software Engineering, Advanced Diploma. Web Application Development, Data Structures, Object-Oriented Programming.</p><span class="big">24</span></sc-if>
+      <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}"><div class="k"><span>Contact</span><span>@</span></div><h2 style="font-size:32px;word-break:break-all">antonilin107@gmail.com</h2><p>(416) 278-9778 · Toronto, Canada · Open to co-op and internship roles.</p><div class="act"><a class="btn" href="#">Write an email</a></div></sc-if>
+    </div>
+  </div>
+</section>
+<section class="below">
+  <div class="hd"><h3>Or just scroll</h3><span class="mono">Everything the palette knows, in plain view.</span></div>
+  <div class="cols">
+    <div><b>RSS Aggregator</b><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p></div>
+    <div><b>TourConnect</b><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p></div>
+    <div><b>QA Automation Examples</b><p>Boundary, negative and security test suites for a User API and authentication flows.</p></div>
+    <div><b>Web Development</b><p>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</p></div>
+    <div><b>General Programming</b><p>Clean, maintainable solutions in Java and C#, from data structures to APIs.</p></div>
+    <div><b>QA &amp; Testing</b><p>Thorough test suites covering boundary, negative, and security edge cases.</p></div>
+  </div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin · Centennial College</span><span>antonilin107@gmail.com</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1276}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const k = s.k || 'about';
+    const q = (s.q || '').toLowerCase();
+    const items = {
+      about: 'anton ilin about ai software engineering student toronto',
+      rss: 'rss aggregator react search feeds project',
+      tour: 'tourconnect react node full-stack project travel guides',
+      qa: 'qa automation examples testing api security jwt project',
+      stack: 'stack services react java c# node mongodb vitest cypress testing',
+      edu: 'education centennial college diploma 2024',
+      contact: 'contact email phone antonilin107@gmail.com'
+    };
+    const show = {};
+    Object.keys(items).forEach((key) => { show[key] = !q || items[key].indexOf(q) !== -1; });
+    const set = (key) => () => this.setState({ k: key });
+    const cls = (key) => (k === key ? 'on' : '');
+    return {
+      q: s.q || '',
+      onQ: (e) => this.setState({ q: e.target.value }),
+      showAbout: show.about, showRss: show.rss, showTour: show.tour, showQa: show.qa, showStack: show.stack, showEdu: show.edu, showContact: show.contact,
+      showProjects: show.rss || show.tour || show.qa, showMore: show.stack || show.edu || show.contact,
+      none: !Object.keys(show).some((key) => show[key]),
+      isAbout: k === 'about', isRss: k === 'rss', isTour: k === 'tour', isQa: k === 'qa', isStack: k === 'stack', isEdu: k === 'edu', isContact: k === 'contact',
+      sAbout: set('about'), sRss: set('rss'), sTour: set('tour'), sQa: set('qa'), sStack: set('stack'), sEdu: set('edu'), sContact: set('contact'),
+      cAbout: cls('about'), cRss: cls('rss'), cTour: cls('tour'), cQa: cls('qa'), cStack: cls('stack'), cEdu: cls('edu'), cContact: cls('contact')
+    };
+  }
+}
+</script>
+</body>
+</html>

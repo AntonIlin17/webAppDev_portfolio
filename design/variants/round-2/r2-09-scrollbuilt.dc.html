@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·09 Scroll-built</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#f7f7f5;color:#161616;font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:17px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"Azeret Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a7a74}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#f7f7f5}
+.stage{position:relative;height:820px;overflow:hidden;background:#f7f7f5;background-image:radial-gradient(#d8d8d2 1px,transparent 1.2px);background-size:24px 24px}
+.stage .line{position:absolute;left:64px;top:64px;max-width:40ch}
+.stage .line h1{margin:0 0 12px;font-size:56px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.stage .line p{margin:0;color:#4d4d48}
+.wf{position:absolute;border:1.5px dashed #b8b8b0;border-radius:4px}
+.wf::after{content:attr(data-l);position:absolute;left:8px;top:6px;font-family:"Azeret Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#9a9a92}
+.wf .fill{position:absolute;inset:0;background:#161616;color:#f7f7f5;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.wf .fill.photo{padding:0}
+.wf .fill.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block}
+.wf .fill.light{background:#fff;color:#161616;border:1px solid #161616}
+.wf .fill.accent{background:#d9f038;color:#161616}
+.wf .fill h2{margin:0 0 6px;font-size:30px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.wf .fill p{margin:0;font-size:14px;opacity:.85}
+.wf .fill .mono{color:inherit;opacity:.7;margin-bottom:auto}
+.cursor{position:absolute;left:600px;top:380px;width:0;height:0;border-left:14px solid #161616;border-top:20px solid transparent;border-bottom:8px solid transparent;transform:rotate(-20deg)}
+.cursor::after{content:"building…";position:absolute;left:14px;top:14px;background:#161616;color:#f7f7f5;font-family:"Azeret Mono",monospace;font-size:10px;padding:3px 7px;border-radius:3px;white-space:nowrap;transform:rotate(20deg)}
+.hint{position:absolute;left:64px;bottom:36px}
+@supports (animation-timeline: view()){
+  .wf .fill{animation:build linear both;animation-timeline:view(root);animation-range:entry 0% entry 100%}
+  @keyframes build{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+  .stage .wf:nth-of-type(n+3) .fill{animation:stagebuild linear both;animation-timeline:scroll(root);animation-range:0px 700px}
+  @keyframes stagebuild{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  .stage .wf:nth-of-type(2) .fill{animation-range:60px 760px}
+  .stage .wf:nth-of-type(3) .fill{animation-range:120px 820px}
+  .stage .wf:nth-of-type(4) .fill{animation-range:180px 880px}
+  .stage .wf:nth-of-type(5) .fill{animation-range:240px 940px}
+}
+@media (prefers-reduced-motion:reduce){.wf .fill{animation:none!important;clip-path:none!important}}
+.rest{padding:120px 64px 64px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px}
+.rest .wf{position:relative;min-height:220px}
+.rest .wf.a{grid-column:1/8;min-height:300px}.rest .wf.b{grid-column:8/13;min-height:300px}.rest .wf.c{grid-column:1/5}.rest .wf.d{grid-column:5/9}.rest .wf.e{grid-column:9/13}.rest .wf.f{grid-column:1/13;min-height:160px}
+.rest .fill p{max-width:60ch}
+.foot{padding:20px 64px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid #161616}
+@media (max-width:900px){.stage{height:auto;padding:24px 16px 48px;display:flex;flex-direction:column;gap:14px}.stage .line{position:relative;left:auto;top:auto;margin-bottom:12px}.stage .line h1{font-size:34px}.stage .wf{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:180px}.cursor,.hint{display:none}.rest{grid-template-columns:1fr;padding:48px 16px}.rest .wf{grid-column:1!important}.foot{padding-inline:20px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<section class="stage" aria-label="A page being built">
+  <div class="line"><span class="mono">Anton Ilin · Portfolio · 2026</span><h1 style="margin-top:10px">Let me build you a page.</h1><p>Scroll, and the wireframe fills itself in with the real thing.</p></div>
+  <div class="wf" data-l="nav" style="left:520px;top:48px;width:696px;height:44px"><div class="fill light" style="flex-direction:row;align-items:center;justify-content:space-between;padding:0 16px;font-size:13px;font-weight:500"><span>Anton Ilin</span><span>About · Projects · Education · Services · Contact</span></div></div>
+  <div class="wf" data-l="hero · headline" style="left:520px;top:116px;width:420px;height:300px"><div class="fill"><span class="mono">AI &amp; Software Engineering Student</span><h2 style="font-size:40px">Software that earns its keep.</h2><p>Clean, reliable software with React, Java, and C#. Centennial College, Toronto.</p></div></div>
+  <div class="wf" data-l="hero · image" style="left:964px;top:116px;width:252px;height:300px"><div class="fill photo"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin"></div></div>
+  <div class="wf" data-l="project 01" style="left:520px;top:440px;width:340px;height:200px"><div class="fill accent"><span class="mono">01 · React</span><h2>RSS Aggregator</h2><p>Parses multiple feeds into one searchable UI.</p></div></div>
+  <div class="wf" data-l="cta" style="left:884px;top:440px;width:332px;height:200px"><div class="fill light"><span class="mono">Contact</span><h2 style="font-size:22px;word-break:break-all">antonilin107@gmail.com</h2><p>Open to co-op and internship roles.</p></div></div>
+  <div class="wf" data-l="footer" style="left:64px;top:680px;width:1152px;height:72px"><div class="fill light" style="flex-direction:row;align-items:center;justify-content:space-between;font-size:13px"><span>© 2026 Anton Ilin</span><span class="mono" style="margin:0">Email · Projects · Contact</span></div></div>
+  <i class="cursor" aria-hidden="true"></i>
+  <span class="hint mono">Keep scrolling ↓ the rest assembles below</span>
+</section>
+<section class="rest">
+  <div class="wf a" data-l="about"><div class="fill light"><span class="mono">About</span><h2>Hi, I'm Anton Ilin.</h2><p>A student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p></div></div>
+  <div class="wf b" data-l="stack"><div class="fill"><span class="mono">Stack</span><h2 style="font-size:44px">React · Java · C#</h2><p>Also Node, MongoDB, JWT auth, Vitest, Cypress.</p></div></div>
+  <div class="wf c" data-l="project 02"><div class="fill light"><span class="mono">02 · Full-stack</span><h2>TourConnect</h2><p>Prototype connecting local tour guides with travelers; React front end with a Node API mock.</p></div></div>
+  <div class="wf d" data-l="project 03"><div class="fill"><span class="mono">03 · Testing</span><h2>QA Automation</h2><p>Boundary, negative and security suites for a User API and auth flows.</p></div></div>
+  <div class="wf e" data-l="education"><div class="fill accent"><span class="mono">Education</span><h2>Centennial College</h2><p>AI &amp; Software Engineering, Advanced Diploma, 2024 – present.</p></div></div>
+  <div class="wf f" data-l="services"><div class="fill light" style="flex-direction:row;gap:40px;align-items:center;justify-content:space-between"><div><h2 style="font-size:20px">Web Development</h2><p>Responsive, accessible front ends and full-stack apps.</p></div><div><h2 style="font-size:20px">General Programming</h2><p>Java and C#, data structures to APIs.</p></div><div><h2 style="font-size:20px">QA &amp; Testing</h2><p>Boundary, negative, security edge cases.</p></div></div></div>
+</section>
+<footer class="foot mono"><span>Built while you scrolled · © 2026 Anton Ilin</span><span>antonilin107@gmail.com</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1824}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

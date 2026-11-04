@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·10 Flashlight</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700;900&family=Chivo+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#050505;color:#f0f0ec;font-family:Chivo,system-ui,sans-serif;font-size:16px;line-height:1.5;color-scheme:dark}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"Chivo Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#050505}
+.room{position:relative;height:820px;overflow:hidden;background:#050505;cursor:crosshair}
+.wall{position:absolute;inset:0;padding:70px 64px 90px;columns:4;column-gap:28px;font-size:13.5px;line-height:1.5;color:#dcdcd4}
+.wall p{margin:0 0 14px;break-inside:avoid}
+.wall b{display:block;font-weight:700;font-size:15px;margin-bottom:2px}
+.wall .mono{color:#9a9a92;display:block;margin-bottom:4px}
+.wall .ph{break-inside:avoid;width:100%;aspect-ratio:1;overflow:hidden;margin:0 0 14px}
+.wall .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block;filter:grayscale(1)}
+.wall .big{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:.95;margin-bottom:12px}
+.dark .wall{-webkit-mask-image:radial-gradient(circle 230px at var(--x,50%) var(--y,50%),#000 0,#000 55%,transparent 100%);mask-image:radial-gradient(circle 230px at var(--x,50%) var(--y,50%),#000 0,#000 55%,transparent 100%)}
+.lit .wall{-webkit-mask-image:none;mask-image:none}
+.ui{position:absolute;left:64px;right:64px;top:34px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.ui nav{display:flex;gap:22px}
+.ui nav a{min-height:32px;display:inline-flex;align-items:center}
+.hero{position:absolute;left:64px;bottom:60px;z-index:3;max-width:60%}
+.hero h1{margin:0 0 12px;font-size:84px;font-weight:900;letter-spacing:-.04em;line-height:.9;text-wrap:balance}
+.hero p{margin:0 0 20px;color:#bdbdb5;max-width:48ch}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 20px;border:1px solid #f0f0ec;background:transparent;color:#f0f0ec;font:inherit;font-weight:700;font-size:14px;cursor:pointer;border-radius:999px}
+.btn i{width:10px;height:10px;border-radius:50%;background:#f0f0ec;display:inline-block}
+.lit .btn{background:#f0f0ec;color:#050505}
+.lit .btn i{background:#050505}
+.lit .room{background:#0e0e0e}
+.lit .hero h1,.lit .hero p{opacity:0;visibility:hidden}
+.counter{position:absolute;right:64px;bottom:60px;z-index:3;text-align:right;color:#9a9a92}
+.counter b{display:block;font-size:40px;font-weight:900;color:#f0f0ec;letter-spacing:-.03em;line-height:1}
+.after{padding:80px 64px 48px;background:#f0f0ec;color:#050505}
+.after .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:36px}
+.after h2{margin:0;font-size:44px;font-weight:900;letter-spacing:-.04em}
+.after .g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.after .g div{border-top:2px solid #050505;padding-top:14px}
+.after .g b{display:block;font-size:22px;font-weight:700;margin-bottom:6px;letter-spacing:-.02em}
+.after .g p{margin:0;color:#3a3a36;font-size:15px}
+.foot{padding:20px 64px 30px;background:#f0f0ec;color:#5a5a55;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid #050505}
+@media (max-width:900px){.room{height:auto;padding-bottom:40px}.wall{position:relative;columns:1;padding:80px 20px 20px;-webkit-mask-image:none!important;mask-image:none!important}.hero{position:relative;left:auto;bottom:auto;max-width:none;padding:0 20px}.hero h1{font-size:40px}.counter{display:none}.ui{left:20px;right:20px}.after .g{grid-template-columns:1fr}.after,.foot{padding-inline:20px}}
+</style>
+</helmet>
+<div class="page {{ mode }}" style="padding:0">
+<section class="room" onMouseMove="{{ onMove }}" style="{{ roomStyle }}" aria-label="A dark room you light with the cursor">
+  <div class="wall" aria-hidden="{{ hiddenWall }}">
+    <p class="big">Anton Ilin</p>
+    <p><span class="mono">Role</span>AI &amp; Software Engineering Student, Centennial College, Toronto. 2024 – present.</p>
+    <p><span class="mono">Stack</span>React · Java · C# · Node · MongoDB · JWT · Vitest · Cypress</p>
+    <div class="ph"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt=""></div>
+    <p><span class="mono">01 · Project</span><b>RSS Aggregator</b>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p>
+    <p><span class="mono">Test cases</span>parses three feeds into one normalized list · search filters by title and source · handles a malformed feed without crashing · empty feed renders an empty state</p>
+    <p><span class="mono">02 · Project</span><b>TourConnect</b>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p>
+    <p><span class="mono">Test cases</span>lists guides for a chosen city · booking form validates dates · rejects a past date · API mock returns 404 for unknown guide</p>
+    <p><span class="mono">03 · Project</span><b>QA Automation Examples</b>Boundary and negative test cases for a User API: CRUD validation, pagination, error handling, rate limiting.</p>
+    <p><span class="mono">Auth suite</span>signup / login / logout flows · password hashing and salting · JWT and refresh token handling · session expiry · lockout after repeated failures</p>
+    <p><span class="mono">Services</span><b>Web Development</b>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</p>
+    <p><b>General Programming</b>Clean, maintainable solutions in Java and C#, from data structures to APIs.</p>
+    <p><b>QA &amp; Testing</b>Thorough test suites covering boundary, negative, and security edge cases.</p>
+    <p><span class="mono">Education</span><b>Centennial College</b>AI &amp; Software Engineering, Advanced Diploma. Web Application Development, Data Structures, Object-Oriented Programming.</p>
+    <p><span class="mono">Mission</span>To leverage my skills in React, Java, and C# to create impactful software solutions that enhance user experiences and drive innovation.</p>
+    <p><span class="mono">Belief</span>Bringing back the tradition of creating free software and making it accessible to everyone.</p>
+    <p><span class="mono">Contact</span><b>antonilin107@gmail.com</b>(416) 278-9778 · Open to co-op and internship roles.</p>
+    <p class="big" style="font-size:28px">Thanks for looking around.</p>
+  </div>
+  <div class="ui mono"><span>Anton Ilin</span><nav><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav></div>
+  <div class="hero">
+    <h1>Most of me is in the dark. <br>Look around.</h1>
+    <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College. Move your cursor to find the work, the tests, and the rest. Or cheat:</p>
+    <button class="btn" onClick="{{ toggle }}"><i></i>{{ label }}</button>
+  </div>
+  <div class="counter mono"><b>3</b>projects · 24 tests<br>React · Java · C#</div>
+</section>
+<section class="after">
+  <div class="hd"><h2>With the lights on</h2><span class="mono">The same wall, readable</span></div>
+  <div class="g">
+    <div><b>RSS Aggregator</b><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p></div>
+    <div><b>TourConnect</b><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p></div>
+    <div><b>QA Automation Examples</b><p>Boundary, negative and security test suites for a User API and authentication flows.</p></div>
+    <div><b>Web Development</b><p>Responsive, accessible front ends and full-stack apps.</p></div>
+    <div><b>General Programming</b><p>Java and C#, from data structures to APIs.</p></div>
+    <div><b>QA &amp; Testing</b><p>Boundary, negative, and security edge cases.</p></div>
+  </div>
+</section>
+<footer class="foot mono"><span>© 2026 Anton Ilin · Centennial College</span><span>antonilin107@gmail.com</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1398}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const lit = !!s.lit;
+    const x = typeof s.x === 'number' ? s.x : 640;
+    const y = typeof s.y === 'number' ? s.y : 300;
+    return {
+      mode: lit ? 'lit' : 'dark',
+      label: lit ? 'Lights off' : 'Turn the lights on',
+      hiddenWall: lit ? 'false' : 'true',
+      roomStyle: { '--x': x + 'px', '--y': y + 'px' },
+      toggle: () => this.setState({ lit: !lit }),
+      onMove: (e) => { const r = e.currentTarget.getBoundingClientRect(); this.setState({ x: e.clientX - r.left, y: e.clientY - r.top }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

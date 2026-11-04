@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·03 Film Strip</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#ffffff;color:#0a0a0a;font-family:Syne,system-ui,sans-serif;font-size:17px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#fff;timeline-scope:--strip}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid #0a0a0a;height:60px}
+.top b{font-weight:800;font-size:18px;letter-spacing:-.02em}
+.top nav{display:flex;gap:22px}
+.top nav a{min-height:32px;display:inline-flex;align-items:center}
+.bar{position:relative;height:4px;background:#e8e8e8}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:100%;background:#0a0a0a;transform-origin:left;transform:scaleX(.1667)}
+@supports (animation-timeline: scroll()){.track{scroll-timeline:--strip x}.bar i{animation:fill linear both;animation-timeline:--strip}@keyframes fill{from{transform:scaleX(.1667)}to{transform:scaleX(1)}}}
+.track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;height:756px;scrollbar-width:none;scroll-behavior:smooth}
+.track::-webkit-scrollbar{display:none}
+.panel{flex:0 0 100%;scroll-snap-align:start;position:relative;padding:48px 56px;display:grid;grid-template-columns:1fr 1fr;gap:40px;border-right:1px solid #0a0a0a;min-width:0}
+.panel .idx{position:absolute;left:28px;top:22px}
+.panel .hint{position:absolute;right:28px;bottom:22px}
+.panel.ink{background:#0a0a0a;color:#fff}
+.panel.blue{background:#1d3bff;color:#fff}
+.panel .num{font-size:260px;line-height:.8;font-weight:800;letter-spacing:-.06em;align-self:end;opacity:.12}
+.panel.ink .num,.panel.blue .num{opacity:.25}
+.panel h2{margin:0 0 16px;font-size:92px;line-height:.92;font-weight:800;letter-spacing:-.04em;text-wrap:balance}
+.panel p{margin:0 0 20px;font-size:18px;max-width:40ch}
+.panel .body{align-self:end}
+.panel .tags{display:flex;gap:8px;flex-wrap:wrap}
+.panel .tags span{border:1px solid currentColor;border-radius:999px;padding:4px 12px;font-size:12px;font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.1em}
+.intro{grid-template-columns:1.1fr .9fr}
+.intro h1{margin:0 0 14px;font-size:120px;line-height:.86;font-weight:800;letter-spacing:-.05em}
+.intro .ph{position:relative;height:100%;min-height:520px;overflow:hidden;align-self:stretch}
+.intro .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block}
+.intro .ph .cap{position:absolute;left:14px;bottom:12px;background:#fff;color:#0a0a0a;padding:6px 10px}
+.stack .words{display:flex;flex-direction:column;gap:0;align-self:end;grid-column:1/-1}
+.stack .words div{display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid rgba(255,255,255,.3);padding:14px 0}
+.stack .words b{font-size:96px;line-height:.9;font-weight:800;letter-spacing:-.04em}
+.stack .words span{font-size:14px;opacity:.85;max-width:30ch;text-align:right}
+.contact .mail{font-size:64px;font-weight:800;letter-spacing:-.04em;word-break:break-all;line-height:1;border-bottom:4px solid #0a0a0a;display:inline-block;padding-bottom:8px}
+.index{padding:64px 28px 56px;display:grid;grid-template-columns:260px 1fr;gap:40px}
+.index h3{margin:0;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.index p{margin:10px 0 0;font-size:14px;color:#555;max-width:28ch}
+.index ol{list-style:none;margin:0;padding:0}
+.index li a{display:grid;grid-template-columns:60px 1fr auto;gap:16px;align-items:baseline;padding:16px 0;border-top:1px solid #0a0a0a;min-height:48px;transition:padding-left .3s}
+.index li:last-child a{border-bottom:1px solid #0a0a0a}
+.index li a:hover{padding-left:12px}
+.index li b{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.index li .mono{color:#555}
+.foot{padding:20px 28px 28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid #0a0a0a}
+@media (max-width:900px){.track{flex-direction:column;height:auto;overflow:visible;scroll-snap-type:none}.panel{flex:none;grid-template-columns:1fr;border-right:0;border-bottom:1px solid #0a0a0a;padding:64px 20px 48px;min-height:0}.panel h2{font-size:44px}.intro h1{font-size:60px}.panel .num{font-size:120px}.stack .words b{font-size:44px}.contact .mail{font-size:28px}.index{grid-template-columns:1fr;padding-inline:20px}.top nav{display:none}.intro .ph{min-height:320px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<header class="top"><b>Anton Ilin</b><nav class="mono"><a href="#p01">Work</a><a href="#p04">Stack</a><a href="#p05">Contact</a></nav><span class="mono">Scroll sideways →</span></header>
+<div class="bar" aria-hidden="true"><i></i></div>
+<div class="track" aria-label="Landing panels">
+  <section class="panel intro" id="p00">
+    <span class="idx mono">00 / 05 · Hello</span>
+    <div class="body">
+      <h1>Anton<br>Ilin</h1>
+      <p class="mono" style="margin-bottom:18px">AI &amp; Software Engineering Student · Centennial College · Toronto</p>
+      <p>Hi — I build clean, reliable software with React, Java, and C#. Clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+    </div>
+    <div class="ph"><img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin"><span class="cap mono">Toronto, 2026</span></div>
+    <span class="hint mono">Drag or scroll →</span>
+  </section>
+  <section class="panel ink" id="p01">
+    <span class="idx mono">01 / 05 · Work</span>
+    <div class="num" aria-hidden="true">01</div>
+    <div class="body"><h2>RSS Aggregator</h2><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>React</span><span>RSS</span><span>Search</span></div></div>
+    <span class="hint mono">Next →</span>
+  </section>
+  <section class="panel" id="p02">
+    <span class="idx mono">02 / 05 · Work</span>
+    <div class="num" aria-hidden="true">02</div>
+    <div class="body"><h2>Tour<br>Connect</h2><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>React</span><span>Node</span><span>Full-stack</span></div></div>
+    <span class="hint mono">Next →</span>
+  </section>
+  <section class="panel blue" id="p03">
+    <span class="idx mono">03 / 05 · Work</span>
+    <div class="num" aria-hidden="true">03</div>
+    <div class="body"><h2>QA Auto&shy;mation</h2><p>Boundary, negative and security test suites for a User API and authentication flows: JWT, lockout, session expiry.</p><div class="tags"><span>Testing</span><span>API</span><span>Security</span></div></div>
+    <span class="hint mono">Next →</span>
+  </section>
+  <section class="panel ink stack" id="p04">
+    <span class="idx mono">04 / 05 · Stack</span>
+    <div class="words">
+      <div><b>React</b><span>Front ends, routing, accessible UI</span></div>
+      <div><b>Java</b><span>Data structures, OOP, APIs</span></div>
+      <div><b>C#</b><span>Clean, maintainable services</span></div>
+      <div><b style="font-size:40px">+ Node · MongoDB · JWT · Vitest · Cypress</b><span>Education: Centennial College, Advanced Diploma, 2024 –</span></div>
+    </div>
+    <span class="hint mono">Next →</span>
+  </section>
+  <section class="panel contact" id="p05">
+    <span class="idx mono">05 / 05 · Contact</span>
+    <div class="body" style="grid-column:1/-1"><p class="mono" style="margin-bottom:18px">Say hi</p><a class="mail" href="#">antonilin107@gmail.com</a><p style="margin-top:22px">(416) 278-9778 · Toronto, Canada · Open to co-op and internship roles.</p></div>
+    <span class="hint mono">End of strip</span>
+  </section>
+</div>
+<section class="index">
+  <div><h3>Index</h3><p>Everything on the strip, as a list. Click to jump.</p></div>
+  <ol>
+    <li><a href="#p00"><span class="mono">00</span><b>Hello</b><span class="mono">Intro</span></a></li>
+    <li><a href="#p01"><span class="mono">01</span><b>RSS Aggregator</b><span class="mono">React</span></a></li>
+    <li><a href="#p02"><span class="mono">02</span><b>TourConnect</b><span class="mono">Full-stack</span></a></li>
+    <li><a href="#p03"><span class="mono">03</span><b>QA Automation Examples</b><span class="mono">Testing</span></a></li>
+    <li><a href="#p04"><span class="mono">04</span><b>Stack &amp; education</b><span class="mono">React · Java · C#</span></a></li>
+    <li><a href="#p05"><span class="mono">05</span><b>Contact</b><span class="mono">Email</span></a></li>
+  </ol>
+</section>
+<footer class="foot mono"><span>© 2026 Anton Ilin</span><span>antonilin107@gmail.com</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1482}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

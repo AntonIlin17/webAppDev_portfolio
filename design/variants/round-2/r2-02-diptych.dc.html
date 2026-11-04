@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·02 Diptych</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#f3efe6;color:#141414;font-family:"Instrument Sans",system-ui,sans-serif;font-size:17px;line-height:1.55}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.ser{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+.k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#f3efe6}
+.split{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.left{position:sticky;top:0;height:820px;overflow:hidden;background:#141414;color:#f3efe6}
+.left img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.left .veil{position:absolute;inset:0;background:rgba(20,20,20,.18)}
+.left .name{position:absolute;left:28px;top:24px;font-size:15px;font-weight:600;letter-spacing:.02em}
+.left .rail{position:absolute;right:26px;bottom:28px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.9}
+.left .big{position:absolute;left:28px;bottom:24px;font-size:84px;line-height:.9;font-style:italic;letter-spacing:-.01em;max-width:80%}
+.left .prog{position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(243,239,230,.2)}
+.left .prog i{display:block;width:100%;height:100%;background:#f3efe6;transform-origin:top;transform:scaleY(.2)}
+@supports (animation-timeline: scroll()){.left .prog i{animation:grow linear both;animation-timeline:scroll(root)}@keyframes grow{from{transform:scaleY(.08)}to{transform:scaleY(1)}}}
+.ch{min-height:820px;padding:56px 56px 64px;position:relative;display:flex;flex-direction:column;justify-content:flex-end}
+.ch .num{position:absolute;right:40px;top:24px;font-size:180px;line-height:1;font-style:italic;opacity:.14;font-family:"Instrument Serif",serif}
+.ch .k{margin-bottom:auto}
+.ch h2{margin:0 0 20px;font-size:68px;line-height:.98;letter-spacing:-.015em;text-wrap:balance}
+.ch h2 em{font-style:italic}
+.ch p{margin:0 0 24px;max-width:46ch;font-size:18px}
+.links{display:flex;gap:28px;flex-wrap:wrap}
+.links a{position:relative;padding-bottom:4px;border-bottom:1px solid currentColor;min-height:32px;display:inline-flex;align-items:flex-end;font-weight:500}
+.c0{background:#f3efe6;color:#141414}
+.c1{background:#141414;color:#f3efe6;min-height:720px}
+.c2{background:#1f3d2f;color:#f3efe6;min-height:640px}
+.c3{background:#f3efe6;color:#141414;min-height:560px}
+.c4{background:#b6412a;color:#f3efe6;min-height:600px}
+.proj{list-style:none;margin:0;padding:0;border-top:1px solid rgba(243,239,230,.25)}
+.proj li{display:grid;grid-template-columns:40px 1fr auto;gap:18px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(243,239,230,.25)}
+.proj li b{font-size:40px;line-height:1;font-weight:400;font-family:"Instrument Serif",serif;font-style:italic;transition:padding-left .35s}
+.proj li:hover b{padding-left:10px}
+.proj li span{display:block;font-size:14px;color:rgba(243,239,230,.75);margin-top:6px;max-width:44ch}
+.proj li i{font-style:normal;font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.proj li .n{font-size:12px;opacity:.6}
+.stack{display:flex;flex-direction:column;gap:6px}
+.stack div{display:flex;align-items:baseline;gap:22px;border-bottom:1px solid rgba(243,239,230,.25);padding:10px 0}
+.stack b{font-size:88px;line-height:.95;font-weight:400;font-family:"Instrument Serif",serif;letter-spacing:-.02em}
+.stack span{font-size:14px;color:rgba(243,239,230,.8)}
+.edu h2{font-size:56px}
+.edu .row{display:grid;grid-template-columns:140px 1fr;gap:12px 24px;font-size:16px;border-top:1px solid #141414;padding-top:18px}
+.edu .row .k{margin:0;padding-top:4px;color:#6b665c}
+.mail{font-size:60px;line-height:1.05;font-family:"Instrument Serif",serif;word-break:break-all;border-bottom:1px solid rgba(243,239,230,.4);padding-bottom:10px;display:inline-block;transition:letter-spacing .4s}
+.mail:hover{letter-spacing:.02em}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;font-size:13px;opacity:.85}
+@media (max-width:900px){.split{grid-template-columns:1fr}.left{position:relative;height:460px}.left .big{font-size:48px}.ch{min-height:0;padding:40px 20px 48px}.ch h2{font-size:40px}.ch .num{font-size:100px}.stack b{font-size:48px}.mail{font-size:28px}.proj li b{font-size:28px}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<div class="split">
+  <aside class="left" aria-label="Portrait">
+    <img src="/_blob/f40c83ee8d20e72acc7b291f56aea803" alt="Anton Ilin">
+    <div class="veil"></div>
+    <div class="prog" aria-hidden="true"><i></i></div>
+    <div class="name">Anton Ilin</div>
+    <div class="rail">AI &amp; Software Engineering Student — Centennial College — Toronto</div>
+    <div class="big ser">Chapters<br>00 – 04</div>
+  </aside>
+  <main>
+    <section class="ch c0">
+      <span class="num" aria-hidden="true">00</span>
+      <div class="k">Chapter 00 · Hello</div>
+      <h2 class="ser">Software that <em>earns its keep.</em></h2>
+      <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+      <div class="links"><a href="#work">Read the work ↓</a><a href="#contact">Get in touch</a><a href="#">Résumé (PDF)</a></div>
+    </section>
+    <section class="ch c1" id="work">
+      <span class="num" aria-hidden="true">01</span>
+      <div class="k">Chapter 01 · Work</div>
+      <h2 class="ser">Three things I <em>designed, built, and tested.</em></h2>
+      <ol class="proj">
+        <li><span class="n">01</span><div><b>RSS Aggregator</b><span>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</span></div><i>React</i></li>
+        <li><span class="n">02</span><div><b>TourConnect</b><span>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</span></div><i>Full-stack</i></li>
+        <li><span class="n">03</span><div><b>QA Automation Examples</b><span>Boundary, negative and security test suites for a User API and authentication flows: JWT, lockout, session expiry.</span></div><i>Testing</i></li>
+      </ol>
+    </section>
+    <section class="ch c2">
+      <span class="num" aria-hidden="true">02</span>
+      <div class="k">Chapter 02 · Stack</div>
+      <div class="stack">
+        <div><b>React</b><span>Front ends, routing, accessible UI</span></div>
+        <div><b>Java</b><span>Data structures, OOP, APIs</span></div>
+        <div><b>C#</b><span>Clean, maintainable services</span></div>
+        <div style="border:0"><span>Also: Node, MongoDB, JWT auth, Vitest, Cypress · QA and security testing throughout.</span></div>
+      </div>
+    </section>
+    <section class="ch c3 edu">
+      <span class="num" aria-hidden="true">03</span>
+      <div class="k">Chapter 03 · Education</div>
+      <h2 class="ser">Centennial College</h2>
+      <div class="row">
+        <span class="k">Programme</span><span>AI &amp; Software Engineering, Advanced Diploma</span>
+        <span class="k">Years</span><span>2024 – present</span>
+        <span class="k">Coursework</span><span>Web Application Development, Data Structures, Object-Oriented Programming</span>
+      </div>
+    </section>
+    <section class="ch c4" id="contact">
+      <span class="num" aria-hidden="true">04</span>
+      <div class="k">Chapter 04 · Contact</div>
+      <a class="mail" href="#">antonilin107@gmail.com</a>
+      <div class="foot"><span>(416) 278-9778</span><span>Toronto, Canada</span><span>© 2026 Anton Ilin</span></div>
+    </section>
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":3411}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

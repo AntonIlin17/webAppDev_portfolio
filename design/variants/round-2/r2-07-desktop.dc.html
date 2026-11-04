@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R2·07 Desktop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+body{margin:0;background:#0f1b24;color:#0f1b24;font-family:Manrope,system-ui,sans-serif;font-size:15px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+*{box-sizing:border-box}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.page{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#0f1b24}
+.desk{position:relative;height:820px;overflow:hidden;background:#0f1b24}
+.desk .wall{position:absolute;inset:-40px;background:url("/_blob/f40c83ee8d20e72acc7b291f56aea803") center 20%/cover no-repeat;filter:blur(28px) saturate(.6) brightness(.55)}
+.desk .tint{position:absolute;inset:0;background:rgba(15,27,36,.35)}
+.bar{position:absolute;left:0;right:0;top:0;height:30px;background:rgba(255,255,255,.72);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:13px;font-weight:600;z-index:5}
+.bar .l,.bar .r{display:flex;gap:18px;align-items:center}
+.bar .l b{font-weight:800}
+.bar a{min-height:30px;display:inline-flex;align-items:center;font-weight:500}
+.win{position:absolute;background:#fff;border-radius:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.12);overflow:hidden}
+.win .tb{height:38px;display:flex;align-items:center;gap:8px;padding:0 12px;background:#f1f3f5;border-bottom:1px solid #e1e5e9;font-size:12px;font-weight:600;color:#5b6670}
+.win .tb .dots{display:flex;gap:6px}
+.win .tb .dots i{width:12px;height:12px;border-radius:50%;display:block}
+.win .tb .t{flex:1;text-align:center}
+.txt{padding:18px 20px;font-size:13.5px;line-height:1.7;color:#1f2a33;white-space:pre-wrap}
+.txt b{font-weight:700}
+.fnd{display:grid;grid-template-columns:150px 1fr;height:calc(100% - 38px)}
+.fnd .sb{background:#f6f7f9;border-right:1px solid #e1e5e9;padding:12px 10px;font-size:12px;color:#5b6670}
+.fnd .sb div{padding:6px 8px;border-radius:6px}
+.fnd .sb div.on{background:#dfe8f3;color:#0f1b24;font-weight:600}
+.fnd .ls{padding:10px 0}
+.fnd .row{display:grid;grid-template-columns:34px 1fr 120px 70px;gap:10px;align-items:center;padding:8px 16px;font-size:13px;border-bottom:1px solid #f1f3f5}
+.fnd .row:hover{background:#eef3f8}
+.fnd .row b{font-weight:600}
+.fnd .row span{color:#5b6670;font-size:12px}
+.fold{width:26px;height:20px;border-radius:3px;position:relative;background:#5aa9e6}
+.fold::before{content:"";position:absolute;left:0;top:-5px;width:12px;height:6px;border-radius:2px 2px 0 0;background:inherit}
+.term{background:#111;color:#d6e2d6;font-family:"IBM Plex Mono",monospace;font-size:12.5px;padding:14px 16px;line-height:1.6;height:calc(100% - 38px);overflow:hidden;white-space:pre-wrap}
+.term .ok{color:#52d273}.term .dim{color:#8a948a}.term .y{color:#f2c94c}
+.note{position:absolute;background:#fde68a;padding:18px 18px 22px;width:250px;box-shadow:0 20px 40px -18px rgba(0,0,0,.6);transform:rotate(-2deg);font-size:14px;line-height:1.5;color:#3b2f00}
+.note b{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;opacity:.7}
+.dock{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 12px;border-radius:20px;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.6);z-index:5}
+.dock a{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;position:relative;transition:transform .25s}
+.dock a:hover{transform:translateY(-10px) scale(1.08)}
+.dock a span{position:absolute;bottom:-18px;font-size:10px;color:#0f1b24;font-weight:600;letter-spacing:.04em}
+.dock a::after{content:"";position:absolute;bottom:-7px;width:4px;height:4px;border-radius:50%;background:#0f1b24;opacity:0}
+.dock a.on::after{opacity:.8}
+.list{background:#fff;color:#0f1b24;padding:72px 56px 40px}
+.list .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:36px}
+.list h2{margin:0;font-size:40px;font-weight:800;letter-spacing:-.03em}
+.list .g{display:grid;grid-template-columns:200px 1fr;gap:16px 40px;padding:22px 0;border-top:1px solid #e1e5e9;align-items:baseline}
+.list .g h3{margin:0;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#5b6670}
+.list .g p{margin:0 0 6px;font-size:17px}
+.list .g p b{font-weight:700}
+.foot{background:#fff;color:#5b6670;padding:16px 56px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;border-top:1px solid #e1e5e9}
+@media (max-width:900px){.desk{height:auto;padding:50px 12px 100px;display:flex;flex-direction:column;gap:14px}.win,.note{position:relative;left:auto!important;top:auto!important;width:100%!important;height:auto!important;transform:none}.fnd{grid-template-columns:1fr}.fnd .sb{display:none}.fnd .row{grid-template-columns:34px 1fr}.fnd .row span:nth-child(3),.fnd .row span:nth-child(4){display:none}.bar .l a{display:none}.list,.foot{padding-inline:20px}.list .g{grid-template-columns:1fr}.dock a span{display:none}}
+</style>
+</helmet>
+<div class="page" style="padding:0">
+<section class="desk" aria-label="Desktop">
+  <div class="wall" aria-hidden="true"></div><div class="tint" aria-hidden="true"></div>
+  <div class="bar"><div class="l"><b>AI</b><a href="#">Portfolio</a><a href="#about">About</a><a href="#projects">Projects</a><a href="#education">Education</a><a href="#services">Services</a><a href="#contact">Contact</a></div><div class="r"><span>Toronto</span><span>100%</span><span>Wed 4 Nov · 09:41</span></div></div>
+
+  <div class="win" style="left:48px;top:64px;width:520px;height:330px">
+    <div class="tb"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><span class="t">about.txt — TextEdit</span></div>
+    <div class="txt"><b>Anton Ilin</b>
+AI &amp; Software Engineering Student · Centennial College · Toronto
+
+Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#.
+
+I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use. I am passionate about bringing back the tradition of creating free software and making it accessible to everyone.</div>
+  </div>
+
+  <div class="win" style="left:560px;top:110px;width:672px;height:300px">
+    <div class="tb"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><span class="t">Projects</span></div>
+    <div class="fnd">
+      <div class="sb"><div>Favourites</div><div class="on">Projects</div><div>About</div><div>Education</div><div>Services</div><div>Résumé.pdf</div></div>
+      <div class="ls">
+        <div class="row" style="font-size:11px;color:#5b6670;border-bottom:1px solid #e1e5e9"><span></span><span>Name</span><span>Kind</span><span>Status</span></div>
+        <div class="row"><i class="fold"></i><div><b>RSS Aggregator</b><br><span>Parses multiple RSS sources, normalizes entries, searchable React UI</span></div><span>React · RSS</span><span>Shipped</span></div>
+        <div class="row"><i class="fold" style="background:#f08a4b"></i><div><b>TourConnect</b><br><span>Full-stack prototype connecting local tour guides with travelers; Node API mock</span></div><span>React · Node</span><span>Shipped</span></div>
+        <div class="row"><i class="fold" style="background:#52d273"></i><div><b>QA Automation Examples</b><br><span>Boundary, negative and security suites for a User API and auth flows</span></div><span>Testing</span><span>All passing</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="win" style="left:120px;top:430px;width:600px;height:300px">
+    <div class="tb" style="background:#1d1d1d;border-color:#2a2a2a;color:#aaa"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><span class="t">anton@portfolio — zsh</span></div>
+    <div class="term"><span class="dim">$</span> npm test
+<span class="dim">&gt; portfolio@2026.11 test</span>
+<span class="dim">&gt; vitest run</span>
+
+ <span class="ok">✓</span> src/test/Home.test.jsx <span class="dim">(6 tests)</span> 212ms
+ <span class="ok">✓</span> src/test/Projects.test.jsx <span class="dim">(9 tests)</span> 184ms
+ <span class="ok">✓</span> src/test/Contact.test.jsx <span class="dim">(5 tests)</span> 97ms
+ <span class="ok">✓</span> server/tests/userApi.test.js <span class="dim">(4 tests)</span> 341ms
+
+ Test Files  <span class="ok">4 passed</span> (4)
+      Tests  <span class="ok">24 passed</span> (24)
+   Duration  <span class="y">1.84s</span>
+<span class="dim">$</span> <span style="display:inline-block;width:8px;height:14px;background:#d6e2d6;vertical-align:-2px"></span></div>
+  </div>
+
+  <div class="note" style="left:980px;top:470px"><b>Sticky</b>Say hi → <strong>antonilin107@gmail.com</strong><br>(416) 278-9778<br><br>Open to co-op &amp; internships, 2026.</div>
+
+  <nav class="dock" aria-label="Dock">
+    <a href="#" class="on" style="background:#0f1b24">AI<span>Home</span></a>
+    <a href="#about" style="background:#5aa9e6">Ab<span>About</span></a>
+    <a href="#projects" style="background:#f08a4b">Pr<span>Projects</span></a>
+    <a href="#education" style="background:#8b5cf6">Ed<span>Education</span></a>
+    <a href="#services" style="background:#52d273">Sv<span>Services</span></a>
+    <a href="#contact" style="background:#fde68a;color:#3b2f00">@<span>Contact</span></a>
+  </nav>
+</section>
+<section class="list">
+  <div class="hd"><h2>Prefer a list?</h2><span class="mono" style="color:#5b6670;font-size:12px">Everything on the desktop, in order.</span></div>
+  <div class="g" id="about"><h3>About</h3><div><p><b>Anton Ilin</b> — AI &amp; Software Engineering Student, Centennial College, Toronto.</p><p>Clean, reliable software with React, Java, and C#. Clean architecture, thoughtful interfaces, code that holds up under real-world use.</p></div></div>
+  <div class="g" id="projects"><h3>Projects</h3><div><p><b>RSS Aggregator</b> — parses multiple RSS sources, normalizes entries, searchable React UI.</p><p><b>TourConnect</b> — full-stack prototype connecting tour guides with travelers; Node API mock.</p><p><b>QA Automation Examples</b> — boundary, negative and security test suites for a User API and auth flows.</p></div></div>
+  <div class="g" id="services"><h3>Services</h3><div><p><b>Web Development</b> — responsive, accessible front ends and full-stack apps.</p><p><b>General Programming</b> — Java and C#, data structures to APIs.</p><p><b>QA &amp; Testing</b> — boundary, negative and security edge cases.</p></div></div>
+  <div class="g" id="education"><h3>Education</h3><div><p><b>Centennial College</b> — AI &amp; Software Engineering, Advanced Diploma, 2024 – present.</p><p>Web Application Development · Data Structures · Object-Oriented Programming.</p></div></div>
+  <div class="g" id="contact"><h3>Contact</h3><div><p><b>antonilin107@gmail.com</b> · (416) 278-9778</p></div></div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin</span><span>Email · Projects · Contact</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1716}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
