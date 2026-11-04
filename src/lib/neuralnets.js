@@ -39,6 +39,7 @@ const sign = (v) => (v >= 0 ? 1 : -1)
 export function trainPerceptron(X, T, { epochs = 100, learningRate = 1 } = {}) {
   const w = new Float64Array(X[0].length + 1)
   let epochsRun = 0
+  const updatesPerEpoch = []
   for (let ep = 1; ep <= epochs; ep++) {
     epochsRun = ep
     let updates = 0
@@ -50,15 +51,17 @@ export function trainPerceptron(X, T, { epochs = 100, learningRate = 1 } = {}) {
         for (let i = 0; i < X[k].length; i++) w[i + 1] += learningRate * err * X[k][i]
       }
     }
+    updatesPerEpoch.push(updates)
     if (updates === 0) break
   }
-  return { weights: w, epochs: epochsRun, predict: (x) => sign(net(w, x)) }
+  return { weights: w, epochs: epochsRun, updatesPerEpoch, net: (x) => net(w, x), predict: (x) => sign(net(w, x)) }
 }
 
 /** ADALINE delta rule, batch update on the linear output. */
 export function trainAdaline(X, T, { epochs = 300, learningRate = 0.001 } = {}) {
   const n = X[0].length
   const w = new Float64Array(n + 1)
+  const cost = []
   for (let ep = 0; ep < epochs; ep++) {
     const err = X.map((x, k) => T[k] - net(w, x))
     w[0] += learningRate * err.reduce((a, b) => a + b, 0)
@@ -67,8 +70,9 @@ export function trainAdaline(X, T, { epochs = 300, learningRate = 0.001 } = {}) 
       for (let k = 0; k < X.length; k++) s += err[k] * X[k][i]
       w[i + 1] += learningRate * s
     }
+    cost.push(err.reduce((a, e) => a + e * e, 0) / 2)
   }
-  return { weights: w, epochs, predict: (x) => sign(net(w, x)) }
+  return { weights: w, epochs, cost, net: (x) => net(w, x), predict: (x) => sign(net(w, x)) }
 }
 
 /** Train both models to recognize `target` (+1) against every other letter (-1). */

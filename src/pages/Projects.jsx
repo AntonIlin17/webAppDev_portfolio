@@ -8,8 +8,7 @@ import Reveal from '../components/Reveal.jsx'
 import { EARLIER, FEATURED } from '../data/projects.js'
 import SplitEngineDemo from '../demos/SplitEngineDemo.jsx'
 import WarehouseSimDemo from '../demos/WarehouseSimDemo.jsx'
-import PerceptronDemo from '../demos/PerceptronDemo.jsx'
-import NotebookCards from '../demos/NotebookCards.jsx'
+import NotebookDemo from '../demos/notebook/NotebookDemo.jsx'
 import '../demos/demos.css'
 
 const IMAGES = { systemDiagram, rssFeedMain, rssFeed1 }
@@ -17,7 +16,7 @@ const IMAGES = { systemDiagram, rssFeedMain, rssFeed1 }
 const DEMOS = {
   stingysplitter: SplitEngineDemo,
   'warehouse-robot': WarehouseSimDemo,
-  'ml-coursework': PerceptronDemo,
+  'ml-coursework': NotebookDemo,
 }
 
 function Tag({ tag }) {
@@ -28,8 +27,9 @@ function Tag({ tag }) {
 
 function FeaturedProject({ project, index, onOpen }) {
   const Demo = DEMOS[project.id]
+  const wide = project.layout === 'wide'
   return (
-    <Reveal as="li" className="project project--featured" delay={index * 60}>
+    <Reveal as="li" className={`project project--featured ${wide ? 'project--wide' : ''}`} delay={index * 60}>
       <div className="project-body">
         <div className="project-tags">{project.tags.map((t) => <Tag key={typeof t === 'string' ? t : t.label} tag={t} />)}</div>
         <h3>{project.title}</h3>
@@ -110,12 +110,6 @@ export default function Projects() {
 
       <ul className="project-list">
         {FEATURED.map((p, i) => <FeaturedProject key={p.id} project={p} index={i} onOpen={openLightbox} />)}
-        <Reveal as="li" className="project project--wide">
-          <div className="project-body">
-            <h3 style={{ fontSize: '1.15rem' }}>Notebooks</h3>
-            <NotebookCards onOpenImage={openLightbox} />
-          </div>
-        </Reveal>
       </ul>
 
       <Reveal className="section-divider">

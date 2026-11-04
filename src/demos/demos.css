@@ -26,6 +26,12 @@
 .project--wide {
   grid-template-columns: 1fr;
 }
+.project--wide .project-body {
+  max-width: 72ch;
+}
+.project--wide .project-demo {
+  width: 100%;
+}
 .project-demo {
   min-width: 0;
 }
@@ -529,60 +535,6 @@
 }
 .mini-table tr.current td {
   background: color-mix(in srgb, var(--accent) 8%, var(--surface));
-}
-
-/* Notebook cards ---------------------------------------------- */
-.nb-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 12px;
-  margin-top: 14px;
-}
-.nb {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  display: grid;
-  gap: 8px;
-  align-content: start;
-  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
-}
-.nb:hover {
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-  transform: translateY(-2px);
-}
-.nb img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  cursor: zoom-in;
-}
-.nb-course {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 600;
-}
-.nb h4 {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.98rem;
-  letter-spacing: 0;
-}
-.nb-metrics {
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  color: var(--text-muted);
-  line-height: 1.45;
-}
-.nb a {
-  font-size: 0.84rem;
-  font-weight: 600;
 }
 
 /* KSI chart ---------------------------------------------------- */

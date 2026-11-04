@@ -2,9 +2,8 @@
 // allow-listed destinations, A* planning, pure-pursuit style following and a
 // LiDAR sweep, with a command box that mirrors the keyword / Mistral resolvers.
 import { useEffect, useRef, useState } from 'react'
-import {
-  BOXES, DESTINATIONS, HOME, WORLD, buildGrid, matchKeyword, matchSemantic, pathLength, planPath, raycast,
-} from '../lib/warehouse.js'
+import { BOXES, DESTINATIONS, HOME, WORLD, buildGrid, matchKeyword, matchSemantic, pathLength, raycast } from '../lib/warehouse.js'
+import { createSim, setGoal, stepSim } from '../lib/follower.js'
 import coverImg from '../assets/warehouse/cover.webp'
 import rvizImg from '../assets/warehouse/rviz-route.webp'
 import gazeboImg from '../assets/warehouse/gazebo.webp'
@@ -42,32 +41,15 @@ export default function WarehouseSimDemo({ onOpenImage }) {
   const addLog = (text, kind) => setLog((prev) => [...prev.slice(-50), { text, kind }])
 
   // Simulation state lives in a ref so the animation loop never re-renders per frame.
-  if (!simRef.current) {
-    simRef.current = {
-      grid: buildGrid(),
-      robot: { x: HOME.x, y: HOME.y, th: HOME.yaw },
-      path: null,
-      goal: null,
-      wp: 0,
-      status: 'IDLE',
-      t0: 0,
-      dist: 0,
-    }
-  }
+  if (!simRef.current) simRef.current = createSim(buildGrid(), HOME)
 
   function sendGoal(dest) {
     const sim = simRef.current
-    const path = planPath(sim.grid, sim.robot, dest)
+    const path = setGoal(sim, dest)
     if (!path) {
       addLog(`planner: no path to ${dest.id}`, 'bad')
       return
     }
-    sim.path = path
-    sim.goal = dest
-    sim.wp = 0
-    sim.status = 'NAVIGATING'
-    sim.t0 = performance.now()
-    sim.dist = 0
     const len = pathLength(path)
     setActiveId(dest.id)
     setHud((h) => ({ ...h, goal: `${dest.id} (${dest.x.toFixed(2)}, ${dest.y.toFixed(2)})`, path: `${len.toFixed(1)} m`, status: 'NAVIGATING' }))
@@ -126,28 +108,15 @@ export default function WarehouseSimDemo({ onOpenImage }) {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       const r = sim.robot
-      if (sim.status === 'NAVIGATING' && sim.path) {
-        const look = Math.min(sim.path.length - 1, sim.wp + 3)
-        const target = sim.path[look]
-        const want = Math.atan2(target.y - r.y, target.x - r.x)
-        let da = want - r.th
-        da = Math.atan2(Math.sin(da), Math.cos(da))
-        r.th += Math.max(-3 * dt, Math.min(3 * dt, da))
-        const speed = Math.abs(da) > 0.8 ? 0.25 : 1.2
-        const move = speed * dt
-        r.x += Math.cos(r.th) * move
-        r.y += Math.sin(r.th) * move
-        sim.dist += move
-        while (sim.wp < sim.path.length - 1 && Math.hypot(sim.path[sim.wp].x - r.x, sim.path[sim.wp].y - r.y) < 0.3) sim.wp++
-        const g = sim.goal
-        if (Math.hypot(g.x - r.x, g.y - r.y) < 0.2) {
-          sim.status = 'SUCCEEDED'
-          r.x = g.x
-          r.y = g.y
-          const secs = ((now - sim.t0) / 1000).toFixed(1)
-          addLog(`Goal finished with status: SUCCEEDED (${secs} s, ${sim.dist.toFixed(1)} m)`, 'ok')
-          setHud((h) => ({ ...h, status: 'SUCCEEDED' }))
-        }
+      const event = stepSim(sim, dt)
+      if (event === 'succeeded') {
+        addLog(`Goal finished with status: SUCCEEDED (${sim.elapsed.toFixed(1)} s, ${sim.dist.toFixed(1)} m)`, 'ok')
+        setHud((h) => ({ ...h, status: 'SUCCEEDED' }))
+      } else if (event === 'replanned') {
+        addLog('controller: no progress, replanning from current pose', 'warn')
+      } else if (event === 'aborted') {
+        addLog('Goal finished with status: ABORTED (no path from current pose)', 'bad')
+        setHud((h) => ({ ...h, status: 'ABORTED' }))
       }
       if (now - lastHud > 120) {
         lastHud = now

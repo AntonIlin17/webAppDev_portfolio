@@ -43,6 +43,7 @@ export const FEATURED = [
   },
   {
     id: 'ml-coursework',
+    layout: 'wide',
     title: 'Neural networks & machine learning',
     tags: ['COMP 258 Neural Networks', 'COMP 257 Unsupervised ML', 'COMP 247', 'TensorFlow / Keras', 'scikit-learn'],
     description:
@@ -58,7 +59,7 @@ export const FEATURED = [
       'GMM anomaly detection on faces: rotated images flagged with ROC-AUC 1.00 at a 5th-percentile threshold.',
     ],
     links: [],
-    note: 'Each notebook card below links to the Colab notebook. The demo on the right re-creates Assignment 1 in JavaScript.',
+    note: 'Pick a notebook below and run its cells. Each one executes a JavaScript port of my Python live in the page; expand a cell to read the original code.',
   },
 ]
 
