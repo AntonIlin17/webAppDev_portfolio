@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>02 Editorial Magazine</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+body{margin:0;background:#f6f1e7;color:#1c1a17;font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.6}
+a{color:#1c1a17;text-decoration:none}a:hover{color:#8b2e1f}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.d{font-family:"Playfair Display",Georgia,serif}
+.mast{text-align:center;padding:28px 56px 18px;border-bottom:1px solid #1c1a17}
+.mast .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;display:flex;justify-content:space-between;color:#6b5f52}
+.mast h1{margin:12px 0 0;font-size:92px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.mast h1 em{font-style:italic;font-weight:400}
+.nav{display:flex;justify-content:center;gap:36px;padding:14px 56px;border-bottom:3px double #1c1a17;font-size:13px;letter-spacing:.22em;text-transform:uppercase}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;padding:56px 56px 48px;border-bottom:1px solid #1c1a17}
+.hero .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#8b2e1f;margin-bottom:18px}
+.hero h2{margin:0 0 28px;font-size:60px;line-height:1.02;font-weight:700;letter-spacing:-.015em;text-wrap:balance}
+.hero h2 em{font-style:italic;font-weight:400}
+.lead{font-size:21px;line-height:1.5;columns:2;column-gap:32px;column-rule:1px solid #d9cfbe}
+.lead::first-letter{font-family:"Playfair Display",Georgia,serif;font-size:76px;line-height:.8;float:left;margin:8px 10px 0 0;font-weight:900;color:#8b2e1f}
+.ctas{display:flex;gap:28px;margin-top:32px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 24px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;background:#1c1a17;color:#f6f1e7;border:1px solid #1c1a17;font-family:inherit}
+.btn.link{background:transparent;color:#1c1a17;border:0;border-bottom:1px solid #1c1a17;padding:0;min-height:0;line-height:2}
+.portrait{position:relative;aspect-ratio:4/5;max-width:100%;background:#e5dbc8;border:1px solid #1c1a17;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.portrait svg{width:100%;height:auto;display:block}
+.cap{font-size:13px;font-style:italic;color:#6b5f52;margin-top:10px;text-align:right}
+.pull{padding:40px 56px;border-bottom:1px solid #1c1a17;display:grid;grid-template-columns:1fr 2fr 1fr;gap:32px;align-items:center}
+.pull blockquote{margin:0;grid-column:2;text-align:center;font-size:34px;line-height:1.2;font-style:italic;font-weight:400}
+.pull .rule{height:1px;background:#1c1a17}
+.work{padding:48px 56px;border-bottom:1px solid #1c1a17}
+.sec{display:flex;align-items:baseline;justify-content:space-between;border-bottom:3px double #1c1a17;padding-bottom:10px;margin-bottom:32px}
+.sec h3{margin:0;font-size:36px;font-weight:700}
+.sec span{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6b5f52}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.col{min-width:0}
+.col .thumb{aspect-ratio:3/2;max-width:100%;background:#d9cfbe;border:1px solid #1c1a17;margin-bottom:16px;position:relative}
+.col .thumb::after{content:"Fig.";position:absolute;left:10px;top:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#6b5f52}
+.col h4{margin:0 0 8px;font-size:26px;font-weight:700;line-height:1.15}
+.col p{margin:0;font-size:16px;color:#3f3730}
+.col .meta{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#8b2e1f;margin-bottom:10px}
+.svc{padding:48px 56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-bottom:1px solid #1c1a17}
+.svc div{border-top:1px solid #1c1a17;padding-top:14px}
+.svc b{display:block;font-size:22px;font-weight:700;margin-bottom:6px;font-family:"Playfair Display",Georgia,serif}
+.svc span{font-size:15px;color:#3f3730}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:28px 56px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#6b5f52}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.pull,.cols,.svc,.spec{grid-template-columns:1fr}.pull blockquote{grid-column:1}.lead{columns:1}.mast h1{font-size:48px}.hero h2{font-size:38px}.nav{flex-wrap:wrap;gap:16px}.mast,.nav,.hero,.pull,.work,.svc,.foot,.spec{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<header class="mast">
+  <div class="kicker"><span>Vol. 01 · Toronto</span><span>Portfolio · 2026</span><span>Est. 2024</span></div>
+  <h1 class="d">Anton <em>Ilin</em></h1>
+</header>
+<nav class="nav"><a href="#">Home</a><a href="#">About</a><a href="#">Projects</a><a href="#">Education</a><a href="#">Services</a><a href="#">Contact</a></nav>
+<section class="hero">
+  <div>
+    <div class="eyebrow">AI &amp; Software Engineering Student</div>
+    <h2 class="d">Software that <em>earns its keep</em>, written one careful commit at a time.</h2>
+    <p class="lead">Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+    <div class="ctas"><a class="btn" href="#">View my work</a><a class="btn link" href="#">Get in touch</a></div>
+  </div>
+  <div>
+    <div class="portrait" aria-hidden="true"><svg viewBox="0 0 320 400"><rect width="320" height="400" fill="#e5dbc8"/><circle cx="160" cy="150" r="64" fill="#1c1a17"/><path d="M40 400c0-90 54-140 120-140s120 50 120 140z" fill="#1c1a17"/></svg></div>
+    <div class="cap">The author, Centennial College, 2024 – present.</div>
+  </div>
+</section>
+<section class="pull"><div class="rule"></div><blockquote class="d">“To leverage my skills in React, Java, and C# to create impactful software solutions that enhance user experiences and drive innovation.”</blockquote><div class="rule"></div></section>
+<section class="work">
+  <div class="sec"><h3 class="d">Selected Work</h3><span>Three pieces</span></div>
+  <div class="cols">
+    <article class="col"><div class="thumb"></div><div class="meta">React · RSS · Search</div><h4 class="d">RSS Aggregator</h4><p>A feed aggregator that parses multiple RSS sources, normalizes entries, and renders a searchable UI.</p></article>
+    <article class="col"><div class="thumb" style="background:#8b2e1f"></div><div class="meta">React · Node · Full-stack</div><h4 class="d">TourConnect</h4><p>A full-stack prototype connecting local tour guides with travelers, with a React front end and Node API mock.</p></article>
+    <article class="col"><div class="thumb" style="background:#1c1a17"></div><div class="meta">Testing · API · Security</div><h4 class="d">QA Automation Examples</h4><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p></article>
+  </div>
+</section>
+<section class="svc">
+  <div><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin</span><span>antonilin107@gmail.com</span><span>Email · Projects · Contact</span></footer>
+<div class="spec">
+  <div><b>Variant</b>02 · Editorial Magazine</div>
+  <div><b>Mood</b>light · literary · refined</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#f6f1e7"></i><i style="background:#1c1a17"></i><i style="background:#8b2e1f"></i><i style="background:#d9cfbe"></i></div></div>
+  <div><b>Type &amp; signature move</b>Playfair Display + Source Serif 4. Masthead name, drop cap, two-column lead and a centred pull quote; double rules instead of cards.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2273}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

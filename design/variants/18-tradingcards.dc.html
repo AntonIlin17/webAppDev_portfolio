@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>18 Trading Cards</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+body{margin:0;background:#2f3a4a;color:#1b1f26;font-family:Barlow,system-ui,sans-serif;font-size:16px;line-height:1.5}
+a{color:#1b1f26;text-decoration:none}a:hover{color:#c8102e}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));background:#2f3a4a;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px)}
+.slab{font-family:"Alfa Slab One",Georgia,serif;font-weight:400}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;color:#f4f1ea}
+.nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.nav ul a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;color:#f4f1ea;border-radius:4px;border:2px solid transparent}
+.nav ul a.on{border-color:#f2c230;color:#f2c230}
+.brand{font-family:"Alfa Slab One",serif;font-size:22px;color:#f2c230;display:flex;align-items:center;gap:10px}
+.brand i{display:inline-block;width:28px;height:36px;border-radius:3px;background:#f4f1ea;border:3px solid #f2c230;transform:rotate(-8deg)}
+.page{margin:8px 48px 0;background:#e9e4d8;border-radius:10px;padding:34px 34px 30px;position:relative;box-shadow:0 20px 40px -24px rgba(0,0,0,.7)}
+.holes{position:absolute;left:-14px;top:60px;bottom:60px;width:28px;display:flex;flex-direction:column;justify-content:space-between}
+.holes i{width:28px;height:28px;border-radius:50%;background:#2f3a4a;display:block;box-shadow:inset 0 2px 4px rgba(0,0,0,.6)}
+.hero{display:grid;grid-template-columns:400px 1fr;gap:40px;align-items:center;padding:8px 8px 32px}
+.pocket{background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.7);border-radius:10px;padding:14px;position:relative}
+.card{background:#f4f1ea;border:8px solid #f2c230;border-radius:12px;overflow:hidden;position:relative;transform:rotate(-3deg);box-shadow:0 14px 24px -14px rgba(0,0,0,.6)}
+.card .top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#c8102e;color:#f4f1ea;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.card .top b{font-family:"Alfa Slab One",serif;font-size:16px;letter-spacing:0}
+.card .img{aspect-ratio:1;max-width:100%;background:#1b1f26;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.card .img svg{width:100%;height:auto;display:block}
+.card .img .rk{position:absolute;top:14px;left:-30px;background:#f2c230;color:#1b1f26;font-weight:700;font-size:12px;letter-spacing:.14em;padding:6px 40px;transform:rotate(-35deg)}
+.card .name{padding:14px 14px 6px;font-family:"Alfa Slab One",serif;font-size:30px;line-height:1;color:#1b1f26;text-transform:uppercase}
+.card .pos{padding:0 14px 14px;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#c8102e;display:flex;justify-content:space-between}
+.back{background:#f4f1ea;border:8px solid #f2c230;border-radius:12px;padding:18px;transform:rotate(2deg);box-shadow:0 14px 24px -14px rgba(0,0,0,.6)}
+.back h1{margin:0 0 4px;font-family:"Alfa Slab One",serif;font-size:40px;line-height:1;text-transform:uppercase}
+.back .sub{font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#c8102e;margin-bottom:14px}
+.back p{margin:0 0 14px;font-size:15px;max-width:52ch}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px}
+th,td{padding:6px 8px;border-bottom:1px solid #d3cdbf;text-align:left}
+th{background:#1b1f26;color:#f4f1ea;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:#c8102e;color:#f4f1ea;border-radius:4px;border:2px solid #c8102e}
+.btn.o{background:transparent;color:#1b1f26;border-color:#1b1f26}
+.sec{display:flex;align-items:baseline;justify-content:space-between;padding:10px 8px 18px;border-top:2px dashed rgba(27,31,38,.25)}
+.sec h2{margin:0;font-family:"Alfa Slab One",serif;font-size:26px;text-transform:uppercase;color:#1b1f26}
+.sec span{font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5b6472}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;padding:0 8px 8px}
+.mini{background:#f4f1ea;border:6px solid #1b1f26;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.mini.rare{border-color:#c8102e}.mini.holo{border-color:#f2c230}
+.mini .top{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:#1b1f26;color:#f4f1ea}
+.mini.rare .top{background:#c8102e}.mini.holo .top{background:#f2c230;color:#1b1f26}
+.mini .img{aspect-ratio:16/10;max-width:100%;background:#d3cdbf;border-bottom:3px solid #1b1f26;position:relative}
+.mini.holo .img{background:repeating-linear-gradient(135deg,#d3cdbf 0 10px,#e9e4d8 10px 20px)}
+.mini .b{padding:12px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.mini h3{margin:0;font-family:"Alfa Slab One",serif;font-size:19px;text-transform:uppercase;line-height:1.1}
+.mini p{margin:0;font-size:13.5px;color:#3d4451}
+.mini .st{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.mini .st span{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#e9e4d8;padding:3px 8px;border-radius:3px}
+.svc .mini .b{gap:4px}
+.foot{padding:22px 48px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;font-weight:600;color:#c9cfd8;letter-spacing:.06em}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center;border-top:1px solid #333}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.row3,.spec{grid-template-columns:1fr}.nav ul,.holes{display:none}.page{margin-inline:16px;padding:18px}.nav,.foot,.spec{padding-inline:20px}.card,.back{transform:none}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<header class="nav">
+  <div class="brand"><i></i>Anton Ilin · Series 2024</div>
+  <ul><li><a href="#" class="on">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+</header>
+<div class="page">
+  <div class="holes" aria-hidden="true"><i></i><i></i><i></i></div>
+  <section class="hero">
+    <div class="pocket">
+      <div class="card">
+        <div class="top"><span>Centennial</span><b>AI</b><span>№ 01</span></div>
+        <div class="img" aria-hidden="true"><span class="rk">Rookie 2024</span><svg viewBox="0 0 320 320"><rect width="320" height="320" fill="#1b1f26"/><circle cx="160" cy="125" r="60" fill="#f4f1ea"/><path d="M40 320c0-80 54-120 120-120s120 40 120 120z" fill="#f4f1ea"/></svg></div>
+        <div class="name">Anton Ilin</div>
+        <div class="pos"><span>AI &amp; SE Student</span><span>Toronto</span></div>
+      </div>
+    </div>
+    <div class="back">
+      <h1>Anton Ilin</h1>
+      <div class="sub">Card back · Player profile · AI &amp; Software Engineering Student</div>
+      <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+      <table>
+        <thead><tr><th>Season</th><th>Team</th><th>Position</th><th class="n">Projects</th><th class="n">Langs</th><th class="n">Tests</th></tr></thead>
+        <tbody>
+          <tr><td>2024 –</td><td>Centennial College</td><td>Full-stack / QA</td><td class="n">3</td><td class="n">3</td><td class="n">✓</td></tr>
+          <tr><td colspan="6" style="font-size:12px;color:#5b6472">Bats: React. Throws: Java, C#. Coursework: Web Application Development, Data Structures, Object-Oriented Programming.</td></tr>
+        </tbody>
+      </table>
+      <div class="ctas"><a class="btn" href="#">View my work</a><a class="btn o" href="#">Get in touch</a></div>
+    </div>
+  </section>
+  <div class="sec"><h2>Selected work</h2><span>3 of 3 collected</span></div>
+  <div class="row3">
+    <article class="mini"><div class="top"><span>Common</span><span>№ 02</span></div><div class="img"></div><div class="b"><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="st"><span>React</span><span>RSS</span><span>Search</span></div></div></article>
+    <article class="mini rare"><div class="top"><span>Rare</span><span>№ 03</span></div><div class="img" style="background:#c8102e"></div><div class="b"><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="st"><span>React</span><span>Node</span><span>Full-stack</span></div></div></article>
+    <article class="mini holo"><div class="top"><span>Holo</span><span>№ 04</span></div><div class="img"></div><div class="b"><h3>QA Automation</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="st"><span>Testing</span><span>API</span><span>Security</span></div></div></article>
+  </div>
+  <div class="sec"><h2>Services</h2><span>Insert set</span></div>
+  <div class="row3 svc">
+    <article class="mini"><div class="top"><span>Web Development</span><span>S-1</span></div><div class="b"><p>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</p></div></article>
+    <article class="mini"><div class="top"><span>General Programming</span><span>S-2</span></div><div class="b"><p>Clean, maintainable solutions in Java and C#, from data structures to APIs.</p></div></article>
+    <article class="mini"><div class="top"><span>QA &amp; Testing</span><span>S-3</span></div><div class="b"><p>Thorough test suites covering boundary, negative, and security edge cases.</p></div></article>
+  </div>
+</div>
+<footer class="foot"><span>© 2026 Anton Ilin · Trade offers: antonilin107@gmail.com</span><span>Email · Projects · Contact</span></footer>
+<div class="spec">
+  <div><b>Variant</b>18 · Trading Cards</div>
+  <div><b>Mood</b>mixed · collectible · playful</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#2f3a4a"></i><i style="background:#e9e4d8"></i><i style="background:#f4f1ea"></i><i style="background:#f2c230"></i><i style="background:#c8102e"></i><i style="background:#1b1f26"></i></div></div>
+  <div><b>Type &amp; signature move</b>Alfa Slab One + Barlow. A binder page with ring holes: a rookie card front and stat-table back as the hero, projects as common/rare/holo cards, services as an insert set.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1626}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

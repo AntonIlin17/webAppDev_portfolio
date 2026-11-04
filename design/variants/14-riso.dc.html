@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>14 Risograph Zine</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Work+Sans:wght@400;500;600&display=swap">
+<style>
+body{margin:0;background:#f2eee6;color:#1f1d1b;font-family:"Work Sans",system-ui,sans-serif;font-size:16px;line-height:1.5}
+a{color:#1f1d1b;text-decoration:none}a:hover{color:#ff48b0}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));position:relative;overflow:hidden;background:#f2eee6;background-image:radial-gradient(rgba(31,29,27,.08) .6px,transparent .7px);background-size:4px 4px}
+.A{font-family:Anton,Impact,sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.T{font-family:"Special Elite","Courier New",monospace}
+.pk{color:#ff48b0}.bl{color:#0078bf}
+.mis{text-shadow:2px 1px 0 rgba(0,120,191,.85)}
+.half{background-image:radial-gradient(#ff48b0 1.1px,transparent 1.3px);background-size:6px 6px}
+.halfb{background-image:radial-gradient(#0078bf 1.1px,transparent 1.3px);background-size:6px 6px}
+.ink{mix-blend-mode:multiply}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:3px solid #1f1d1b}
+.nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;font-family:"Special Elite",monospace;font-size:16px}
+.nav ul a{min-height:36px;display:inline-flex;align-items:center;padding:0 6px;transform:rotate(-1deg)}
+.nav ul li:nth-child(even) a{transform:rotate(1.2deg)}
+.nav ul a.on{background:#ff48b0;color:#fff;mix-blend-mode:multiply}
+.brand{font-family:Anton,sans-serif;font-size:26px;text-transform:uppercase;color:#0078bf;transform:rotate(-2deg);display:inline-block}
+.tag{position:absolute;top:84px;right:40px;background:#0078bf;color:#f2eee6;padding:10px 16px;font-family:"Special Elite",monospace;font-size:14px;transform:rotate(6deg);mix-blend-mode:multiply;clip-path:polygon(0 8%,100% 0,97% 100%,3% 92%)}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;padding:56px 48px 40px;position:relative}
+.hero .ey{display:inline-block;background:#1f1d1b;color:#f2eee6;font-family:"Special Elite",monospace;font-size:14px;padding:6px 12px;transform:rotate(-1.5deg);margin-bottom:22px}
+.hero h1{margin:0 0 20px;font-size:118px;line-height:.9;color:#ff48b0;mix-blend-mode:multiply}
+.hero h1 span{display:block;color:#0078bf;font-size:84px;padding-left:40px}
+.hero p{margin:0 0 26px;font-size:18px;max-width:44ch}
+.ctas{display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:50px;padding:0 24px;font-family:Anton,sans-serif;text-transform:uppercase;font-size:20px;letter-spacing:.04em;background:#ff48b0;color:#f2eee6;mix-blend-mode:multiply;transform:rotate(-1deg);clip-path:polygon(2% 0,100% 4%,98% 100%,0 94%)}
+.btn.b{background:#0078bf;transform:rotate(1.5deg)}
+.photo{position:relative;transform:rotate(2.5deg)}
+.photo .m{aspect-ratio:4/5;max-width:100%;background:#0078bf;position:relative;overflow:hidden;clip-path:polygon(1% 2%,99% 0,100% 98%,2% 100%)}
+.photo .m svg{position:absolute;inset:0;width:100%;height:100%}
+.photo .m .dots{position:absolute;inset:0;background-image:radial-gradient(#f2eee6 1.2px,transparent 1.4px);background-size:7px 7px;opacity:.5}
+.photo .cap{position:absolute;left:-18px;bottom:28px;background:#f2eee6;border:2px solid #1f1d1b;padding:8px 12px;font-family:"Special Elite",monospace;font-size:13px;transform:rotate(-4deg)}
+.staple{position:absolute;width:26px;height:8px;border:2px solid #1f1d1b;border-radius:2px;background:#d9d4c9}
+.quote{margin:12px 48px 40px;padding:28px 32px;border-top:3px solid #1f1d1b;border-bottom:3px solid #1f1d1b;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.quote .q{font-family:Anton,sans-serif;font-size:140px;line-height:.6;color:#ff48b0;mix-blend-mode:multiply}
+.quote p{margin:0;font-family:"Special Elite",monospace;font-size:22px;line-height:1.4}
+.quote p b{background:#ff48b0;color:#f2eee6;padding:0 6px;mix-blend-mode:multiply;font-weight:400}
+.work{padding:0 48px 36px}
+.sec{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.sec h2{margin:0;font-size:52px;color:#0078bf;mix-blend-mode:multiply;transform:rotate(-1deg)}
+.sec .T{font-size:14px;background:#1f1d1b;color:#f2eee6;padding:4px 10px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.card{background:#f9f6ef;border:2px solid #1f1d1b;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0;position:relative;box-shadow:5px 5px 0 #0078bf}
+.card:nth-child(2){transform:rotate(1deg);box-shadow:5px 5px 0 #ff48b0}
+.card:nth-child(3){transform:rotate(-.8deg)}
+.card .thumb{aspect-ratio:4/3;max-width:100%;position:relative;border:2px solid #1f1d1b;overflow:hidden}
+.card .thumb::after{content:"";position:absolute;inset:0;background-image:radial-gradient(#1f1d1b 1px,transparent 1.2px);background-size:5px 5px;opacity:.2}
+.card .st{position:absolute;top:-14px;right:-10px;z-index:2;background:#ff48b0;color:#f2eee6;font-family:"Special Elite",monospace;font-size:12px;padding:6px 10px;transform:rotate(8deg);mix-blend-mode:multiply}
+.card h3{margin:6px 0 0;font-family:Anton,sans-serif;text-transform:uppercase;font-size:28px;line-height:1}
+.card p{margin:0;font-size:14px}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;font-family:"Special Elite",monospace;font-size:13px}
+.card .tags span::before{content:"#"}
+.svc{padding:8px 48px 48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+.svc div{border-left:6px solid #0078bf;padding:4px 0 4px 16px;display:flex;flex-direction:column;gap:6px}
+.svc div:nth-child(2){border-color:#ff48b0}
+.svc b{font-family:Anton,sans-serif;text-transform:uppercase;font-size:24px;font-weight:400}
+.svc span{font-family:"Special Elite",monospace;font-size:14px;line-height:1.5}
+.foot{border-top:3px solid #1f1d1b;padding:20px 48px 30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:"Special Elite",monospace;font-size:14px}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.svc,.spec,.quote{grid-template-columns:1fr}.nav ul,.tag{display:none}.hero h1{font-size:60px}.hero h1 span{font-size:44px;padding-left:16px}.quote .q{display:none}.nav,.hero,.work,.svc,.foot,.spec{padding-inline:20px}.quote{margin-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<div class="staple" style="left:50%;top:10px;transform:translateX(-50%) rotate(3deg)" aria-hidden="true"></div>
+<header class="nav">
+  <span class="brand">Anton Ilin</span>
+  <ul><li><a href="#" class="on">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+</header>
+<div class="tag" aria-hidden="true">ISSUE #01 · FREE · TORONTO</div>
+<section class="hero">
+  <div>
+    <span class="ey">AI &amp; Software Engineering Student · Centennial College</span>
+    <h1 class="A mis">Free<br>software<span>for everyone.</span></h1>
+    <p>Hi, I'm Anton Ilin — I build clean, reliable software with React, Java, and C#. Clean architecture, thoughtful interfaces, and code that holds up under real-world use. Printed in two inks, like this page.</p>
+    <div class="ctas"><a class="btn" href="#">View my work</a><a class="btn b" href="#">Get in touch</a></div>
+  </div>
+  <div class="photo">
+    <div class="m" aria-hidden="true"><svg viewBox="0 0 320 400"><rect width="320" height="400" fill="#0078bf"/><circle cx="160" cy="150" r="64" fill="#ff48b0" style="mix-blend-mode:multiply"/><path d="M40 400c0-90 54-140 120-140s120 50 120 140z" fill="#ff48b0" style="mix-blend-mode:multiply"/></svg><div class="dots"></div></div>
+    <div class="cap">fig. me · 2 colour riso</div>
+  </div>
+</section>
+<section class="quote"><span class="q A" aria-hidden="true">“</span><p>I am passionate about <b>bringing back the tradition of creating free software</b> and making it accessible to everyone.</p></section>
+<section class="work">
+  <div class="sec"><h2 class="A">Selected work</h2><span class="T">3 flyers, stapled</span></div>
+  <div class="cards">
+    <article class="card"><span class="st">pink + blue</span><div class="thumb half"></div><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>react</span><span>rss</span><span>search</span></div></article>
+    <article class="card"><span class="st">overprint</span><div class="thumb halfb"></div><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>react</span><span>node</span><span>fullstack</span></div></article>
+    <article class="card"><span class="st">2nd edition</span><div class="thumb" style="background:#1f1d1b"></div><h3>QA Automation</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>testing</span><span>api</span><span>security</span></div></article>
+  </div>
+</section>
+<section class="svc">
+  <div><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin · printed in an edition of ∞</span><span>antonilin107@gmail.com</span></footer>
+<div class="spec">
+  <div><b>Variant</b>14 · Risograph Zine</div>
+  <div><b>Mood</b>light · printed · indie</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#f2eee6"></i><i style="background:#ff48b0"></i><i style="background:#0078bf"></i><i style="background:#1f1d1b"></i></div></div>
+  <div><b>Type &amp; signature move</b>Anton + Special Elite + Work Sans. Two riso inks (fluorescent pink, medium blue) overprinting with multiply, halftone fills, misregistered headline, torn-edge buttons, a staple. His "free software" line is the cover quote.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2015}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

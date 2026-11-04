@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>09 Sketchbook</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&family=Nunito:wght@400;600;700&display=swap">
+<style>
+body{margin:0;background:#fdfaf3;color:#2a2a2a;font-family:Nunito,system-ui,sans-serif;font-size:16px;line-height:1.65;background-image:linear-gradient(transparent 31px,#e4ddd0 31px);background-size:100% 32px}
+a{color:#2a2a2a;text-decoration:none}a:hover{color:#1f6fd1}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));position:relative}
+.margin{position:absolute;left:88px;top:0;bottom:0;width:2px;background:#f0a5a5;opacity:.8}
+.hand{font-family:Caveat,cursive;font-weight:700}
+.ph{font-family:"Patrick Hand",cursive}
+.wob{border:2.5px solid #2a2a2a;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.wob2{border:2.5px solid #2a2a2a;border-radius:15px 255px 15px 225px/225px 15px 255px 15px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:28px 56px 20px 120px}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-family:"Patrick Hand",cursive;font-size:20px}
+.nav ul a{border-bottom:2px dashed transparent}
+.nav ul a:hover{border-bottom-color:#1f6fd1}
+.brand{font-family:Caveat,cursive;font-weight:700;font-size:34px;transform:rotate(-2deg);display:inline-block}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;padding:48px 56px 56px 120px;align-items:center}
+.eyebrow{font-family:Caveat,cursive;font-size:26px;color:#1f6fd1;transform:rotate(-1.5deg);display:inline-block;margin-bottom:8px}
+.hero h1{margin:0 0 20px;font-family:"Patrick Hand",cursive;font-size:76px;line-height:1;font-weight:400;text-wrap:balance}
+.hero h1 mark{background:linear-gradient(transparent 40%,#fff176 40%,#fff176 90%,transparent 90%);padding:0 4px}
+.hero p{margin:0 0 28px;font-size:18px;max-width:46ch}
+.ctas{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;min-height:50px;padding:0 26px;font-family:"Patrick Hand",cursive;font-size:20px;background:#fff176;color:#2a2a2a;font-family:"Patrick Hand"}
+.btn.o{background:#fff}
+.photo{position:relative;transform:rotate(2deg)}
+.photo .m{aspect-ratio:4/5;max-width:100%;background:#fff;padding:16px 16px 56px;box-shadow:0 10px 24px -14px rgba(42,42,42,.5)}
+.photo .m div{background:#dbe7f5;height:100%;display:flex;align-items:flex-end;overflow:hidden}
+.photo svg{width:100%;height:auto;display:block}
+.photo .cap{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:Caveat,cursive;font-size:22px}
+.tape{position:absolute;width:110px;height:30px;background:rgba(255,241,118,.7);top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);border:1px dashed rgba(42,42,42,.25)}
+.arrow{position:absolute;left:-120px;top:40%;font-family:Caveat,cursive;font-size:22px;color:#1f6fd1;transform:rotate(-8deg);width:120px}
+.work{padding:32px 56px 48px 120px}
+.sec{display:flex;align-items:center;gap:16px;margin-bottom:32px}
+.sec h2{margin:0;font-family:"Patrick Hand",cursive;font-weight:400;font-size:44px}
+.sec svg{width:120px;height:20px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.card{background:#fff;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0;transform:rotate(-.6deg)}
+.card:nth-child(2){transform:rotate(.8deg)}
+.card:nth-child(3){transform:rotate(-.3deg)}
+.card .thumb{aspect-ratio:4/3;max-width:100%;background:#dbe7f5;border:2px dashed #2a2a2a;position:relative}
+.card .thumb::after{content:"sketch here";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Caveat,cursive;font-size:22px;color:#7d8a99}
+.card h3{margin:6px 0 0;font-family:"Patrick Hand",cursive;font-weight:400;font-size:28px;line-height:1.1}
+.card p{margin:0;font-size:15px}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;font-family:Caveat,cursive;font-size:18px;color:#1f6fd1}
+.svc{padding:16px 56px 64px 120px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.svc div{padding:22px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.svc b{font-family:"Patrick Hand",cursive;font-weight:400;font-size:26px}
+.svc span{font-size:15px}
+.chk{display:inline-flex;align-items:center;gap:10px;font-family:Caveat,cursive;font-size:20px}
+.chk i{width:20px;height:20px;border:2px solid #2a2a2a;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:16px;color:#1f6fd1}
+.foot{padding:20px 56px 36px 120px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:"Patrick Hand",cursive;font-size:18px;color:#6b6b6b}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.margin,.arrow{display:none}.hero,.cards,.svc,.spec{grid-template-columns:1fr}.nav ul{display:none}.hero h1{font-size:44px}.nav,.hero,.work,.svc,.foot,.spec{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<div class="margin" aria-hidden="true"></div>
+<header class="nav">
+  <span class="brand">Anton Ilin</span>
+  <ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+</header>
+<section class="hero">
+  <div>
+    <span class="eyebrow">↳ AI &amp; Software Engineering student</span>
+    <h1>Hi, I'm Anton. I make <mark>clean, reliable</mark> software.</h1>
+    <p>A student in AI &amp; Software Engineering at Centennial College, building with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+    <div class="ctas"><a class="btn wob" href="#">View my work</a><a class="btn o wob2" href="#">Get in touch</a><span class="hand" style="font-size:22px;color:#1f6fd1">← start here!</span></div>
+  </div>
+  <div class="photo">
+    <div class="arrow" aria-hidden="true">me, probably<br>debugging →</div>
+    <div class="tape" aria-hidden="true"></div>
+    <div class="m"><div aria-hidden="true"><svg viewBox="0 0 320 400"><circle cx="160" cy="150" r="64" fill="none" stroke="#2a2a2a" stroke-width="4"/><path d="M40 400c0-90 54-140 120-140s120 50 120 140" fill="none" stroke="#2a2a2a" stroke-width="4"/></svg></div><div class="cap">Toronto, 2026</div></div>
+  </div>
+</section>
+<section class="work">
+  <div class="sec"><h2>Selected work</h2><svg viewBox="0 0 120 20" aria-hidden="true"><path d="M2 12c20-8 40 8 60 0s40-8 56 2" fill="none" stroke="#1f6fd1" stroke-width="3" stroke-linecap="round"/></svg></div>
+  <div class="cards">
+    <article class="card wob"><div class="thumb"></div><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>#react</span><span>#rss</span><span>#search</span></div></article>
+    <article class="card wob2"><div class="thumb" style="background:#fde2e2"></div><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>#react</span><span>#node</span><span>#fullstack</span></div></article>
+    <article class="card wob"><div class="thumb" style="background:#e3f5e1"></div><h3>QA Automation Examples</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>#testing</span><span>#api</span><span>#security</span></div></article>
+  </div>
+</section>
+<section class="svc">
+  <div class="wob2"><span class="chk"><i>✓</i>can do</span><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div class="wob"><span class="chk"><i>✓</i>can do</span><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div class="wob2"><span class="chk"><i>✓</i>love it</span><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin · page 1 of 1</span><span>antonilin107@gmail.com</span></footer>
+<div class="spec">
+  <div><b>Variant</b>09 · Sketchbook</div>
+  <div><b>Mood</b>light · handmade · personal</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#fdfaf3"></i><i style="background:#2a2a2a"></i><i style="background:#fff176"></i><i style="background:#1f6fd1"></i><i style="background:#f0a5a5"></i></div></div>
+  <div><b>Type &amp; signature move</b>Patrick Hand + Caveat + Nunito. Ruled notebook paper with a red margin, wobbly hand-drawn borders, taped polaroid, highlighter marks and scribbled annotations.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1997}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

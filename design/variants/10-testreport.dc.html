@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>10 QA Test Report</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+body{margin:0;background:#fcfcfa;color:#17201a;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55}
+a{color:#17201a;text-decoration:none}a:hover{color:#1f8a4c}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+.ok{color:#1f8a4c}.skip{color:#b7860b}
+.run{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 40px;background:#17201a;color:#e9efe9;font-family:"IBM Plex Mono",monospace;font-size:13px;flex-wrap:wrap}
+.run .pill{display:inline-flex;align-items:center;gap:8px;background:#1f8a4c;color:#fff;padding:3px 10px;border-radius:3px;font-weight:600}
+.run ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+.run ul a{color:#e9efe9;opacity:.8}.run ul a.on{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.hero{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;padding:56px 40px 40px;border-bottom:1px solid #dfe3df;align-items:start}
+.sum{border:1px solid #dfe3df;border-radius:6px;overflow:hidden}
+.sum .h{background:#eef5ef;padding:12px 18px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:#3d5a45;border-bottom:1px solid #dfe3df;display:flex;justify-content:space-between}
+.sum .big{padding:24px 18px 10px;display:flex;align-items:baseline;gap:14px}
+.sum .big b{font-size:88px;line-height:.9;font-weight:700;letter-spacing:-.04em;color:#1f8a4c;font-variant-numeric:tabular-nums}
+.sum .big span{font-size:22px;font-weight:600}
+.sum .row{display:grid;grid-template-columns:1fr auto;padding:8px 18px;font-family:"IBM Plex Mono",monospace;font-size:13px;border-top:1px dashed #dfe3df}
+.sum .row i{font-style:normal;color:#5d6b60}
+.bar{height:8px;background:#e5ebe6;margin:14px 18px 18px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:#1f8a4c}
+.suite{font-family:"IBM Plex Mono",monospace;font-size:14px}
+.suite .d{font-weight:600;font-size:15px;margin:0 0 10px;color:#17201a}
+.suite .d::before{content:"describe(";color:#5d6b60;font-weight:400}.suite .d::after{content:")";color:#5d6b60;font-weight:400}
+.it{display:grid;grid-template-columns:22px 1fr auto;gap:12px;padding:7px 0 7px 18px;border-left:2px solid #e5ebe6;align-items:baseline}
+.it .t{color:#17201a}.it .t em{font-style:normal;color:#5d6b60}
+.it .ms{color:#8a958d;font-size:12px;font-variant-numeric:tabular-nums}
+.h1{font-family:"IBM Plex Sans",sans-serif;font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1.05;margin:0 0 10px;text-wrap:balance}
+.lead{font-size:17px;color:#3d4a40;max-width:56ch;margin:0 0 22px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 0}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:4px;background:#1f8a4c;color:#fff;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:14px;border:1px solid #1f8a4c}
+.btn.o{background:#fff;color:#17201a;border-color:#c9d1cb}
+.sec{padding:40px 40px 8px}
+.sec h2{margin:0 0 6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#5d6b60;font-weight:600}
+.sec p{margin:0 0 20px;font-size:15px;color:#3d4a40}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:0 40px 40px}
+.card{border:1px solid #dfe3df;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card .h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f4f6f4;border-bottom:1px solid #dfe3df;font-family:"IBM Plex Mono",monospace;font-size:12px}
+.card .h b{font-weight:600}
+.card .h span{background:#1f8a4c;color:#fff;padding:2px 8px;border-radius:3px;font-weight:600}
+.card .cov{height:120px;display:grid;grid-template-columns:repeat(12,1fr);gap:3px;padding:12px 14px;background:#fff}
+.card .cov i{display:block;background:#1f8a4c;border-radius:1px;opacity:.9}
+.card .cov i.n{background:#e5ebe6}
+.card .b{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
+.card p{margin:0;font-size:14px;color:#3d4a40}
+.card .its{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#3d4a40;display:flex;flex-direction:column;gap:4px;margin-top:auto;padding-top:8px;border-top:1px dashed #dfe3df}
+table{width:100%;border-collapse:collapse;font-family:"IBM Plex Mono",monospace;font-size:13px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid #dfe3df}
+th{font-weight:600;color:#5d6b60;font-size:12px;text-transform:uppercase;letter-spacing:.08em;background:#f4f6f4}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.pb{display:inline-block;width:120px;height:8px;background:#e5ebe6;vertical-align:middle;margin-right:10px;border-radius:2px;overflow:hidden}
+.pb i{display:block;height:100%;background:#1f8a4c}
+.tbl{padding:0 40px 40px}
+.foot{padding:18px 40px 28px;border-top:1px solid #dfe3df;font-family:"IBM Plex Mono",monospace;font-size:12px;color:#5d6b60;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.spec{grid-template-columns:1fr}.run ul{display:none}.run,.hero,.sec,.cards,.tbl,.foot,.spec{padding-inline:20px}.h1{font-size:30px}.sum .big b{font-size:60px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<header class="run">
+  <span><span class="pill">PASS</span>&nbsp; anton-ilin/portfolio.spec.js</span>
+  <ul><li><a href="#" class="on">home</a></li><li><a href="#">about</a></li><li><a href="#">projects</a></li><li><a href="#">education</a></li><li><a href="#">services</a></li><li><a href="#">contact</a></li></ul>
+  <span>Ran all test suites · 1.84 s</span>
+</header>
+<section class="hero">
+  <div class="sum">
+    <div class="h"><span>Test Suites: 4 passed, 4 total</span><span>v2026.11</span></div>
+    <div class="big"><b>24</b><span class="ok">passed</span></div>
+    <div class="bar"><i></i></div>
+    <div class="row"><span>Tests</span><i><span class="ok">24 passed</span>, 0 failed, 0 skipped</i></div>
+    <div class="row"><span>Snapshots</span><i>3 projects, 3 services</i></div>
+    <div class="row"><span>Subject</span><i>Anton Ilin · Toronto</i></div>
+    <div class="row"><span>Time</span><i>2024 – present</i></div>
+  </div>
+  <div>
+    <h1 class="h1">Software that passes the tests it writes for itself.</h1>
+    <p class="lead">Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#.</p>
+    <div class="suite">
+      <p class="d">'Anton Ilin'</p>
+      <div class="it"><span class="ok">✓</span><span class="t">is an AI &amp; Software Engineering student <em>at Centennial College</em></span><span class="ms">4 ms</span></div>
+      <div class="it"><span class="ok">✓</span><span class="t">builds front ends with React <em>and back ends in Java and C#</em></span><span class="ms">6 ms</span></div>
+      <div class="it"><span class="ok">✓</span><span class="t">writes boundary, negative and security test cases <em>before shipping</em></span><span class="ms">3 ms</span></div>
+      <div class="it"><span class="ok">✓</span><span class="t">cares about clean architecture and thoughtful interfaces</span><span class="ms">2 ms</span></div>
+      <div class="it"><span class="ok">✓</span><span class="t">responds to email <em>(antonilin107@gmail.com)</em></span><span class="ms">1 ms</span></div>
+    </div>
+    <div class="ctas"><a class="btn" href="#">▶ View my work</a><a class="btn o" href="#">Get in touch</a></div>
+  </div>
+</section>
+<section class="sec"><h2>Suites · Selected work</h2><p>Each project is its own describe block. Green squares are passing cases.</p></section>
+<div class="cards">
+  <article class="card"><div class="h"><b>rss-aggregator.spec.js</b><span>PASS</span></div><div class="cov" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="b"><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="its"><span class="ok">✓ parses three feeds into one normalized list</span><span class="ok">✓ search filters by title and source</span><span class="ok">✓ handles a malformed feed without crashing</span></div></div></article>
+  <article class="card"><div class="h"><b>tourconnect.spec.js</b><span>PASS</span></div><div class="cov" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="n"></i><i class="n"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="b"><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="its"><span class="ok">✓ lists guides for a chosen city</span><span class="ok">✓ booking form validates dates</span><span class="skip">○ payments (out of scope for prototype)</span></div></div></article>
+  <article class="card"><div class="h"><b>user-api.spec.js</b><span>PASS</span></div><div class="cov" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="b"><h3>QA Automation Examples</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="its"><span class="ok">✓ rejects pagination beyond the last page</span><span class="ok">✓ locks the account after repeated failures</span><span class="ok">✓ expires the session and refreshes the JWT</span></div></div></article>
+</div>
+<section class="sec"><h2>Coverage · Services &amp; stack</h2><p>What I can take on, and how much of each I use day to day.</p></section>
+<div class="tbl">
+  <table>
+    <thead><tr><th>File</th><th>What it covers</th><th style="text-align:right">% Stmts</th></tr></thead>
+    <tbody>
+      <tr><td>web-development</td><td>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</td><td class="n"><span class="pb"><i style="width:92%"></i></span>92</td></tr>
+      <tr><td>general-programming</td><td>Clean, maintainable solutions in Java and C#, from data structures to APIs.</td><td class="n"><span class="pb"><i style="width:84%"></i></span>84</td></tr>
+      <tr><td>qa-and-testing</td><td>Thorough test suites covering boundary, negative, and security edge cases.</td><td class="n"><span class="pb"><i style="width:96%"></i></span>96</td></tr>
+      <tr><td>education</td><td>Centennial College · AI &amp; Software Engineering (Advanced Diploma) · 2024 – present</td><td class="n"><span class="pb"><i style="width:60%"></i></span>in progress</td></tr>
+    </tbody>
+  </table>
+</div>
+<footer class="foot"><span>© 2026 Anton Ilin · Ran all test suites.</span><span>antonilin107@gmail.com · Done in 1.84 s</span></footer>
+<div class="spec">
+  <div><b>Variant</b>10 · QA Test Report</div>
+  <div><b>Mood</b>light · precise · witty</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#fcfcfa"></i><i style="background:#17201a"></i><i style="background:#1f8a4c"></i><i style="background:#e5ebe6"></i><i style="background:#b7860b"></i></div></div>
+  <div><b>Type &amp; signature move</b>IBM Plex Sans + Mono. The whole page is a passing test run: a summary card, the bio as describe/it cases with timings, projects as spec files with coverage grids, services as a coverage table.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1729}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

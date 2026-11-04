@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>12 Transit Map</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;900&display=swap">
+<style>
+body{margin:0;background:#fbfaf6;color:#231f20;font-family:Overpass,system-ui,sans-serif;font-size:16px;line-height:1.5}
+a{color:#231f20;text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:4px}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.y{background:#F8C300}.g{background:#00923F}.p{background:#A21A68}
+.rd{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-weight:900;font-size:13px;color:#231f20;padding-top:2px;flex:none}
+.rd.g,.rd.p{color:#fff}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;border-bottom:4px solid #231f20;background:#fff}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-weight:700;font-size:14px}
+.nav ul a{display:inline-flex;align-items:center;gap:8px;min-height:40px}
+.nav ul i{width:14px;height:14px;border-radius:50%;border:2px solid #231f20;display:inline-block;background:#fff}
+.nav ul a.on i{background:#231f20}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:20px;letter-spacing:-.01em}
+.brand .box{background:#231f20;color:#F8C300;padding:6px 10px 3px;font-size:13px;letter-spacing:.08em}
+.hero{display:grid;grid-template-columns:1fr 1.25fr;gap:40px;padding:48px 48px 40px;align-items:center}
+.sign{background:#231f20;color:#fff;padding:22px 26px 18px;display:inline-block;margin-bottom:22px;border-left:14px solid #F8C300}
+.sign small{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#F8C300;font-weight:700;margin-bottom:6px}
+.sign b{font-size:20px;font-weight:700}
+.hero h1{margin:0 0 14px;font-size:64px;line-height:1;font-weight:900;letter-spacing:-.03em;text-wrap:balance}
+.hero p{margin:0 0 24px;font-size:17px;max-width:46ch;color:#3d393a}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px 0 14px;font-weight:700;font-size:15px;background:#231f20;color:#fff;border-radius:3px}
+.btn.o{background:#fff;color:#231f20;border:2px solid #231f20}
+.map{background:#fff;border:2px solid #231f20;border-radius:6px;padding:14px;position:relative}
+.map svg{width:100%;height:auto;display:block;font-family:Overpass,system-ui,sans-serif}
+.map .leg{position:absolute;right:22px;top:20px;background:#fbfaf6;border:1px solid #231f20;padding:10px 12px;font-size:12px;font-weight:700;display:flex;flex-direction:column;gap:6px}
+.map .leg span{display:flex;align-items:center;gap:8px}
+.map .leg i{width:22px;height:6px;display:inline-block;border-radius:3px}
+.strip{display:flex;gap:0;border-top:4px solid #231f20;border-bottom:4px solid #231f20}
+.strip div{flex:1;padding:14px 20px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;border-right:2px solid #231f20}
+.strip div:last-child{border-right:0}
+.work{padding:48px 48px 24px}
+.sec{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.sec h2{margin:0;font-size:34px;font-weight:900;letter-spacing:-.02em;padding-top:4px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.card{border:2px solid #231f20;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0;background:#fff}
+.card .h{display:flex;align-items:center;gap:12px;padding:12px 16px;font-weight:900;font-size:16px}
+.card .h small{margin-left:auto;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.card .pl{height:110px;position:relative;background:#fbfaf6;border-top:2px solid #231f20;border-bottom:2px solid #231f20}
+.card .pl::before{content:"";position:absolute;left:0;right:0;top:50%;height:10px;margin-top:-5px;background:#F8C300}
+.card .pl i{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:3px solid #231f20}
+.card .b{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{margin:0;font-size:22px;font-weight:900;letter-spacing:-.01em}
+.card p{margin:0;font-size:14px;color:#3d393a}
+.card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;font-size:12px;font-weight:700}
+.card .tags span{border:2px solid #231f20;border-radius:999px;padding:2px 9px 0}
+.status{padding:24px 48px 48px}
+.status h2{margin:0 0 16px;font-size:24px;font-weight:900}
+table{width:100%;border-collapse:collapse;background:#fff;border:2px solid #231f20}
+td{padding:14px 16px;border-bottom:2px solid #231f20;vertical-align:middle;font-size:15px}
+tr:last-child td{border-bottom:0}
+td.ok{white-space:nowrap;font-weight:700;color:#00923F}
+td.ok::before{content:"● ";}
+td b{font-size:17px;font-weight:900}
+.foot{padding:20px 48px 30px;border-top:4px solid #231f20;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px;font-weight:600;color:#3d393a}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.spec{grid-template-columns:1fr}.nav ul{display:none}.strip{flex-direction:column}.strip div{border-right:0;border-bottom:2px solid #231f20}.hero h1{font-size:40px}.nav,.hero,.work,.status,.foot,.spec{padding-inline:20px}.map .leg{display:none}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<header class="nav">
+  <div class="brand"><span class="box">AI</span>Anton Ilin</div>
+  <ul><li><a href="#" class="on"><i></i>Home</a></li><li><a href="#"><i></i>About</a></li><li><a href="#"><i></i>Projects</a></li><li><a href="#"><i></i>Education</a></li><li><a href="#"><i></i>Services</a></li><li><a href="#"><i></i>Contact</a></li></ul>
+</header>
+<section class="hero">
+  <div>
+    <div class="sign"><small>Now arriving</small><b>AI &amp; Software Engineering Student</b></div>
+    <h1>Next stop: Anton Ilin.</h1>
+    <p>Hi — I'm a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. Three lines, one interchange: front end, back end, and testing all meet here.</p>
+    <div class="ctas"><a class="btn" href="#"><span class="rd y">1</span>View my work</a><a class="btn o" href="#"><span class="rd p">4</span>Get in touch</a></div>
+  </div>
+  <div class="map">
+    <div class="leg"><span><i class="y"></i>Line 1 · Projects</span><span><i class="g"></i>Line 2 · Stack</span><span><i class="p"></i>Line 4 · Education</span></div>
+    <svg viewBox="0 0 640 440" role="img" aria-label="Transit-style map of the portfolio">
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="12">
+        <path d="M60 400 L200 260 L440 260 L560 140" stroke="#F8C300"/>
+        <path d="M40 180 L200 180 L280 260 L360 260 L440 340 L600 340" stroke="#00923F"/>
+        <path d="M320 50 L320 420" stroke="#A21A68"/>
+      </g>
+      <g fill="#fff" stroke-width="4">
+        <circle cx="120" cy="340" r="8" stroke="#F8C300"/><circle cx="440" cy="260" r="8" stroke="#F8C300"/><circle cx="520" cy="180" r="8" stroke="#F8C300"/>
+        <circle cx="100" cy="180" r="8" stroke="#00923F"/><circle cx="180" cy="180" r="8" stroke="#00923F"/><circle cx="520" cy="340" r="8" stroke="#00923F"/><circle cx="590" cy="340" r="8" stroke="#00923F"/>
+        <circle cx="320" cy="110" r="8" stroke="#A21A68"/><circle cx="320" cy="400" r="8" stroke="#A21A68"/>
+        <circle cx="320" cy="260" r="15" stroke="#231f20" stroke-width="5"/>
+      </g>
+      <g font-size="13" font-weight="700" fill="#231f20">
+        <text x="136" y="345">RSS Aggregator</text>
+        <text x="452" y="246">TourConnect</text>
+        <text x="534" y="176">QA Automation</text>
+        <text x="86" y="166">React</text><text x="168" y="166">Java</text>
+        <text x="512" y="364">C#</text><text x="572" y="364">Node</text>
+        <text x="334" y="106">Centennial College · 2024</text>
+        <text x="334" y="404">Get in touch</text>
+        <text x="342" y="252" font-size="16" font-weight="900">Anton Ilin</text>
+        <text x="342" y="270" font-size="11" fill="#3d393a">Interchange · You are here</text>
+      </g>
+      <g font-size="11" font-weight="700">
+        <rect x="26" y="392" width="22" height="22" rx="11" fill="#F8C300"/><text x="33" y="408" fill="#231f20">1</text>
+        <rect x="10" y="168" width="22" height="22" rx="11" fill="#00923F"/><text x="17" y="184" fill="#fff">2</text>
+        <rect x="309" y="22" width="22" height="22" rx="11" fill="#A21A68"/><text x="316" y="38" fill="#fff">4</text>
+      </g>
+    </svg>
+  </div>
+</section>
+<div class="strip"><div><span class="rd y">1</span>Projects · 3 stations</div><div><span class="rd g">2</span>Stack · React, Java, C#, Node</div><div><span class="rd p">4</span>Education · Centennial College, 2024 –</div><div>Toronto, ON · antonilin107@gmail.com</div></div>
+<section class="work">
+  <div class="sec"><span class="rd y" style="width:34px;height:34px;font-size:16px">1</span><h2>Line 1 · Selected work</h2></div>
+  <div class="cards">
+    <article class="card"><div class="h y"><span class="rd y" style="background:#231f20;color:#F8C300">1</span>RSS Aggregator<small>Station 01</small></div><div class="pl" aria-hidden="true" style="--c:#F8C300"><i style="left:50%"></i></div><div class="b"><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>React</span><span>RSS</span><span>Search</span></div></div></article>
+    <article class="card"><div class="h y"><span class="rd y" style="background:#231f20;color:#F8C300">1</span>TourConnect<small>Station 02</small></div><div class="pl" aria-hidden="true"><i style="left:50%"></i></div><div class="b"><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>React</span><span>Node</span><span>Full-stack</span></div></div></article>
+    <article class="card"><div class="h y"><span class="rd y" style="background:#231f20;color:#F8C300">1</span>QA Automation<small>Terminus</small></div><div class="pl" aria-hidden="true"><i style="left:50%"></i></div><div class="b"><h3>QA Automation Examples</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>Testing</span><span>API</span><span>Security</span></div></div></article>
+  </div>
+</section>
+<section class="status">
+  <h2>Service status · What I do</h2>
+  <table>
+    <tr><td style="width:60px"><span class="rd g">2</span></td><td><b>Web Development</b><br>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</td><td class="ok">Normal service</td></tr>
+    <tr><td><span class="rd g">2</span></td><td><b>General Programming</b><br>Clean, maintainable solutions in Java and C#, from data structures to APIs.</td><td class="ok">Normal service</td></tr>
+    <tr><td><span class="rd g">2</span></td><td><b>QA &amp; Testing</b><br>Thorough test suites covering boundary, negative, and security edge cases.</td><td class="ok">Normal service</td></tr>
+  </table>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin · Map not to scale</span><span>Email · Projects · Contact</span></footer>
+<div class="spec">
+  <div><b>Variant</b>12 · Transit Map</div>
+  <div><b>Mood</b>light · civic · Toronto</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#fbfaf6"></i><i style="background:#231f20"></i><i style="background:#F8C300"></i><i style="background:#00923F"></i><i style="background:#A21A68"></i></div></div>
+  <div><b>Type &amp; signature move</b>Overpass 900. A Beck-style subway diagram where projects, stack and education are three lines meeting at one interchange; station signs for CTAs, a service-status table for services.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1773}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

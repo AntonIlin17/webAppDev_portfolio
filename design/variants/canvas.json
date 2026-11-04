@@ -1,0 +1,249 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-04T06:39:02Z"
+ },
+ "title": "Portfolio Design Variants",
+ "launch": {
+  "view": "canvas"
+ },
+ "pages": [],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 1934,
+   "title": "01 Swiss Grid",
+   "expand": "fill"
+  },
+  "02-editorial.dc.html": {
+   "x": 1360,
+   "y": 0,
+   "w": 1280,
+   "h": 2273,
+   "title": "02 Editorial Magazine",
+   "expand": "fill"
+  },
+  "03-zen.dc.html": {
+   "x": 2720,
+   "y": 0,
+   "w": 1280,
+   "h": 2360,
+   "title": "03 Zen Minimal",
+   "expand": "fill"
+  },
+  "04-bento.dc.html": {
+   "x": 4080,
+   "y": 0,
+   "w": 1280,
+   "h": 1936,
+   "title": "04 Bento Dashboard",
+   "expand": "fill"
+  },
+  "05-scandi.dc.html": {
+   "x": 0,
+   "y": 2720,
+   "w": 1280,
+   "h": 2243,
+   "title": "05 Scandinavian Warm",
+   "expand": "fill"
+  },
+  "06-neobrutal.dc.html": {
+   "x": 1360,
+   "y": 2720,
+   "w": 1280,
+   "h": 1906,
+   "title": "06 Neo-Brutalist Pop",
+   "expand": "fill"
+  },
+  "07-brutalist.dc.html": {
+   "x": 2720,
+   "y": 2720,
+   "w": 1280,
+   "h": 1389,
+   "title": "07 Raw Brutalist",
+   "expand": "fill"
+  },
+  "08-bauhaus.dc.html": {
+   "x": 4080,
+   "y": 2720,
+   "w": 1280,
+   "h": 1991,
+   "title": "08 Bauhaus Geometric",
+   "expand": "fill"
+  },
+  "09-sketchbook.dc.html": {
+   "x": 0,
+   "y": 5323,
+   "w": 1280,
+   "h": 1997,
+   "title": "09 Sketchbook",
+   "expand": "fill"
+  },
+  "10-testreport.dc.html": {
+   "x": 1360,
+   "y": 5323,
+   "w": 1280,
+   "h": 1729,
+   "title": "10 QA Test Report",
+   "expand": "fill"
+  },
+  "11-clay.dc.html": {
+   "x": 2720,
+   "y": 5323,
+   "w": 1280,
+   "h": 1914,
+   "title": "11 Claymorphism",
+   "expand": "fill"
+  },
+  "12-transit.dc.html": {
+   "x": 4080,
+   "y": 5323,
+   "w": 1280,
+   "h": 1773,
+   "title": "12 Transit Map",
+   "expand": "fill"
+  },
+  "13-departures.dc.html": {
+   "x": 0,
+   "y": 7680,
+   "w": 1280,
+   "h": 1656,
+   "title": "13 Departures Board",
+   "expand": "fill"
+  },
+  "14-riso.dc.html": {
+   "x": 1360,
+   "y": 7680,
+   "w": 1280,
+   "h": 2015,
+   "title": "14 Risograph Zine",
+   "expand": "fill"
+  },
+  "15-terminal.dc.html": {
+   "x": 2720,
+   "y": 7680,
+   "w": 1280,
+   "h": 1361,
+   "title": "15 Terminal",
+   "expand": "fill"
+  },
+  "16-ide.dc.html": {
+   "x": 4080,
+   "y": 7680,
+   "w": 1280,
+   "h": 1949,
+   "title": "16 IDE Window",
+   "expand": "fill"
+  },
+  "17-fieldguide.dc.html": {
+   "x": 0,
+   "y": 10055,
+   "w": 1280,
+   "h": 1991,
+   "title": "17 Field Guide",
+   "expand": "fill"
+  },
+  "18-tradingcards.dc.html": {
+   "x": 1360,
+   "y": 10055,
+   "w": 1280,
+   "h": 1626,
+   "title": "18 Trading Cards",
+   "expand": "fill"
+  },
+  "19-pixel.dc.html": {
+   "x": 2720,
+   "y": 10055,
+   "w": 1280,
+   "h": 1967,
+   "title": "19 Pixel Arcade",
+   "expand": "fill"
+  },
+  "20-blueprint.dc.html": {
+   "x": 4080,
+   "y": 10055,
+   "w": 1280,
+   "h": 1878,
+   "title": "20 Blueprint",
+   "expand": "fill"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "02-editorial.dc.html",
+  "03-zen.dc.html",
+  "04-bento.dc.html",
+  "05-scandi.dc.html",
+  "06-neobrutal.dc.html",
+  "07-brutalist.dc.html",
+  "08-bauhaus.dc.html",
+  "09-sketchbook.dc.html",
+  "10-testreport.dc.html",
+  "11-clay.dc.html",
+  "12-transit.dc.html",
+  "13-departures.dc.html",
+  "14-riso.dc.html",
+  "15-terminal.dc.html",
+  "16-ide.dc.html",
+  "17-fieldguide.dc.html",
+  "18-tradingcards.dc.html",
+  "19-pixel.dc.html",
+  "20-blueprint.dc.html"
+ ],
+ "notes": {
+  "intro": {
+   "x": 0,
+   "y": -700,
+   "text": "Portfolio Design Variants \u00b7 20 directions for antonilin.dev",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "row1": {
+   "x": 0,
+   "y": -300,
+   "text": "Row 1 \u00b7 Light & structured",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "row2": {
+   "x": 0,
+   "y": 2420,
+   "text": "Row 2 \u00b7 Warm & playful",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "row3": {
+   "x": 0,
+   "y": 5023,
+   "text": "Row 3 \u00b7 Handmade & soft",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "row4": {
+   "x": 0,
+   "y": 7380,
+   "text": "Row 4 \u00b7 Dev tools & print",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "row5": {
+   "x": 0,
+   "y": 9755,
+   "text": "Row 5 \u00b7 Objects & documents",
+   "kind": "title1",
+   "maxW": 5360
+  },
+  "howto": {
+   "x": 0,
+   "y": -560,
+   "w": 1280,
+   "text": "How to use this canvas: open any board full-size, then comment on it (or reply in chat with its number) with what to keep, drop, or combine. Every board uses the real site copy and the same page structure (nav, hero, selected work, services, footer) so only the design changes. The grey strip at the bottom of each board is a spec card, not part of the design.",
+   "fill": "gray",
+   "size": "m"
+  }
+ },
+ "designSystems": []
+}

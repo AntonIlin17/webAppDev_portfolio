@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>19 Pixel Arcade</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
+<style>
+body{margin:0;background:#1b1b2f;color:#f0f0f0;font-family:VT323,"Courier New",monospace;font-size:22px;line-height:1.35;color-scheme:dark}
+a{color:#2bd1fc;text-decoration:none}a:hover{color:#ffcc00}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));position:relative;overflow:hidden;background:#1b1b2f;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:16px 16px}
+.crt{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.55) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 2px,transparent 2px 4px)}
+.px{font-family:"Press Start 2P",monospace;line-height:1.5}
+.pb{border:4px solid #f0f0f0;box-shadow:0 0 0 4px #1b1b2f,0 0 0 8px #f0f0f0;image-rendering:pixelated}
+.hud{display:flex;justify-content:space-between;align-items:center;padding:20px 56px;background:#0e0e1c;border-bottom:4px solid #f0f0f0;font-family:"Press Start 2P",monospace;font-size:11px;position:relative;gap:16px;flex-wrap:wrap}
+.hud .l{display:flex;gap:28px;align-items:center}
+.hud .hp{display:flex;gap:4px}.hud .hp i{width:14px;height:14px;background:#ff3864;display:block;clip-path:polygon(50% 100%,0 40%,0 15%,25% 0,50% 20%,75% 0,100% 15%,100% 40%)}
+.hud .sc{color:#ffcc00}
+.nav{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-family:"Press Start 2P",monospace;font-size:10px}
+.nav a.on{color:#ffcc00}.nav a.on::before{content:"▶ "}
+.hero{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:56px;padding:72px 56px 56px;align-items:center}
+.lvl{display:inline-block;background:#ffcc00;color:#1b1b2f;font-family:"Press Start 2P",monospace;font-size:10px;padding:8px 12px;margin-bottom:22px}
+.hero h1{margin:0 0 18px;font-family:"Press Start 2P",monospace;font-size:44px;line-height:1.3;color:#ffcc00;text-shadow:4px 4px 0 #ff3864;text-wrap:balance}
+.hero p{margin:0 0 28px;max-width:44ch;font-size:24px;color:#d7d7e6}
+.ctas{display:flex;gap:18px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:50px;padding:0 22px;font-family:"Press Start 2P",monospace;font-size:11px;background:#2bd1fc;color:#1b1b2f;border:4px solid #f0f0f0;box-shadow:4px 4px 0 #0e0e1c}
+.btn.r{background:#ff3864;color:#fff}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #0e0e1c}
+.sprite{position:relative;padding:20px;background:#0e0e1c}
+.sprite .m{aspect-ratio:1;max-width:100%;background:#2bd1fc;display:grid;grid-template-columns:repeat(16,1fr);grid-auto-rows:1fr}
+.sprite .m i{display:block}
+.sprite .cap{font-family:"Press Start 2P",monospace;font-size:10px;text-align:center;margin-top:16px;color:#ffcc00}
+.xp{padding:0 56px 48px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;position:relative}
+.xp div{background:#0e0e1c;padding:16px;font-family:"Press Start 2P",monospace;font-size:10px}
+.xp b{display:block;color:#ffcc00;margin-bottom:10px}
+.bar{height:16px;background:#1b1b2f;border:2px solid #f0f0f0;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:#2bd1fc;background-image:repeating-linear-gradient(90deg,transparent 0 10px,rgba(0,0,0,.2) 10px 12px)}
+.work{padding:16px 56px 56px;position:relative}
+.sec h2{margin:0 0 32px;font-family:"Press Start 2P",monospace;font-size:20px;color:#2bd1fc}
+.sec h2::before{content:"◆ ";color:#ff3864}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+.card{background:#2a2a45;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;border-radius:6px 6px 0 0;position:relative}
+.card::after{content:"";position:absolute;left:30%;right:30%;bottom:-12px;height:12px;background:#2a2a45}
+.card .lab{background:#f0f0f0;color:#1b1b2f;padding:10px;font-family:"Press Start 2P",monospace;font-size:9px;text-align:center}
+.card .thumb{aspect-ratio:4/3;max-width:100%;background:#1b1b2f;border:4px solid #0e0e1c;display:grid;grid-template-columns:repeat(8,1fr)}
+.card .thumb i{display:block}
+.card h3{margin:6px 0 0;font-family:"Press Start 2P",monospace;font-size:12px;color:#ffcc00;line-height:1.5}
+.card p{margin:0;font-size:20px;color:#d7d7e6}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;font-family:"Press Start 2P",monospace;font-size:8px}
+.card .tags span{background:#1b1b2f;padding:5px 7px;color:#2bd1fc}
+.svc{padding:0 56px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px;position:relative}
+.svc div{background:#0e0e1c;padding:20px;display:flex;flex-direction:column;gap:10px}
+.svc b{font-family:"Press Start 2P",monospace;font-size:11px;color:#ff3864;line-height:1.6}
+.svc span{font-size:20px;color:#d7d7e6}
+.foot{border-top:4px solid #f0f0f0;background:#0e0e1c;padding:22px 56px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:"Press Start 2P",monospace;font-size:9px;color:#d7d7e6;position:relative}
+.blink{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.blink{animation:none}}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center;position:relative;border-top:1px solid #333;line-height:1.5}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.svc,.spec,.xp{grid-template-columns:1fr}.nav{display:none}.hero h1{font-size:26px}.hud,.hero,.work,.svc,.foot,.spec,.xp{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<div class="crt" aria-hidden="true"></div>
+<header class="hud">
+  <div class="l"><span>1UP <span class="sc">ANTON</span></span><span class="hp" aria-label="3 lives"><i></i><i></i><i></i></span><span>LVL <span class="sc">02</span></span></div>
+  <ul class="nav"><li><a href="#" class="on">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+  <span>SCORE <span class="sc">002026</span></span>
+</header>
+<section class="hero">
+  <div>
+    <span class="lvl">PLAYER: AI &amp; SOFTWARE ENGINEERING STUDENT</span>
+    <h1>ANTON ILIN</h1>
+    <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. Code that holds up under real-world use.</p>
+    <div class="ctas"><a class="btn" href="#">▶ START (VIEW WORK)</a><a class="btn r" href="#">CONTACT</a></div>
+    <p style="margin:26px 0 0;font-family:'Press Start 2P',monospace;font-size:10px;color:#ffcc00">PRESS ANY KEY TO CONTINUE<span class="blink">_</span></p>
+  </div>
+  <div class="sprite pb">
+    <div class="m" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#ff3864"></i><i style="background:#ff3864"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i>
+      <i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#1b1b2f"></i><i></i><i></i>
+      <i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#1b1b2f"></i><i></i><i></i>
+      <i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i>
+      <i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#ffcc00"></i><i style="background:#1b1b2f"></i><i style="background:#f5c99b"></i><i style="background:#1b1b2f"></i><i></i><i></i>
+      <i></i><i></i><i></i><i style="background:#1b1b2f"></i><i></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#2a2a45"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#2a2a45"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#2a2a45"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i style="background:#1b1b2f"></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="cap">CHARACTER SELECT: ANTON</div>
+  </div>
+</section>
+<section class="xp">
+  <div><b>REACT</b><div class="bar"><i style="width:85%"></i></div></div>
+  <div><b>JAVA</b><div class="bar"><i style="width:75%"></i></div></div>
+  <div><b>C#</b><div class="bar"><i style="width:70%"></i></div></div>
+  <div><b>QA / TESTING</b><div class="bar"><i style="width:80%;background:#ff3864"></i></div></div>
+</section>
+<section class="work">
+  <h2 class="sec">SELECT A CARTRIDGE</h2>
+  <div class="cards">
+    <article class="card"><div class="lab">WORLD 1-1</div><div class="thumb" aria-hidden="true"><i style="background:#2bd1fc;grid-column:span 8;grid-row:span 2"></i><i style="background:#ffcc00;grid-column:span 2"></i><i style="background:#1b1b2f;grid-column:span 4"></i><i style="background:#ffcc00;grid-column:span 2"></i><i style="background:#ff3864;grid-column:span 8;grid-row:span 3"></i></div><h3>RSS AGGREGATOR</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>REACT</span><span>RSS</span><span>SEARCH</span></div></article>
+    <article class="card"><div class="lab">WORLD 1-2</div><div class="thumb" aria-hidden="true"><i style="background:#ffcc00;grid-column:span 8;grid-row:span 2"></i><i style="background:#2bd1fc;grid-column:span 3"></i><i style="background:#1b1b2f;grid-column:span 2"></i><i style="background:#2bd1fc;grid-column:span 3"></i><i style="background:#43d17a;grid-column:span 8;grid-row:span 3"></i></div><h3>TOURCONNECT</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>REACT</span><span>NODE</span><span>FULLSTACK</span></div></article>
+    <article class="card"><div class="lab">BOSS LEVEL</div><div class="thumb" aria-hidden="true"><i style="background:#ff3864;grid-column:span 8;grid-row:span 2"></i><i style="background:#f0f0f0;grid-column:span 1"></i><i style="background:#1b1b2f;grid-column:span 6"></i><i style="background:#f0f0f0;grid-column:span 1"></i><i style="background:#2bd1fc;grid-column:span 8;grid-row:span 3"></i></div><h3>QA AUTOMATION</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>TESTING</span><span>API</span><span>SECURITY</span></div></article>
+  </div>
+</section>
+<section class="svc">
+  <div><b>★ WEB DEVELOPMENT</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div><b>★ GENERAL PROGRAMMING</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div><b>★ QA &amp; TESTING</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="foot"><span>© 2026 ANTON ILIN · INSERT COIN</span><span>ANTONILIN107@GMAIL.COM</span></footer>
+<div class="spec">
+  <div><b>Variant</b>19 · Pixel Arcade</div>
+  <div><b>Mood</b>dark · retro game · fun</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#1b1b2f"></i><i style="background:#ffcc00"></i><i style="background:#ff3864"></i><i style="background:#2bd1fc"></i><i style="background:#f0f0f0"></i></div></div>
+  <div><b>Type &amp; signature move</b>Press Start 2P + VT323. Arcade HUD header (lives, level, score), a 16×16 CSS-grid sprite portrait, XP bars for skills, projects as game cartridges, CRT vignette.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1967}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

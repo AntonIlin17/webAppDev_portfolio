@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>20 Blueprint</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rubik:wght@300;400;500;600&display=swap">
+<style>
+body{margin:0;background:#0d3b8c;color:#e9f0ff;font-family:Rubik,system-ui,sans-serif;font-size:15px;line-height:1.6;font-weight:300;color-scheme:dark}
+a{color:#ffcf5c;text-decoration:none}a:hover{color:#fff}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));position:relative;background:#0d3b8c;background-image:linear-gradient(rgba(233,240,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(233,240,255,.12) 1px,transparent 1px),linear-gradient(rgba(233,240,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(233,240,255,.06) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px}
+.m{font-family:"Share Tech Mono",ui-monospace,monospace}
+.frame{margin:28px;border:2px solid #e9f0ff;position:relative}
+.frame::before{content:"";position:absolute;inset:6px;border:1px solid rgba(233,240,255,.6);pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 36px;border-bottom:1px solid #e9f0ff;font-family:"Share Tech Mono",monospace;font-size:13px;text-transform:uppercase;letter-spacing:.12em}
+.top ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+.top ul a{color:#e9f0ff}.top ul a.on{color:#ffcf5c}
+.top ul a::before{content:"□ ";color:#ffcf5c}.top ul a.on::before{content:"■ "}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;padding:56px 36px 48px;position:relative;border-bottom:1px solid #e9f0ff}
+.lbl{font-family:"Share Tech Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#ffcf5c}
+.hero h1{margin:14px 0 18px;font-size:76px;line-height:.98;font-weight:500;letter-spacing:-.01em;text-wrap:balance;text-transform:uppercase}
+.hero h1 span{font-family:"Share Tech Mono",monospace;font-size:20px;letter-spacing:.2em;display:block;color:#ffcf5c;margin-bottom:8px;font-weight:400}
+.hero p{margin:0 0 28px;max-width:50ch;color:#cfdcf6}
+.ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;font-family:"Share Tech Mono",monospace;font-size:14px;letter-spacing:.14em;text-transform:uppercase;border:2px solid #ffcf5c;background:#ffcf5c;color:#0d3b8c;font-weight:600}
+.btn.o{background:transparent;color:#e9f0ff;border-color:#e9f0ff}
+.dwg{position:relative;padding:24px;border:1px solid #e9f0ff}
+.dwg .lbl{position:absolute;top:-9px;left:16px;background:#0d3b8c;padding:0 6px}
+.dwg svg{width:100%;height:auto;display:block}
+.dim{display:flex;justify-content:space-between;font-family:"Share Tech Mono",monospace;font-size:11px;margin-top:10px;color:#cfdcf6}
+.work{padding:48px 36px;border-bottom:1px solid #e9f0ff;position:relative}
+.sec{display:flex;align-items:baseline;gap:16px;margin-bottom:30px}
+.sec h2{margin:0;font-size:34px;font-weight:500;text-transform:uppercase;letter-spacing:.02em}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.card{border:1px solid #e9f0ff;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;position:relative}
+.card .no{position:absolute;top:-10px;right:14px;background:#0d3b8c;padding:0 6px;font-family:"Share Tech Mono",monospace;font-size:11px;color:#ffcf5c;letter-spacing:.14em}
+.card .thumb{aspect-ratio:4/3;max-width:100%;border:1px solid rgba(233,240,255,.6);position:relative;background-image:linear-gradient(rgba(233,240,255,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(233,240,255,.15) 1px,transparent 1px);background-size:20px 20px}
+.card .thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.card h3{margin:8px 0 0;font-size:20px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.card p{margin:0;font-size:14px;color:#cfdcf6}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;font-family:"Share Tech Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffcf5c}
+.svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid #e9f0ff}
+.svc div{padding:28px 36px;border-right:1px solid #e9f0ff;display:flex;flex-direction:column;gap:8px}
+.svc div:last-child{border-right:0}
+.svc b{font-size:18px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.svc span{font-size:14px;color:#cfdcf6}
+.tb{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;font-family:"Share Tech Mono",monospace;font-size:12px}
+.tb div{padding:12px 16px;border-right:1px solid #e9f0ff;display:flex;flex-direction:column;gap:4px}
+.tb div:last-child{border-right:0}
+.tb small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#ffcf5c}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center;position:relative;font-weight:400}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.svc,.spec{grid-template-columns:1fr}.tb{grid-template-columns:1fr 1fr}.top ul{display:none}.hero h1{font-size:40px}.frame{margin:12px}.top,.hero,.work{padding-inline:16px}.svc div{border-right:0;border-bottom:1px solid #e9f0ff}.spec{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<div class="frame">
+<header class="top">
+  <span>DWG № AI-2026-001 · ANTON ILIN · PORTFOLIO</span>
+  <ul><li><a href="#" class="on">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+</header>
+<section class="hero">
+  <div>
+    <span class="lbl">Fig. 1 — Subject</span>
+    <h1><span>AI &amp; Software Engineering Student</span>Anton Ilin</h1>
+    <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#. I care about clean architecture, thoughtful interfaces, and code that holds up under real-world use.</p>
+    <div class="ctas"><a class="btn" href="#">View my work</a><a class="btn o" href="#">Get in touch</a></div>
+  </div>
+  <div class="dwg">
+    <span class="lbl">Fig. 2 — Elevation, portrait</span>
+    <svg viewBox="0 0 320 380" aria-hidden="true" fill="none" stroke="#e9f0ff" stroke-width="1.5">
+      <circle cx="160" cy="130" r="64"/><circle cx="160" cy="130" r="80" stroke-dasharray="4 6" opacity=".6"/>
+      <path d="M40 380c0-90 54-140 120-140s120 50 120 140"/>
+      <line x1="160" y1="20" x2="160" y2="360" stroke-dasharray="2 8" opacity=".6"/><line x1="20" y1="130" x2="300" y2="130" stroke-dasharray="2 8" opacity=".6"/>
+      <path d="M96 60v-30M224 60v-30M96 36h128" stroke="#ffcf5c"/><path d="M100 32l-4 4 4 4M220 32l4 4-4 4" stroke="#ffcf5c"/>
+      <text x="160" y="26" fill="#ffcf5c" font-family="Share Tech Mono, monospace" font-size="11" text-anchor="middle" stroke="none">Ø 128</text>
+      <path d="M300 240v140M310 240h-10M310 380h-10" stroke="#ffcf5c"/>
+      <text x="314" y="314" fill="#ffcf5c" font-family="Share Tech Mono, monospace" font-size="11" stroke="none" transform="rotate(90 314 314)">140</text>
+    </svg>
+    <div class="dim"><span>SCALE 1:1</span><span>UNITS: PX</span><span>REV A</span></div>
+  </div>
+</section>
+<section class="work">
+  <div class="sec"><span class="lbl">Sheet 2</span><h2>Selected work</h2></div>
+  <div class="cards">
+    <article class="card"><span class="no">DTL 01</span><div class="thumb"><svg viewBox="0 0 200 150" fill="none" stroke="#e9f0ff" stroke-width="1.5" aria-hidden="true"><rect x="20" y="20" width="160" height="110"/><line x1="20" y1="45" x2="180" y2="45"/><rect x="30" y="55" width="60" height="65" stroke-dasharray="3 4"/><line x1="100" y1="65" x2="170" y2="65" stroke="#ffcf5c"/><line x1="100" y1="80" x2="160" y2="80"/><line x1="100" y1="95" x2="165" y2="95"/><line x1="100" y1="110" x2="150" y2="110"/></svg></div><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>React</span><span>RSS</span><span>Search</span></div></article>
+    <article class="card"><span class="no">DTL 02</span><div class="thumb"><svg viewBox="0 0 200 150" fill="none" stroke="#e9f0ff" stroke-width="1.5" aria-hidden="true"><rect x="20" y="30" width="50" height="34"/><rect x="130" y="30" width="50" height="34"/><rect x="75" y="95" width="50" height="34" stroke="#ffcf5c"/><path d="M70 47h60M45 64v31h30M155 64v31h-30"/><circle cx="100" cy="47" r="3" fill="#ffcf5c" stroke="none"/></svg></div><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>React</span><span>Node</span><span>Full-stack</span></div></article>
+    <article class="card"><span class="no">DTL 03</span><div class="thumb"><svg viewBox="0 0 200 150" fill="none" stroke="#e9f0ff" stroke-width="1.5" aria-hidden="true"><rect x="30" y="25" width="140" height="100"/><path d="M45 50l10 10 18-20M45 80l10 10 18-20M45 110l10 10 18-20" stroke="#ffcf5c"/><line x1="85" y1="50" x2="155" y2="50"/><line x1="85" y1="80" x2="150" y2="80"/><line x1="85" y1="110" x2="145" y2="110"/></svg></div><h3>QA Automation</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>Testing</span><span>API</span><span>Security</span></div></article>
+  </div>
+</section>
+<section class="svc">
+  <div><span class="lbl">Spec 01</span><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div><span class="lbl">Spec 02</span><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div><span class="lbl">Spec 03</span><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="tb">
+  <div><small>Drawn by</small>ANTON ILIN · antonilin107@gmail.com</div>
+  <div><small>Institution</small>Centennial College</div>
+  <div><small>Program</small>AI &amp; SE · Adv. Diploma</div>
+  <div><small>Date</small>2024 – present</div>
+  <div><small>Sheet</small>1 of 1 · © 2026</div>
+</footer>
+</div>
+<div class="spec">
+  <div><b>Variant</b>20 · Blueprint</div>
+  <div><b>Mood</b>dark · engineering · precise</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#0d3b8c"></i><i style="background:#e9f0ff"></i><i style="background:#ffcf5c"></i><i style="background:#cfdcf6"></i></div></div>
+  <div><b>Type &amp; signature move</b>Share Tech Mono + Rubik. Blueprint paper with a double drawing border, dimension lines and Ø callouts on the portrait, line-art project details, and a proper title block as the footer.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1878}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

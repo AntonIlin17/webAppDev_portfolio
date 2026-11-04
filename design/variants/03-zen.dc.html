@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>03 Zen Minimal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
+<style>
+body{margin:0;background:#fbfbf9;color:#2b2b2b;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.75;font-weight:300}
+a{color:#2b2b2b;text-decoration:none}a:hover{color:#7a8c6f}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));position:relative}
+.d{font-family:"Cormorant Garamond",Georgia,serif;font-weight:300}
+.side{position:absolute;left:40px;top:0;bottom:0;width:1px;background:#e3e3df}
+.vnav{position:absolute;left:0;top:140px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:#8a8a84;display:flex;gap:40px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:40px 96px 0 120px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8a8a84}
+.top .dot{width:6px;height:6px;border-radius:50%;background:#7a8c6f;display:inline-block;margin-right:12px;vertical-align:middle}
+.hero{padding:200px 96px 180px 120px;max-width:900px}
+.hero .eyebrow{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:#7a8c6f;margin-bottom:40px}
+.hero h1{margin:0 0 48px;font-size:112px;line-height:1;letter-spacing:-.01em;text-wrap:balance}
+.hero h1 em{font-style:italic;color:#7a8c6f}
+.hero p{margin:0 0 56px;font-size:19px;max-width:52ch;color:#4a4a46}
+.ctas{display:flex;gap:48px;font-size:12px;letter-spacing:.3em;text-transform:uppercase}
+.ctas a{display:inline-flex;align-items:center;gap:16px;min-height:44px}
+.ctas a::after{content:"";width:48px;height:1px;background:currentColor;transition:width .4s}
+.ctas a:hover::after{width:80px}
+.hr{height:1px;background:#e3e3df;margin:0 96px 0 120px}
+.work{padding:120px 96px 120px 120px}
+.label{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:#8a8a84;margin-bottom:72px;display:flex;justify-content:space-between}
+.list{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:80px 1fr 1.2fr 160px;gap:40px;align-items:baseline;padding:36px 0;border-top:1px solid #e3e3df}
+.row:last-child{border-bottom:1px solid #e3e3df}
+.row .i{font-size:13px;color:#8a8a84;font-variant-numeric:tabular-nums}
+.row h3{margin:0;font-size:40px;font-weight:300;line-height:1.1}
+.row p{margin:0;font-size:15px;color:#6a6a66;min-width:0}
+.row .t{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8a8a84;text-align:right}
+.svc{padding:0 96px 140px 120px;display:grid;grid-template-columns:260px 1fr;gap:80px}
+.svc .label{margin:0}
+.svc ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
+.svc li b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:28px;margin-bottom:12px}
+.svc li span{font-size:14px;color:#6a6a66}
+.foot{padding:40px 96px 48px 120px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8a8a84;border-top:1px solid #e3e3df;margin:0 96px 0 120px;padding-inline:0}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center;font-weight:400}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.side,.vnav{display:none}.top,.hero,.work,.svc{padding-inline:20px}.hr,.foot{margin-inline:20px}.hero{padding-block:100px}.hero h1{font-size:56px}.row{grid-template-columns:1fr;gap:12px}.row .t{text-align:left}.svc,.svc ul,.spec{grid-template-columns:1fr}.spec{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<div class="side" aria-hidden="true"></div>
+<nav class="vnav" aria-label="Sections"><a href="#">Contact</a><a href="#">Services</a><a href="#">Education</a><a href="#">Projects</a><a href="#">About</a><a href="#">Home</a></nav>
+<div class="top"><span><span class="dot"></span>Anton Ilin</span><span>Toronto · 2026</span></div>
+<section class="hero">
+  <div class="eyebrow">AI &amp; Software Engineering Student</div>
+  <h1 class="d">Clean, reliable <em>software.</em></h1>
+  <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building clean, reliable software with React, Java, and C#.</p>
+  <div class="ctas"><a href="#">View my work</a><a href="#">Get in touch</a></div>
+</section>
+<div class="hr"></div>
+<section class="work">
+  <div class="label"><span>Selected work</span><span>2024 — 2026</span></div>
+  <div class="list">
+    <article class="row"><span class="i">01</span><h3 class="d">RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><span class="t">React · Search</span></article>
+    <article class="row"><span class="i">02</span><h3 class="d">TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><span class="t">React · Node</span></article>
+    <article class="row"><span class="i">03</span><h3 class="d">QA Automation Examples</h3><p>Boundary, negative, and security test cases for a User API and authentication flows.</p><span class="t">Testing · Security</span></article>
+  </div>
+</section>
+<section class="svc">
+  <div class="label">What I do</div>
+  <ul>
+    <li><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></li>
+    <li><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></li>
+    <li><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></li>
+  </ul>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin</span><span>antonilin107@gmail.com</span></footer>
+<div class="spec">
+  <div><b>Variant</b>03 · Zen Minimal</div>
+  <div><b>Mood</b>light · quiet · spacious</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#fbfbf9"></i><i style="background:#2b2b2b"></i><i style="background:#7a8c6f"></i><i style="background:#e3e3df"></i></div></div>
+  <div><b>Type &amp; signature move</b>Cormorant Garamond light + IBM Plex Sans 300. Vertical side nav, one hairline, projects as a ledger list; whitespace does the work.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2360}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

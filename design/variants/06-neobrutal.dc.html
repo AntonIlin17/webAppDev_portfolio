@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>06 Neo-Brutalist Pop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+body{margin:0;background:#fffbea;color:#000;font-family:"Space Grotesk",system-ui,sans-serif;font-size:16px;line-height:1.5}
+a{color:#000;text-decoration:none}a:hover{color:#000}
+*{box-sizing:border-box}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.bx{border:3px solid #000;box-shadow:6px 6px 0 #000;background:#fff}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;border-bottom:3px solid #000;background:#ffd43b}
+.nav ul{display:flex;gap:8px;list-style:none;margin:0;padding:0;font-weight:700;font-size:14px;text-transform:uppercase}
+.nav ul a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:3px solid transparent}
+.nav ul a.on,.nav ul a:hover{border-color:#000;background:#fff;box-shadow:3px 3px 0 #000}
+.brand{font-weight:700;font-size:22px;display:flex;align-items:center;gap:10px}
+.brand i{width:34px;height:34px;border:3px solid #000;background:#ff6b6b;display:inline-block;box-shadow:3px 3px 0 #000;transform:rotate(-6deg)}
+.marq{overflow:hidden;border-bottom:3px solid #000;background:#000;color:#fffbea;font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.1em;padding:10px 0;white-space:nowrap}
+.marq span{display:inline-block;padding-inline:24px}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;padding:64px 48px;align-items:center}
+.stk{display:inline-block;background:#4dabf7;border:3px solid #000;box-shadow:4px 4px 0 #000;padding:6px 14px;font-weight:700;font-size:13px;text-transform:uppercase;transform:rotate(-2deg);margin-bottom:24px}
+.hero h1{margin:0 0 20px;font-size:84px;line-height:.95;font-weight:700;letter-spacing:-.03em;text-wrap:balance}
+.hero h1 mark{background:#ff6b6b;padding:0 10px;box-decoration-break:clone}
+.hero p{margin:0 0 32px;font-size:19px;max-width:44ch}
+.ctas{display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;font-weight:700;font-size:16px;text-transform:uppercase;border:3px solid #000;background:#ffd43b;color:#000;box-shadow:5px 5px 0 #000;font-family:inherit;transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 #000}
+.btn.w{background:#fff}
+.photo{position:relative}
+.photo .m{aspect-ratio:1;max-width:100%;background:#4dabf7;display:flex;align-items:flex-end;overflow:hidden}
+.photo svg{width:100%;height:auto;display:block}
+.photo .s1{position:absolute;top:-18px;right:-14px;background:#ff6b6b;border:3px solid #000;box-shadow:4px 4px 0 #000;padding:10px 16px;font-weight:700;transform:rotate(6deg)}
+.photo .s2{position:absolute;bottom:-18px;left:-18px;background:#ffd43b;border:3px solid #000;box-shadow:4px 4px 0 #000;padding:10px 16px;font-weight:700;transform:rotate(-4deg)}
+.work{padding:24px 48px 64px}
+.h2{display:inline-block;background:#000;color:#fffbea;padding:8px 18px;font-size:40px;font-weight:700;letter-spacing:-.02em;margin:0 0 32px;transform:rotate(-1deg)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.card{padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card .thumb{aspect-ratio:4/3;max-width:100%;border:3px solid #000;background:repeating-linear-gradient(-45deg,#000 0 3px,#fff 3px 16px)}
+.card h3{margin:6px 0 0;font-size:26px;font-weight:700;letter-spacing:-.02em}
+.card p{margin:0;font-size:15px}
+.card .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.card .tags span{border:2px solid #000;padding:3px 9px;font-size:12px;font-weight:700;text-transform:uppercase;background:#fffbea}
+.svc{padding:0 48px 64px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.svc div{padding:24px;display:flex;flex-direction:column;gap:8px}
+.svc b{font-size:22px;font-weight:700}
+.svc span{font-size:15px}
+.foot{border-top:3px solid #000;background:#000;color:#fffbea;padding:28px 48px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-weight:700;text-transform:uppercase;font-size:14px}
+.spec{background:#141413;color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:28px 56px;display:grid;grid-template-columns:1.2fr 1fr 1.2fr 2fr;gap:24px;align-items:center;border-top:1px solid #333}
+.spec b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9a9a9a;margin-bottom:6px;font-weight:500}
+.spec .sw{display:flex;gap:6px}.spec .sw i{width:28px;height:28px;border:1px solid #444;display:block}
+@media (max-width:900px){.hero,.cards,.svc,.spec{grid-template-columns:1fr}.nav ul{display:none}.hero h1{font-size:46px}.nav,.hero,.work,.svc,.foot,.spec{padding-inline:20px}}
+</style>
+</helmet>
+<div class="wrap" style="padding:0">
+<header class="nav">
+  <div class="brand"><i></i>ANTON ILIN</div>
+  <ul><li><a href="#" class="on">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Education</a></li><li><a href="#">Services</a></li><li><a href="#">Contact</a></li></ul>
+</header>
+<div class="marq" aria-hidden="true"><span>React ★ Java ★ C# ★ Node ★ QA &amp; Testing ★ Open to co-op ★ Toronto ★</span><span>React ★ Java ★ C# ★ Node ★ QA &amp; Testing ★ Open to co-op ★ Toronto ★</span></div>
+<section class="hero">
+  <div>
+    <div class="stk">AI &amp; Software Engineering Student</div>
+    <h1>I build <mark>clean,</mark> reliable software.</h1>
+    <p>Hi, I'm Anton Ilin — a student in AI &amp; Software Engineering at Centennial College, building with React, Java, and C#. Thoughtful interfaces, code that holds up.</p>
+    <div class="ctas"><a class="btn" href="#">View my work →</a><a class="btn w" href="#">Get in touch</a></div>
+  </div>
+  <div class="photo">
+    <div class="m bx" aria-hidden="true"><svg viewBox="0 0 320 320"><rect width="320" height="320" fill="#4dabf7"/><circle cx="160" cy="120" r="60" fill="#000"/><path d="M40 320c0-80 54-120 120-120s120 40 120 120z" fill="#000"/></svg></div>
+    <div class="s1">Hi! 👋</div>
+    <div class="s2">Centennial '24–</div>
+  </div>
+</section>
+<section class="work">
+  <h2 class="h2">Selected work</h2>
+  <div class="cards">
+    <article class="card bx"><div class="thumb"></div><h3>RSS Aggregator</h3><p>Parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.</p><div class="tags"><span>React</span><span>RSS</span><span>Search</span></div></article>
+    <article class="card bx" style="background:#ff6b6b"><div class="thumb" style="background:#fff"></div><h3>TourConnect</h3><p>Full-stack prototype connecting local tour guides with travelers; React front end with a Node API mock.</p><div class="tags"><span>React</span><span>Node</span><span>Full-stack</span></div></article>
+    <article class="card bx" style="background:#4dabf7"><div class="thumb" style="background:#000"></div><h3>QA Automation Examples</h3><p>Boundary, negative, and security test suites for a User API and account authentication flows.</p><div class="tags"><span>Testing</span><span>API</span><span>Security</span></div></article>
+  </div>
+</section>
+<section class="svc">
+  <div class="bx" style="background:#ffd43b"><b>Web Development</b><span>Responsive, accessible front ends and full-stack apps built with React and modern tooling.</span></div>
+  <div class="bx"><b>General Programming</b><span>Clean, maintainable solutions in Java and C#, from data structures to APIs.</span></div>
+  <div class="bx" style="background:#c0eb75"><b>QA &amp; Testing</b><span>Thorough test suites covering boundary, negative, and security edge cases.</span></div>
+</section>
+<footer class="foot"><span>© 2026 Anton Ilin</span><span>antonilin107@gmail.com</span></footer>
+<div class="spec">
+  <div><b>Variant</b>06 · Neo-Brutalist Pop</div>
+  <div><b>Mood</b>light · loud · playful</div>
+  <div><b>Palette</b><div class="sw"><i style="background:#fffbea"></i><i style="background:#000000"></i><i style="background:#ffd43b"></i><i style="background:#ff6b6b"></i><i style="background:#4dabf7"></i></div></div>
+  <div><b>Type &amp; signature move</b>Space Grotesk only. 3px outlines, hard offset shadows, rotated sticker badges, a scrolling marquee, buttons that physically press in.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1906}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
