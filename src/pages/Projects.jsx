@@ -1,141 +1,122 @@
-// Projects page: static data with optional lightbox to view screenshots
-import { useEffect, useState } from 'react'
-import systemDiagram from '../assets/systemDiagram.jpg'
-import rssFeedMain from '../assets/rssFeedMain.png'
-import rssFeed1 from '../assets/rssFeed1.png'
+import { useLayoutEffect, useRef, useState } from 'react'
 import Reveal from '../components/Reveal.jsx'
-
-const projectsData = [
-  {
-    title: 'RSS Aggregator',
-    description:
-      'Built a feed aggregator that parses multiple RSS sources, normalizes entries, and renders a searchable UI using React.',
-    images: [rssFeedMain, rssFeed1],
-  },
-  {
-    title: 'TourConnect',
-    description:
-      'Full‑stack prototype connecting local tour guides with travelers; React front end with simple Node API mock.',
-    images: [systemDiagram],
-  },
-  {
-    title: 'QA Automation Examples',
-    description:
-      'Quality Assurance focus with targeted test suites: crafted boundary and negative test cases for the User API (CRUD validation, pagination, error handling, and rate‑limiting) and for user account authentication (signup/login/logout flows, password hashing & salting, JWT/refresh token handling, session expiry, and lockout after repeated failures). Each scenario includes reproducible steps, expected/actual results, and assertions covering success, error, and security edge cases.',
-    images: [],
-  },
-]
+import projects from './projectData.js'
 
 function ProjectCard({ project, onOpen }) {
-  const { title, description, images } = project
-  const main = images[0]
-  const thumbs = images.slice(1)
+  const { title, description, approach, contribution, stack, links, images } = project
+
   return (
-    <Reveal as="li" className={`project ${images.length === 0 ? 'project--no-media' : ''}`}>
-      <div className="project-body">
-        <h3>{title}</h3>
-        <p>{description}</p>
+    <Reveal as="li" className="project">
+      <h2>{title}</h2>
+      <div className="project-media">
+        {images.map(({ src, alt, caption }, index) => (
+          <button
+            className={`project-image${index === 0 ? ' project-image--cover' : ''}`}
+            type="button"
+            key={src}
+            onClick={() => onOpen({ project, index })}
+            aria-label={`Enlarge ${caption}`}
+          >
+            <img src={src} alt={alt} decoding="async" loading="lazy" />
+          </button>
+        ))}
       </div>
-      {main && (
-        <div className="project-media">
-          <img
-            className="project-main"
-            src={main}
-            alt={`${title} main screenshot`}
-            onClick={() => onOpen(images, 0)}
-          />
-          {thumbs.length > 0 && (
-            <div className="project-thumbs">
-              {thumbs.map((src, idx) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`${title} extra ${idx + 1}`}
-                  onClick={() => onOpen(images, idx + 1)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <div className="project-details">
+        <p>{description}</p>
+        <p><strong>How it was built</strong> {approach}</p>
+        {contribution && <p><strong>My contribution</strong> {contribution}</p>}
+        <ul className="project-stack" aria-label="Technologies">
+          {stack.map((technology) => <li key={technology}>{technology}</li>)}
+        </ul>
+        {links.length > 0 && (
+          <div className="project-links">
+            {links.map(({ label, url }) => <a key={url} href={url}>{label} <span aria-hidden="true">↗</span></a>)}
+          </div>
+        )}
+      </div>
     </Reveal>
   )
 }
 
-export default function Projects() {
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxImages, setLightboxImages] = useState([])
-  const [lightboxIndex, setLightboxIndex] = useState(0)
+function ProjectLightbox({ project, startIndex, onClose }) {
+  const dialogRef = useRef(null)
+  const closeRef = useRef(null)
+  const [index, setIndex] = useState(startIndex)
+  const { images, title } = project
+  const image = images[index]
 
-  function openLightbox(images, startIndex = 0) {
-    setLightboxImages(images)
-    setLightboxIndex(startIndex)
-    setLightboxOpen(true)
-  }
-
-  function closeLightbox() {
-    setLightboxOpen(false)
-    setLightboxImages([])
-    setLightboxIndex(0)
-  }
-
-  function next() {
-    setLightboxIndex((i) => (i + 1) % lightboxImages.length)
-  }
-  function prev() {
-    setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)
-  }
-
-  useEffect(() => {
-    function onKey(e) {
-      if (!lightboxOpen) return
-      if (e.key === 'Escape') {
-        closeLightbox()
-      } else if (e.key === 'ArrowRight') {
-        setLightboxIndex((i) => (i + 1) % lightboxImages.length)
-      } else if (e.key === 'ArrowLeft') {
-        setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)
-      }
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current
+    const opener = document.activeElement
+    dialog.showModal()
+    closeRef.current.focus()
+    return () => {
+      dialog.close()
+      opener?.focus()
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [lightboxOpen, lightboxImages.length])
+  }, [])
+
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog.contains(document.activeElement)) {
+      const control = dialog.querySelector('.lightbox-nav') ?? closeRef.current
+      control.focus()
+    }
+  }, [index])
+
+  function move(offset) {
+    setIndex((current) => Math.max(0, Math.min(current + offset, images.length - 1)))
+  }
+
+  function handleKeyDown(event) {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault()
+      move(event.key === 'ArrowLeft' ? -1 : 1)
+    }
+  }
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className="lightbox-overlay"
+      aria-label={`${title} image gallery`}
+      onKeyDown={handleKeyDown}
+      onCancel={(event) => { event.preventDefault(); onClose() }}
+      onClick={(event) => { if (event.target === event.currentTarget) onClose() }}
+    >
+      <button ref={closeRef} type="button" className="lightbox-close" aria-label="Close gallery" onClick={onClose}>×</button>
+      {index > 0 && (
+        <button type="button" className="lightbox-nav left" aria-label="Previous image" onClick={() => move(-1)}>‹</button>
+      )}
+      <figure className="lightbox-figure">
+        <img className="lightbox-img" src={image.src} alt={image.alt} />
+        <figcaption className="lightbox-caption" aria-live="polite">
+          <span>{image.caption}</span>
+          <span className="lightbox-counter">{index + 1} / {images.length}</span>
+        </figcaption>
+      </figure>
+      {index < images.length - 1 && (
+        <button type="button" className="lightbox-nav right" aria-label="Next image" onClick={() => move(1)}>›</button>
+      )}
+    </dialog>
+  )
+}
+
+export default function Projects() {
+  const [gallery, setGallery] = useState(null)
 
   return (
     <section className="card">
       <Reveal>
-        <span className="section-eyebrow">Selected work</span>
-        <h1>Projects</h1>
-        <p className="lead">A few things I&apos;ve designed, built, and tested.</p>
+        <h1>My Work</h1>
       </Reveal>
-
       <ul className="project-list">
-        {projectsData.map((p) => (
-          <ProjectCard key={p.title} project={p} onOpen={openLightbox} />
+        {projects.map((project) => (
+          <ProjectCard key={project.title} project={project} onOpen={setGallery} />
         ))}
       </ul>
-
-      {lightboxOpen && (
-        <div className="lightbox-overlay" role="dialog" aria-modal="true" onClick={closeLightbox}>
-          <button className="lightbox-close" aria-label="Close" onClick={closeLightbox}>
-            ×
-          </button>
-          {lightboxImages.length > 1 && (
-            <>
-              <button className="lightbox-nav left" aria-label="Previous" onClick={(e) => { e.stopPropagation(); prev() }}>‹</button>
-              <button className="lightbox-nav right" aria-label="Next" onClick={(e) => { e.stopPropagation(); next() }}>›</button>
-            </>
-          )}
-          <img
-            className="lightbox-img"
-            src={lightboxImages[lightboxIndex]}
-            alt={`Screenshot ${lightboxIndex + 1}`}
-            onClick={(e) => e.stopPropagation()}
-          />
-          {lightboxImages.length > 1 && (
-            <div className="lightbox-counter">{lightboxIndex + 1} / {lightboxImages.length}</div>
-          )}
-        </div>
+      {gallery && (
+        <ProjectLightbox project={gallery.project} startIndex={gallery.index} onClose={() => setGallery(null)} />
       )}
     </section>
   )

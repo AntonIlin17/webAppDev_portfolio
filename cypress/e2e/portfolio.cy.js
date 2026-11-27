@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/* global beforeEach, cy, Cypress, describe, it */
 
 describe('Portfolio App E2E Tests', () => {
   beforeEach(() => {
@@ -35,7 +36,7 @@ describe('Portfolio App E2E Tests', () => {
     it('navigates to Projects page', () => {
       cy.get('nav').contains('Projects').click()
       cy.url().should('include', '/projects')
-      cy.get('h1').should('contain', 'Projects')
+      cy.get('h1').should('contain', 'My Work')
     })
 
     it('navigates to Education page', () => {
@@ -90,13 +91,21 @@ describe('Portfolio App E2E Tests', () => {
     })
 
     it('displays project list', () => {
-      cy.contains('RSS Aggregator').should('be.visible')
-      cy.contains('TourConnect').should('be.visible')
-      cy.contains('QA Automation Examples').should('be.visible')
+      cy.contains('Autonomous Warehouse Robot').should('be.visible')
+      cy.contains('OpenClaw Desktop').should('be.visible')
     })
 
-    it('displays project images', () => {
-      cy.get('img').should('have.length.at.least', 1)
+    it('displays a gallery with directional buttons only where applicable', () => {
+      cy.get('[aria-label="Enlarge The warehouse in Gazebo"]').click()
+      cy.get('dialog').should('be.visible').within(() => {
+        cy.get('[aria-label="Previous image"]').should('not.exist')
+        cy.get('[aria-label="Next image"]').click()
+        cy.get('[aria-label="Previous image"]').should('be.visible')
+        cy.get('[aria-label="Next image"]').click()
+        cy.get('[aria-label="Next image"]').should('not.exist')
+        cy.get('[aria-label="Close gallery"]').click()
+      })
+      cy.get('dialog').should('not.exist')
     })
   })
 
