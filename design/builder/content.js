@@ -123,14 +123,27 @@ const slots=[
  {id:'air',code:'AIR',name:'Motion',group:'look',removable:false,variants:[
   {id:'calm',name:'Calm',hint:'Nothing moves until you do'},{id:'wind',name:'Wind',hint:'The top of the element sways'},{id:'drift',name:'Drift',hint:'The whole element floats slowly'}]},
  {id:'backdrop',code:'BKD',name:'Backdrop',group:'look',removable:false,variants:[
-  {id:'none',name:'Plain',hint:'A flat ground'},{id:'field',name:'Drifting field',hint:'A slow cloud of dots behind everything'},{id:'horizon',name:'Horizon',hint:'Dots gather toward the bottom of the screen'}]},
+  {id:'none',name:'Plain',hint:'A flat ground'},{id:'field',name:'Drifting field',hint:'A slow cloud of dots behind everything'},{id:'horizon',name:'Horizon',hint:'Dots gather toward the bottom of the screen'},{id:'clip',name:'Signature clip',hint:'Your 3D name being signed, dithered faintly behind everything'}]},
  {id:'type',code:'TYP',name:'Type',group:'look',removable:false,variants:Object.keys(types).map(k=>({id:k,name:types[k].name,hint:types[k].hint}))},
  {id:'cursor',code:'CUR',name:'Cursor',group:'look',removable:false,variants:[
   {id:'cross',name:'Cross',hint:'A small plus sign'},{id:'ring',name:'Ring',hint:'A circle that grows over links'},{id:'system',name:'System',hint:'The ordinary arrow'}]},
  {id:'transition',code:'TRN',name:'Transition',group:'look',removable:false,variants:[
-  {id:'wipe',name:'Dither wipe',hint:'The next screen develops through a dot pattern'},{id:'scan',name:'Scan',hint:'A band of lines sweeps down'},{id:'fade',name:'Fade',hint:'A short cross-fade'},{id:'cut',name:'Cut',hint:'Instant'}]},
+  {id:'wipe',name:'Dither wipe',hint:'The next screen develops through a dot pattern'},{id:'scan',name:'Scan',hint:'A band of lines sweeps down'},{id:'fade',name:'Fade',hint:'A short cross-fade'},{id:'cut',name:'Cut',hint:'Instant'},{id:'slash',name:'Slash',hint:'The slash from your mark sweeps across the screen'}]},
  {id:'intro',code:'INT',name:'Opening',group:'look',removable:false,variants:[
-  {id:'develop',name:'Develop',hint:'The page appears dot by dot'},{id:'count',name:'Counter',hint:'Counts through the cabinet before opening'},{id:'none',name:'None',hint:'The page is simply there'}]}
+  {id:'develop',name:'Develop',hint:'The page appears dot by dot'},{id:'count',name:'Counter',hint:'Counts through the cabinet before opening'},{id:'none',name:'None',hint:'The page is simply there'},{id:'signature',name:'Signature',hint:'Your mark unfolds into your name and signs it, then the page opens'}]},
+ {id:'element',code:'ELM',name:'Landing element',group:'sig',removable:false,variants:[
+  {id:'specimen',name:'Cabinet element',hint:'The chosen specimen is the centrepiece',wf:'c30,20,14,.55'},
+  {id:'clip',name:'Signature clip',hint:'Your 3D name being signed is the centrepiece',wf:'r7,10,46,7,.45;r15,20,30,7,.45;s9,13,40'}]},
+ {id:'clip',code:'CLP',name:'Recording',group:'sig',removable:false,variants:[
+  {id:'a',name:'Take one',hint:'The camera pushes in to the A at the end'},{id:'b',name:'Take two',hint:'The camera tilts and the signature lands in two strokes'}]},
+ {id:'brand',code:'BRD',name:'Top-left mark',group:'sig',removable:false,variants:[
+  {id:'serif',name:'Serif initials',hint:'A·I set in Georgia italic'},{id:'mark',name:'3D mark',hint:'Your AI mark with its slash, as a still'},
+  {id:'live',name:'Live mark',hint:'The whole clip playing small, in dots'},{id:'signature',name:'Signature',hint:'Your handwritten signature as the logo'}]},
+ {id:'signoff',code:'SGN',name:'Sign-off',group:'sig',removable:false,variants:[
+  {id:'none',name:'None',hint:'No signature at the end of sections',wf:'r4,12,40,3,.5;r4,18,30,3,.5'},
+  {id:'about',name:'Under the statement',hint:'The signature writes itself beneath the About text',wf:'r4,7,44,3,1;r4,12,36,3,1;s6,22,26'},
+  {id:'footer',name:'In the footer',hint:'The page ends with your signature',wf:'r4,12,52,.4,.4;r4,22,22,1.3,.5;r4,25,16,1.3,.5;s34,20,22'},
+  {id:'both',name:'Both',hint:'Under the statement and in the footer',wf:'r4,5,44,3,1;s6,12,22;r4,24,52,.4,.4;s34,29,22'}]}
 ];
 
 const extras=[
@@ -139,11 +152,12 @@ const extras=[
  {id:'edition',name:'Edition stamp',hint:'A two-line note beside the monogram'},
  {id:'grain',name:'Paper grain',hint:'A faint film grain over everything'}];
 
-const base={specimen:'dahlia',surface:'dither',ink:'ivory',grain:3,pointer:'lens',air:'calm',backdrop:'none',type:'cabinet',cursor:'cross',transition:'wipe',intro:'develop',
+const base={element:'specimen',clip:'a',brand:'serif',signoff:'none',text:{on:false,head:'#eeeae0',body:'#eeeae0',muted:'#8f8c84',accent:'#ff754a'},specimen:'dahlia',surface:'dither',ink:'ivory',grain:3,pointer:'lens',air:'calm',backdrop:'none',type:'cabinet',cursor:'cross',transition:'wipe',intro:'develop',
  nav:'bar',hero:'cabinet',work:'filmstrip',project:'sheet',about:'statement',stack:'marquee',contact:'email',footer:'colophon',flow:'scroll',
  extras:{caption:true,progress:true,edition:true,grain:true},off:{},custom:{a:'#3255ff',b:'#ff8454',bg:'#0a0a0a',duo:false}};
 const P=(name,blurb,o)=>({name,blurb,cfg:Object.assign(JSON.parse(JSON.stringify(base)),o)});
 const presets=[
+ P('Your build','The build you chose: Monolith, filmstrip, editorial type, your own red on charcoal, now with your mark and signature.',{nav:'bar',hero:'monolith',work:'filmstrip',project:'sheet',about:'statement',stack:'marquee',contact:'email',footer:'colophon',flow:'screens',specimen:'orchid',surface:'dither',ink:'custom',pointer:'disperse',air:'drift',backdrop:'horizon',type:'editorial',cursor:'cross',transition:'wipe',intro:'none',grain:3,custom:{a:'#ba081a',b:'#e3c4c4',bg:'#262121',duo:false},extras:{caption:false,progress:true,edition:false,grain:true},brand:'mark',signoff:'footer'}),
  P('The Cabinet','Your own playground, turned into a portfolio. Serif italic, ivory dots, the lens.',{}),
  P('Plate Book','Engraved plates on paper, set like a museum catalogue.',{specimen:'bust',surface:'engrave',ink:'paper',pointer:'lamp',type:'editorial',nav:'corners',hero:'plate',work:'plates',project:'page',about:'colophon',stack:'groups',contact:'slip',footer:'line',flow:'screens',transition:'scan',intro:'none',cursor:'ring',extras:{caption:true,progress:false,edition:false,grain:true}}),
  P('Monolith','One enormous halftone and your name in poster capitals.',{specimen:'octopus',surface:'halftone',ink:'orange',grain:4,pointer:'pull',air:'drift',type:'poster',nav:'dock',hero:'monolith',work:'panels',project:'page',about:'statement',stack:'marquee',contact:'email',footer:'line',cursor:'ring',extras:{caption:false,progress:true,edition:false,grain:true}}),
@@ -160,5 +174,6 @@ slots.forEach(s=>s.variants.forEach((v,i)=>{v.code=s.code+'-'+(i+1)}));
 const slotById=Object.fromEntries(slots.map(s=>[s.id,s]));
 const variant=(slot,id)=>slotById[slot].variants.find(v=>v.id===id)||slotById[slot].variants[0];
 const element=id=>elements.find(e=>e.id===id)||elements[0];
-window.CAT={elements,me,projects,inks,types,slots,slotById,variant,element,extras,presets,base,img:id=>'assets/'+id+'.webp',thumb:id=>'assets/'+id+'-thumb.webp'};
+const clip=id=>({mp4:'assets/sig/sig-'+id+'.mp4',webm:'assets/sig/sig-'+id+'.webm',poster:'assets/sig/sig-'+id+'.webp',still:id==='b'?8.8:8.1});
+window.CAT={clip,elements,me,projects,inks,types,slots,slotById,variant,element,extras,presets,base,img:id=>'assets/'+id+'.webp',thumb:id=>'assets/'+id+'-thumb.webp'};
 })();

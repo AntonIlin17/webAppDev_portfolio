@@ -7,13 +7,21 @@ const dv=(src,o)=>{o=o||{};const a=Object.entries(o).map(([k,v])=>` data-${k}="$
 const caption=cfg=>cfg.extras.caption?`<div class="capline"><span class="tiny-cross">+</span><span data-bind="surface-name"></span><span class="rule"></span><span data-bind="spec-name"></span><span class="rec">Live</span></div>`:'';
 const head=(title,sub)=>`<header class="sec-head"><h2 class="display">${title}</h2><p>${sub}</p></header>`;
 const address=`<span class="addr">antonilin107<wbr>@gmail.com</span>`;
+// the top-left mark: serif initials, the 3D mark, the live clip, or the signature
+const brandInner=id=>({
+ serif:`A<span class="brand-dot">·</span>I`,
+ mark:`<span class="mk" aria-hidden="true"><i class="mk-l"></i><i class="mk-s"></i></span>`,
+ live:`<canvas class="brand-live" data-livemark width="330" height="150" aria-hidden="true"></canvas>`,
+ signature:`<span class="sg" aria-hidden="true"></span>`})[id]||'';
+const brand=(cfg,cls)=>`<button class="brand b-${cfg.brand}${cls?' '+cls:''}" data-go="home" aria-label="Anton Ilin, home">${brandInner(cfg.brand)}</button>`;
+const signoff=(cfg,where)=>(cfg.signoff===where||cfg.signoff==='both')?`<div class="signoff" data-signoff><div class="art">${dv('clip',{cut:.5,cell:2,int:1,reveal:0,scale:1.06})}</div><span class="small">Anton Ilin, 2026</span></div>`:'';
 
 const nav={
- bar:cfg=>`<header class="part n-bar" data-slot="nav"><button class="brand" data-go="home" aria-label="Anton Ilin, home">A<span class="brand-dot">·</span>I</button>${cfg.extras.edition?`<span class="edition">Anton Ilin, portfolio<br><small>2026 edition, drawn in dots</small></span>`:''}<nav>${links(cfg)}</nav></header>`,
- corners:cfg=>`<div class="part n-corners" data-slot="nav"><button class="nc tl" data-go="home">Anton Ilin</button>${corner(cfg,'work','tr','Work')}${corner(cfg,'about','bl','About')}${corner(cfg,'contact','br','Contact')}</div>`,
+ bar:cfg=>`<header class="part n-bar" data-slot="nav">${brand(cfg)}${cfg.extras.edition?`<span class="edition">Anton Ilin, portfolio<br><small>2026 edition, drawn in dots</small></span>`:''}<nav>${links(cfg)}</nav></header>`,
+ corners:cfg=>`<div class="part n-corners" data-slot="nav">${cfg.brand==='serif'?`<button class="nc tl" data-go="home">Anton Ilin</button>`:brand(cfg,'nc tl')}${corner(cfg,'work','tr','Work')}${corner(cfg,'about','bl','About')}${corner(cfg,'contact','br','Contact')}</div>`,
  dock:cfg=>`<nav class="part n-dock" data-slot="nav"><button data-go="home" data-nav="home">Home</button>${links(cfg)}</nav>`,
- rail:cfg=>`<nav class="part n-rail" data-slot="nav"><button class="brand" data-go="home" aria-label="Anton Ilin, home">A<span class="brand-dot">·</span>I</button><div class="rail-links">${links(cfg)}</div><span class="rail-foot">2026</span></nav>`,
- index:cfg=>`<div class="part n-index" data-slot="nav"><button class="ni-name" data-go="home">Anton Ilin</button><button class="ni-open" data-menu aria-expanded="false">Index</button>
+ rail:cfg=>`<nav class="part n-rail" data-slot="nav">${brand(cfg)}<div class="rail-links">${links(cfg)}</div><span class="rail-foot">2026</span></nav>`,
+ index:cfg=>`<div class="part n-index" data-slot="nav">${cfg.brand==='serif'?`<button class="ni-name" data-go="home">Anton Ilin</button>`:brand(cfg,'ni-name')}<button class="ni-open" data-menu aria-expanded="false">Index</button>
   <div class="ni-menu" hidden><ol>${['home','work','about','contact'].filter(s=>s==='home'||!cfg.off[s]).map((s,i)=>`<li><button class="display" data-go="${s}" data-menu-el="${['specimen','coral','bust','hand'][i]}">${s[0].toUpperCase()+s.slice(1)}</button></li>`).join('')}</ol>${dv('specimen',{cls:'ni-art',scale:.86,reveal:0})}</div></div>`
 };
 function links(cfg){return ['work','about','contact'].filter(s=>!cfg.off[s]).map(s=>`<button data-go="${s}" data-nav="${s}">${s[0].toUpperCase()+s.slice(1)}${s==='work'?` <span>${projects.length}</span>`:''}</button>`).join('')}
@@ -26,7 +34,7 @@ const hero={
   <div class="hc-actions"><button class="round" data-spec="-1" aria-label="Previous element">←</button><button class="round" data-spec="1" aria-label="Next element">→</button><button class="pill" data-go="work">See the work</button><button class="pill" data-air-toggle aria-pressed="false">Wind ≋</button></div></div>${caption(cfg)}</section>`,
  monolith:cfg=>`<section class="part p-hero h-monolith" data-slot="hero">${dv('specimen',{cls:'fill',scale:1.1,int:1,main:1})}
   <h1 class="display mono-name"><span>Anton</span><span>Ilin</span></h1>
-  <p class="mono-l">${me.role},<br>${me.school}, ${me.place}</p><p class="mono-r">${me.line}</p>
+  <p class="mono-l">${me.role},<br>${me.school}, ${me.place}</p>
   <button class="pill mono-cta" data-go="work">See the work</button>${caption(cfg)}</section>`,
  plate:cfg=>`<section class="part p-hero h-plate" data-slot="hero"><figure class="plate"><i class="x tl">+</i><i class="x tr">+</i><i class="x bl">+</i><i class="x br">+</i><div class="art">${dv('specimen',{scale:.84,int:1,main:1})}</div>
   <figcaption><span>Plate <b data-bind="spec-serial"></b></span><span data-bind="spec-name"></span><span data-bind="surface-name"></span></figcaption></figure>
@@ -49,8 +57,9 @@ const work={
  ledger:cfg=>`<section class="part p-work w-ledger" data-slot="work" data-screen="work">${head('Selected work','Move across a row to see its specimen.')}
   <ol class="ledger">${projects.map(p=>`<li><button data-open="${p.id}" data-hover-el="${p.el}"><span class="lg-title display">${p.title}</span><span class="lg-one">${p.one}</span><span class="lg-kind">${p.kind}</span></button></li>`).join('')}</ol>
   ${dv(projects[0].el,{cls:'ledger-float',scale:.9,reveal:0,opaque:1})}</section>`,
- filmstrip:cfg=>`<section class="part p-work w-film" data-slot="work" data-screen="work">${head('Selected work','Drag the strip sideways.')}
-  <div class="film" tabindex="0" aria-label="Projects">${projects.map((p,i)=>`<button class="frame" data-open="${p.id}"><span class="fr-n">${String(i+1).padStart(2,'0')}</span>${dv(p.el,{scale:.84,int:1,lens:.6})}<b class="display">${p.title}</b><span class="fr-one">${p.one}</span></button>`).join('')}</div></section>`,
+ filmstrip:cfg=>`<section class="part p-work w-film" data-slot="work" data-screen="work">${head('Selected work','Scroll, drag, or use the bar below.')}
+  <div class="film" tabindex="0" aria-label="Projects">${projects.map((p,i)=>`<button class="frame" data-open="${p.id}"><span class="fr-n">${String(i+1).padStart(2,'0')}</span><span class="art">${dv(p.el,{scale:.84,int:1,lens:.6})}</span><b class="display">${p.title}</b><span class="fr-one">${p.one}</span><span class="fr-open">Open project</span></button>`).join('')}</div>
+  <div class="filmbar"><button class="round fb-step" data-film-step="-1" aria-label="Previous project">←</button><div class="fb-track" data-film-track role="scrollbar" aria-orientation="horizontal" aria-label="Scroll the projects" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i class="fb-thumb"><b></b></i></div><span class="fb-count" aria-hidden="true"></span><button class="round fb-step" data-film-step="1" aria-label="Next project">→</button></div></section>`,
  panels:cfg=>`<section class="part p-work w-panels" data-slot="work" data-screen="work">${projects.map((p,i)=>`<article class="panel${i%2?' flip':''}"><div class="pn-copy"><span class="small">${p.kind}</span><h3 class="display">${p.title}</h3><p>${p.one}</p><button class="pill" data-open="${p.id}">Open project</button></div>${dv(p.el,{scale:.84,int:1})}</article>`).join('')}</section>`,
  drawers:cfg=>`<section class="part p-work w-drawers" data-slot="work" data-screen="work">${head('Selected work','Open a drawer.')}
   ${projects.map((p,i)=>`<details class="drawer" name="work-drawers"${i===0?' open':''}><summary><span class="display">${p.title}</span><span class="dr-kind">${p.kind}</span><i aria-hidden="true"></i></summary><div class="dr-body">${dv(p.el,{scale:.86,int:1,lens:.6})}<div><p>${p.long}</p><ul class="tags">${p.tags.map(t=>`<li>${t}</li>`).join('')}</ul><button class="pill" data-open="${p.id}">Open project</button></div></div></details>`).join('')}</section>`
@@ -60,22 +69,24 @@ function project(variant,id){
  const i=Math.max(0,projects.findIndex(p=>p.id===id)),p=projects[i],next=projects[(i+1)%projects.length];
  return `<div class="part pv pv-${variant}" data-slot="project" role="dialog" aria-modal="true" aria-label="${p.title}"><div class="pv-scrim" data-close></div><div class="pv-box">
   <button class="pv-close" data-close>${variant==='page'?'← Back':'Close ×'}</button>
-  <div class="pv-art">${dv(p.el,{scale:.86,int:1})}</div>
   <div class="pv-copy"><p class="small">${p.kind}</p><h2 class="display">${p.title}</h2><p class="lede">${p.long}</p>
   <dl>${p.facts.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl>
   <ul class="tags">${p.tags.map(t=>`<li>${t}</li>`).join('')}</ul>
-  <button class="pill" data-open="${next.id}">Next: ${next.title}</button></div></div></div>`;
+  <button class="pill" data-open="${next.id}">Next: ${next.title}</button></div>
+  <div class="pv-media"><figure class="pv-frame"><div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i><span>${p.title.toLowerCase().replace(/[^a-z]+/g,'-')}</span></div>
+   <div class="art">${dv(p.el,{scale:.9,int:1,gain:.55,shotview:1})}<p class="pv-ph"><b>Placeholder</b><span data-shot-label>A live demo or screenshots of ${p.title} will sit here.</span></p></div></figure>
+   <div class="pv-thumbs" role="group" aria-label="Screenshots">${['Demo','Screenshot 1','Screenshot 2'].map((t,k)=>`<button data-shot="${k}" aria-pressed="${k===0}"><i aria-hidden="true">${String(k+1).padStart(2,'0')}</i>${t}</button>`).join('')}</div></div></div></div>`;
 }
 
 const about={
  statement:cfg=>`<section class="part p-about a-statement" data-slot="about" data-screen="about"><p class="display big">${me.belief}</p>
-  <div class="a-cols"><p>${me.intro} ${me.about}</p><dl>${me.facts.slice(0,3).map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl></div></section>`,
+  <div class="a-cols"><p>${me.intro} ${me.about}</p><dl>${me.facts.slice(0,3).map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl></div>${signoff(cfg,'about')}</section>`,
  spec:cfg=>`<section class="part p-about a-spec" data-slot="about" data-screen="about"><div class="a-fig">${dv('specimen',{scale:.84,int:1})}</div>
   <div class="a-sheet"><p class="eyebrow">${elements.length+1}<span class="slash">/</span>Developer</p><h2 class="display">Anton Ilin</h2><p class="lede">The cabinet holds ${elements.length} elements. This is the one that made them.</p>
-  <dl>${me.facts.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl></div></section>`,
+  <dl>${me.facts.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl>${signoff(cfg,'about')}</div></section>`,
  colophon:cfg=>`<section class="part p-about a-colophon" data-slot="about" data-screen="about"><h2 class="display">About</h2>
   <div class="cols2"><p>${me.intro} ${me.about}</p><p>${me.belief}</p></div>
-  <p class="colo">This site is drawn in your browser. Every image is an element from the Dither Cabinet, set as <span data-bind="surface-name-lc"></span> in <span data-bind="ink-name-lc"></span> ink.</p></section>`
+  <p class="colo">This site is drawn in your browser. Every image is an element from the Dither Cabinet, set as <span data-bind="surface-name-lc"></span> in <span data-bind="ink-name-lc"></span> ink.</p>${signoff(cfg,'about')}</section>`
 };
 
 const flat=me.stack.flatMap(g=>g[1]);
@@ -97,10 +108,10 @@ const contact={
 };
 
 const footer={
- line:cfg=>`<footer class="part p-footer f-line" data-slot="footer" data-screen="contact"><span>© 2026 Anton Ilin</span><nav>${['work','about','contact'].filter(s=>!cfg.off[s]).map(s=>`<button class="link" data-go="${s}">${s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</nav></footer>`,
+ line:cfg=>`<footer class="part p-footer f-line" data-slot="footer" data-screen="contact">${signoff(cfg,'footer')}<span>© 2026 Anton Ilin</span><nav>${['work','about','contact'].filter(s=>!cfg.off[s]).map(s=>`<button class="link" data-go="${s}">${s[0].toUpperCase()+s.slice(1)}</button>`).join('')}</nav></footer>`,
  colophon:cfg=>`<footer class="part p-footer f-colophon" data-slot="footer" data-screen="contact"><div class="strip" data-strip aria-label="Change the specimen"></div>
-  <div class="fc-row"><p>Pick an element above to change the one this site is drawn with.<br>Nothing here is tracked. It is all rendered in your browser, as dots.</p><span>© 2026 Anton Ilin</span></div></footer>`
+  <div class="fc-row"><p>Pick an element above to change the one this site is drawn with.<br>Nothing here is tracked. It is all rendered in your browser, as dots.</p>${signoff(cfg,'footer')||'<span>© 2026 Anton Ilin</span>'}</div></footer>`
 };
 
-window.PARTS={nav,hero,work,about,stack,contact,footer,project};
+window.PARTS={nav,hero,work,about,stack,contact,footer,project,brandInner};
 })();

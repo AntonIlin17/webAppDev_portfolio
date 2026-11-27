@@ -9,7 +9,8 @@ const clone=o=>JSON.parse(JSON.stringify(o));
 const pad=n=>String(n).padStart(2,'0');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PART_SLOTS=['nav','hero','work','project','about','stack','contact','footer','flow'];
-const LOOK_SLOTS=['specimen','surface','ink','pointer','air','backdrop','type','cursor','transition','intro'];
+const LOOK_SLOTS=['specimen','surface','ink','pointer','air','backdrop','type','cursor','transition','intro','element','clip','brand','signoff'];
+const SIG_SLOTS=['element','clip','brand','signoff'];
 const SECTIONS=['hero','work','about','stack','contact','footer'];
 const SCREEN_OF={hero:'home',work:'work',about:'about',stack:'about',contact:'contact',footer:'contact'};
 
@@ -17,14 +18,16 @@ const S={cfg:clone(C.presets[0].cfg),version:0,kept:{},locked:{},notes:'',builds
 let live=S.cfg,screen='home',openProject=null,tempProject=false,history=[],narrow=false;
 
 /* ───────── persistence ───────── */
-const LS='dither-portfolio-builder:v1';
+const LS='dither-portfolio-builder:v2',LS_OLD='dither-portfolio-builder:v1';
 function normalize(cfg){
  const n=Object.assign(clone(C.base),cfg||{});
- n.extras=Object.assign(clone(C.base.extras),(cfg&&cfg.extras)||{});n.off=Object.assign({},(cfg&&cfg.off)||{});n.custom=Object.assign(clone(C.base.custom),(cfg&&cfg.custom)||{});
+ n.extras=Object.assign(clone(C.base.extras),(cfg&&cfg.extras)||{});n.off=Object.assign({},(cfg&&cfg.off)||{});n.custom=Object.assign(clone(C.base.custom),(cfg&&cfg.custom)||{});n.text=Object.assign(clone(C.base.text),(cfg&&cfg.text)||{});
  C.slots.forEach(s=>{if(!s.variants.some(v=>v.id===n[s.id]))n[s.id]=C.base[s.id]});
  n.grain=Math.max(2,Math.min(8,+n.grain||3));return n;
 }
-function loadLocal(){try{const r=JSON.parse(localStorage.getItem(LS));if(!r||!r.cfg)return false;
+function loadLocal(){try{let r=JSON.parse(localStorage.getItem(LS));
+ if(!r||!r.cfg){const o=JSON.parse(localStorage.getItem(LS_OLD)||'null');if(o){S.kept=o.kept||{};S.builds=Array.isArray(o.builds)?o.builds:[];S.labels=o.labels!==false}return false}
+
  S.cfg=normalize(r.cfg);S.version=r.version|0;S.kept=r.kept||{};S.locked=r.locked||{};S.notes=r.notes||'';S.builds=Array.isArray(r.builds)?r.builds:[];S.labels=r.labels!==false;return true}catch(e){return false}}
 function saveLocal(){try{localStorage.setItem(LS,JSON.stringify({cfg:S.cfg,version:S.version,kept:S.kept,locked:S.locked,notes:S.notes,builds:S.builds,labels:S.labels}))}catch(e){}}
 let db=null,dbTimer=0,syncMsg='Your build is saved in this browser.';
@@ -34,14 +37,14 @@ async function initDb(hadLocal){
  try{db=await window.claude.use('db')}catch(e){db=null}
  if(!db)return;
  try{
-  if(!hadLocal){const snap=await db.doc('state/current').get();if(snap.exists){const d=clone(snap.data());if(d.cfg){S.cfg=normalize(d.cfg);S.version=d.version|0;S.notes=d.notes||'';(d.kept||[]).forEach(k=>S.kept[k]=true);apply(S.cfg,live);renderBin()}}}
+  if(!hadLocal){const snap=await db.doc('state/current').get();if(snap.exists){const d=clone(snap.data());if(d.cfg&&d.schema===2){S.cfg=normalize(d.cfg);S.version=d.version|0;S.notes=d.notes||'';(d.kept||[]).forEach(k=>S.kept[k]=true);apply(S.cfg,live);renderBin()}}}
   const q=await db.collection('builds').get();
   q.docs.forEach(doc=>{const d=clone(doc.data());if(d&&d.cfg&&!S.builds.some(b=>b.id===doc.id))S.builds.push({id:doc.id,name:String(d.name||'Build'),cfg:normalize(d.cfg)})});
   setSync('Saved on this page too, so Claude can read your build and notes.');if(S.tab==='build')renderBin();
  }catch(e){setSync('Your build is saved in this browser.')}
 }
 function persist(){saveLocal();if(!db)return;clearTimeout(dbTimer);
- dbTimer=setTimeout(()=>{db.doc('state/current').set({cfg:S.cfg,version:S.version,kept:Object.keys(S.kept),notes:S.notes,sheet:sheetText(),updatedAt:new Date().toISOString()}).catch(()=>{})},1200)}
+ dbTimer=setTimeout(()=>{db.doc('state/current').set({schema:2,cfg:S.cfg,version:S.version,kept:Object.keys(S.kept),notes:S.notes,sheet:sheetText(),updatedAt:new Date().toISOString()}).catch(()=>{})},1200)}
 
 /* ───────── look ───────── */
 const luma=h=>{h=h.replace('#','');const n=parseInt(h.length===3?[...h].map(c=>c+c).join(''):h,16);return((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255};
@@ -50,10 +53,59 @@ function inkOf(cfg){
  const c=cfg.custom,positive=luma(c.bg)>.5;
  return{name:'Your own',bg:c.bg,a:c.a,b:c.duo?c.b:null,fg:positive?'#161616':'#f1f0ec',accent:c.duo?c.b:c.a,positive};
 }
+const hx=h=>{h=h.replace('#','');if(h.length===3)h=[...h].map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255]};
+const mixHex=(a,b,t)=>{const A=hx(a),B=hx(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
+// text colours: your own if set, otherwise taken from the ink
+function textOf(cfg){
+ const k=inkOf(cfg),t=cfg.text||{};
+ if(t.on)return{head:t.head,body:t.body,muted:t.muted,accent:t.accent};
+ return{head:k.fg,body:k.fg,muted:mixHex(k.fg,k.bg,.42),accent:k.accent};
+}
+// the signature clip is drawn in two colours: the 3D letters quietly, the signature in the accent
+function clipInks(cfg){const k=inkOf(cfg),t=textOf(cfg);return{duo:true,positive:false,split:.56,lodBias:-1.5,inkA:mixHex(t.body,k.bg,.3),inkB:t.accent}}
+function clipEntry(id){const c=C.clip(id);return D.video('clip-'+id,c,{poster:c.poster,still:c.still})}
+let markRaf=0,markLast=0;const markScratch=document.createElement('canvas');
+// the live mark: the clip drawn small and smooth, in the page's own heading and accent colours
+function drawMark(now){
+ markRaf=0;const cs=$$('canvas[data-livemark]',stage);if(!cs.length)return;
+ if(now-markLast>60){markLast=now;
+  const e=clipEntry(live.clip),src=e.img;
+  if(src&&e.ready){const t=textOf(live),H=hx(t.head),A=hx(t.accent);
+   cs.forEach(c=>{const w=c.width,h=c.height;markScratch.width=w;markScratch.height=h;
+    const x=markScratch.getContext('2d',{willReadFrequently:true});
+    try{x.drawImage(src,0,0,w,h);const im=x.getImageData(0,0,w,h),d=im.data;
+     for(let i=0;i<d.length;i+=4){const v=d[i]/255;
+      if(v>.56){d[i]=A[0];d[i+1]=A[1];d[i+2]=A[2];d[i+3]=Math.min(255,(v-.5)*900)}
+      else{d[i]=H[0];d[i+1]=H[1];d[i+2]=H[2];d[i+3]=Math.min(255,v*2.6*255)}}
+     c.getContext('2d').putImageData(im,0,0)}catch(err){}});
+  }}
+ if(!reduced)markRaf=requestAnimationFrame(drawMark);
+}
+function startMark(){
+ if(markRaf||!$('canvas[data-livemark]',stage))return;
+ markLast=0;markRaf=requestAnimationFrame(drawMark);
+ if(reduced)setTimeout(()=>{markLast=0;drawMark(performance.now())},900);
+}
+// the sign-off has its own copy of the clip: it writes the signature once, then holds it
+function signEntry(id){const c=C.clip(id);return D.video('sign-'+id,c,{poster:c.poster,still:c.still,loop:false,autoplay:false})}
+let signRaf=0;
+// at rest the sign-off shows the still; while writing it borrows the clip, then hands back to the still
+function signViews(){return $$('canvas.dv',page).filter(c=>c._sign&&c._v).map(c=>c._v)}
+function playSign(){
+ if(reduced)return;const c=C.clip(live.clip),e=signEntry(live.clip),v=e.video;if(!e.videoReady)return;
+ cancelAnimationFrame(signRaf);
+ try{v.currentTime=Math.max(0,c.still-4.6);v.playbackRate=1.6;const p=v.play();if(p&&p.catch)p.catch(()=>{})}catch(err){}
+ signViews().forEach(w=>w.setSrc(e));
+ const tick=()=>{if(v.currentTime>=c.still-.05||v.ended){v.pause();signViews().forEach(w=>w.setSrc(c.poster));return}signRaf=requestAnimationFrame(tick)};
+ signRaf=requestAnimationFrame(tick);
+}
+const signIO=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)playSign()})},{threshold:.6});
+function setClip(cfg){cancelAnimationFrame(signRaf);signEntry(cfg.clip);$$('canvas.dv').forEach(c=>{if(c._clip&&c._v)c._v.setSrc(c._sign?C.clip(cfg.clip).poster:clipEntry(cfg.clip))})}
 function applyLook(cfg){
- const k=inkOf(cfg);
- stage.style.setProperty('--bg',k.bg);stage.style.setProperty('--fg',k.fg);stage.style.setProperty('--accent',k.accent);
- stage.classList.toggle('positive',!!k.positive);
+ const k=inkOf(cfg),t=textOf(cfg);
+ stage.style.setProperty('--bg',k.bg);stage.style.setProperty('--fg',t.body);stage.style.setProperty('--head',t.head);stage.style.setProperty('--muted',t.muted);stage.style.setProperty('--accent',t.accent);
+ stage.classList.toggle('positive',!!k.positive);stage.classList.toggle('text-own',!!(cfg.text&&cfg.text.on));stage.dataset.element=cfg.element;
+ const ci=clipInks(cfg);$$('canvas.dv').forEach(c=>{if(c._clip&&c._v)c._v.set(ci)});
  D.setLook({clear:cfg.backdrop!=='none',mode:cfg.surface,cell:cfg.grain,inkA:k.a,inkB:k.b||k.a,duo:!!k.b,bg:k.bg,positive:!!k.positive,bloom:k.bloom==null?.045:k.bloom,pointer:cfg.pointer,air:cfg.air});
  $('#grain').hidden=!cfg.extras.grain;
 }
@@ -64,13 +116,14 @@ function applyType(cfg){
  if(document.fonts&&document.fonts.load)document.fonts.load(`${t.style} ${t.weight} 48px ${t.display}`).then(refreshText).catch(()=>{});
 }
 function setCursor(cfg){stage.classList.toggle('cur-cross',cfg.cursor==='cross');stage.classList.toggle('cur-ring',cfg.cursor==='ring')}
-let backView=null;
+let backView=null,filmRO=null;
 function setBackdrop(cfg){
- const c=$('#backdrop');
- if(cfg.backdrop==='none'){c.hidden=true;if(backView){backView.destroy();backView=null}return}
- c.hidden=false;
- if(!backView)backView=new D.View(c,{kind:cfg.backdrop,reveal:false,gain:.28,maxDpr:1,fps:20,clear:false});
- backView.set({kind:cfg.backdrop,cell:Math.max(3,cfg.grain+1),mode:cfg.surface==='glyph'?'glyph':(cfg.surface==='pixel'?'pixel':'dither')});
+ const c=$('#backdrop'),mode=cfg.surface==='glyph'?'glyph':(cfg.surface==='pixel'?'pixel':'dither');
+ if(backView){backView.destroy();backView=null}
+ if(cfg.backdrop==='none'){c.hidden=true;return}
+ c.hidden=false;c._clip=cfg.backdrop==='clip';
+ if(c._clip)backView=c._v=new D.View(c,Object.assign({src:clipEntry(cfg.clip),fit:'contain',scale:1.03,reveal:false,gain:.9,maxDpr:1,fps:20,clear:false,cell:cfg.grain,mode},clipInks(cfg)));
+ else backView=c._v=new D.View(c,{kind:cfg.backdrop,reveal:false,gain:.28,maxDpr:1,fps:20,clear:false,cell:Math.max(3,cfg.grain+1),mode});
 }
 
 /* ───────── dither views ───────── */
@@ -113,8 +166,12 @@ function makeView(c){
  if(d.cell)o.cell=+d.cell;if(d.mode)o.mode=d.mode;if(d.opaque||d.bg)o.clear=false;
  ['inka','inkb','bg'].forEach(k=>{if(d[k])o[{inka:'inkA',inkb:'inkB',bg:'bg'}[k]]=d[k]});
  if(d.duo)o.duo=d.duo==='1';if(d.positive)o.positive=d.positive==='1';
- const s=d.src;
- o.src=(s==='name'||s==='stack')?textCanvas(c,s):C.img(s==='specimen'?live.specimen:s);
+ if(d.gain)o.gain=+d.gain;
+ const s=d.src,asClip=s==='clip'||(s==='specimen'&&d.main==='1'&&live.element==='clip');
+ c._clip=asClip;
+ c._sign=asClip&&!!d.cut;
+ if(asClip){Object.assign(o,clipInks(live));if(c._sign)signEntry(live.clip);o.src=c._sign?C.clip(live.clip).poster:clipEntry(live.clip);if(d.cut)o.cut=+d.cut;if(d.main==='1'){o.fit='contain';o.scale=Math.min(o.scale,.98);o.ox*=.5}}
+ else o.src=(s==='name'||s==='stack')?textCanvas(c,s):C.img(s==='specimen'?live.specimen:s);
  return new D.View(c,o);
 }
 function mount(root){$$('canvas.dv',root).forEach(c=>{if(!c._v)c._v=makeView(c)})}
@@ -122,7 +179,7 @@ function unmount(root){$$('canvas.dv',root).forEach(c=>{if(c._v){c._v.destroy();
 let textT=0;
 function refreshText(){clearTimeout(textT);textT=setTimeout(()=>{$$('canvas.dv[data-src="name"],canvas.dv[data-src="stack"]',stage).forEach(c=>{if(c._v&&c.clientWidth){c._v.srcCanvas=textCanvas(c,c.dataset.src);c._v.refresh()}})},60)}
 function setSpecimen(cfg){
- $$('canvas.dv[data-src="specimen"]').forEach(c=>{if(c._v)c._v.setSrc(C.img(cfg.specimen))});
+ $$('canvas.dv[data-src="specimen"]').forEach(c=>{if(c._v&&!c._clip)c._v.setSrc(C.img(cfg.specimen))});
  refreshText();
  $$('[data-strip-el]',page).forEach(b=>b.classList.toggle('on',b.dataset.stripEl===cfg.specimen));
 }
@@ -147,7 +204,10 @@ function afterRender(cfg){
  stage.style.setProperty('--railw',nav==='rail'?'64px':'0px');stage.style.setProperty('--dockh',nav==='dock'?'62px':(nav==='corners'?'34px':'0px'));
  stage.dataset.hero=cfg.hero;page.classList.toggle('flow-screens',cfg.flow==='screens');page.dataset.at=screen;
  mount(page);mount(navHost);
- fillStrip(cfg);updateBinds(cfg);tagAll(cfg);
+ fillStrip(cfg);updateBinds(cfg);tagAll(cfg);syncFilm();
+ startMark();
+ signIO.disconnect();$$('[data-signoff]',page).forEach(el=>signIO.observe(el));
+ if(filmRO)filmRO.disconnect();const fl=$('.film',page);if(fl){filmRO=new ResizeObserver(syncFilm);filmRO.observe(fl)}
  const w=$('[data-air-toggle]',page);if(w)w.setAttribute('aria-pressed',String(cfg.air==='wind'));
  onScroll();
 }
@@ -167,7 +227,9 @@ function tagAll(cfg){
   t.innerHTML=`<b>${C.slotById[slot].name}</b><span></span><code>${v.code}</code>`;t.children[1].textContent=slot==='ink'?inkOf(cfg).name:v.name;return t};
  $$('.part',stage).forEach(p=>p.appendChild(mk(p.dataset.slot)));
  const m=$('canvas.dv[data-main]',page);
- if(m){const box=document.createElement('div');box.className='looktags';['specimen','surface','ink','pointer'].concat(cfg.air!=='calm'?['air']:[]).forEach(s=>box.appendChild(mk(s)));m.closest('.part').appendChild(box)}
+ if(m){const box=document.createElement('div');box.className='looktags';(cfg.element==='clip'?['element','clip']:['specimen']).concat(['surface','ink','pointer'],cfg.air!=='calm'?['air']:[]).forEach(s=>box.appendChild(mk(s)));m.closest('.part').appendChild(box)}
+ const br=$('.brand',navHost);if(br){const t=mk('brand');t.classList.add('tag-brand');br.parentElement.appendChild(t)}
+ $$('[data-signoff]',page).forEach(el=>el.appendChild(mk('signoff')));
 }
 function markNav(){
  let at=screen;
@@ -206,6 +268,9 @@ function transition(fn){
  if(kind==='cut'||busy){fn();return}
  busy=true;const end=()=>{busy=false};
  if(kind==='wipe')wipe(1,300,()=>{fn();wipe(-1,420,end)});
+ else if(kind==='slash'){const s=$('#slash'),e='cubic-bezier(.5,0,.2,1)';s.style.display='block';
+  s.animate([{transform:'translateX(-140%) skewX(-24deg)'},{transform:'translateX(0) skewX(-24deg)'}],{duration:300,easing:e}).finished.then(()=>{fn();
+   return s.animate([{transform:'translateX(0) skewX(-24deg)'},{transform:'translateX(140%) skewX(-24deg)'}],{duration:400,easing:e}).finished}).then(()=>{s.style.display='none';end()})}
  else if(kind==='scan'){const s=$('#scan');s.style.display='block';
   s.animate([{transform:'translateY(-100%)'},{transform:'translateY(0)'}],{duration:320,easing:'cubic-bezier(.4,0,.2,1)'}).finished.then(()=>{fn();
    return s.animate([{transform:'translateY(0)'},{transform:'translateY(100%)'}],{duration:420,easing:'cubic-bezier(.4,0,.2,1)'}).finished}).then(()=>{s.style.display='none';end()})}
@@ -236,6 +301,22 @@ function closeProj(silent){
 function playIntro(){
  const kind=reduced?'none':live.intro,el=$('#intro'),tx=$('#intro-text'),mv=mainView();
  if(kind==='none'){if(mv)mv.replay();return}
+ if(kind==='signature'){
+  const c=$('#intro-clip'),cl=C.clip(live.clip),e=D.video('intro-'+live.clip,cl,{poster:cl.poster,loop:false,autoplay:false,still:0}),vid=e.video;
+  wipe(1,0);el.hidden=true;c.hidden=false;
+  const v=new D.View(c,Object.assign({src:e,fit:'contain',scale:.92,reveal:false,clear:false},clipInks(live)));
+  let done=false,to=0,started=false;const t0=performance.now();
+  const finish=()=>{if(done)return;done=true;clearTimeout(to);stage.removeEventListener('pointerdown',finish);try{vid.pause()}catch(err){}
+   v.destroy();c.hidden=true;wipe(-1,700);const m=mainView();if(m){m.opts.revealMs=1200;m.replay()}};
+  const tick=now=>{if(done)return;
+   if(!started){if(e.videoReady){started=true;try{vid.currentTime=0;vid.playbackRate=3;const p=vid.play();if(p&&p.catch)p.catch(()=>{})}catch(err){}}
+    else if(now-t0>2600){setTimeout(finish,500);return}}
+   else if(vid.currentTime>=cl.still+.5){vid.pause();setTimeout(finish,380);return}
+   requestAnimationFrame(tick)};
+  requestAnimationFrame(tick);
+  to=setTimeout(finish,6500);stage.addEventListener('pointerdown',finish);
+  return;
+ }
  wipe(1,0);el.hidden=false;el.className=kind;
  const open=ms=>{el.hidden=true;wipe(-1,700);const v=mainView();if(v){v.opts.revealMs=ms;v.replay()}};
  if(kind==='develop'){tx.textContent='Preparing the light…';setTimeout(()=>open(1500),700)}
@@ -263,6 +344,44 @@ stage.addEventListener('click',e=>{
  if((n=q('[data-strip-el]'))){commit({specimen:n.dataset.stripEl});return}
  if(q('[data-air-toggle]')){commit({air:S.cfg.air==='wind'?'calm':'wind'});return}
  if(q('[data-copy]')){copyText(C.me.email,'Address copied');return}
+ if(q('[data-signoff]')){playSign();return}
+ if((n=q('[data-film-step]'))){const f=$('.film',page),fr=$$('.frame',f),x0=fr[0].offsetLeft,dir=+n.dataset.filmStep;let i=0;fr.forEach((x,k)=>{if(x.offsetLeft-x0<=f.scrollLeft+12)i=k});
+  const to=fr[Math.max(0,Math.min(fr.length-1,i+dir))];f.scrollTo({left:to.offsetLeft-x0,behavior:reduced?'auto':'smooth'});return}
+ if((n=q('[data-shot]'))){const box=n.closest('.pv-media'),k=+n.dataset.shot;$$('[data-shot]',box).forEach(b=>b.setAttribute('aria-pressed',String(b===n)));
+  const c=$('canvas[data-shotview]',box);if(c&&c._v)c._v.set({mode:[null,'halftone','contour'][k]});
+  const lab=$('[data-shot-label]',box),title=$('.pv-copy h2',box.parentElement).textContent;lab.textContent=k?`Screenshot ${k} of ${title} will sit here.`:`A live demo or screenshots of ${title} will sit here.`;return}
+});
+// the filmstrip: wheel to scroll it, and a themed bar underneath
+function syncFilm(){
+ const f=$('.film',page);if(!f)return;
+ const tr=$('[data-film-track]',page),th=$('.fb-thumb',tr),max=f.scrollWidth-f.clientWidth,ratio=Math.min(1,f.clientWidth/Math.max(1,f.scrollWidth)),p=max>0?f.scrollLeft/max:0;
+ th.style.width=(ratio*100)+'%';th.style.left=(p*(1-ratio)*100)+'%';tr.setAttribute('aria-valuenow',Math.round(p*100));
+ const fr=$$('.frame',f),x0=fr[0].offsetLeft;let i=0,last=1;
+ fr.forEach((x,k)=>{const l=x.offsetLeft-x0;if(l<=f.scrollLeft+12)i=k;if(l+x.offsetWidth*.6<=f.scrollLeft+f.clientWidth)last=k+1});
+ last=Math.max(last,i+1);
+ $('.fb-count',page).textContent=`${pad(i+1)}${last>i+1?' to '+pad(last):''} of ${pad(fr.length)}`;
+ f.parentElement.classList.toggle('no-scroll',max<=2);
+}
+page.addEventListener('scroll',e=>{if(e.target.classList&&e.target.classList.contains('film'))syncFilm()},true);
+page.addEventListener('wheel',e=>{
+ const zone=e.target.closest(live.flow==='screens'?'.w-film':'.film');if(!zone||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
+ const f=$('.film',page),max=f.scrollWidth-f.clientWidth;
+ if((e.deltaY>0&&f.scrollLeft<max-1)||(e.deltaY<0&&f.scrollLeft>1)){e.preventDefault();f.scrollLeft+=e.deltaY*(e.deltaMode===1?32:1)}
+},{passive:false});
+let fbDrag=null;
+page.addEventListener('pointerdown',e=>{
+ const tr=e.target.closest('[data-film-track]');if(!tr)return;
+ const f=$('.film',page),th=$('.fb-thumb',tr),r=tr.getBoundingClientRect(),tw=th.offsetWidth;
+ let grab=e.clientX-th.getBoundingClientRect().left;if(grab<0||grab>tw)grab=tw/2;
+ const move=x=>{const p=Math.max(0,Math.min(1,(x-r.left-grab)/Math.max(1,r.width-tw)));f.scrollLeft=p*(f.scrollWidth-f.clientWidth)};
+ fbDrag={move};tr.setPointerCapture(e.pointerId);tr.classList.add('dragging');move(e.clientX);e.preventDefault();
+});
+page.addEventListener('pointermove',e=>{if(fbDrag)fbDrag.move(e.clientX)});
+const fbEnd=e=>{if(fbDrag){fbDrag=null;const tr=$('[data-film-track]',page);if(tr)tr.classList.remove('dragging')}};
+page.addEventListener('pointerup',fbEnd);page.addEventListener('pointercancel',fbEnd);
+page.addEventListener('keydown',e=>{
+ const tr=e.target.closest&&e.target.closest('[data-film-track],.film');if(!tr||(e.key!=='ArrowLeft'&&e.key!=='ArrowRight'))return;
+ const f=$('.film',page);e.preventDefault();f.scrollBy({left:(e.key==='ArrowRight'?1:-1)*f.clientWidth*.5,behavior:reduced?'auto':'smooth'});
 });
 stage.addEventListener('submit',e=>{if(e.target.closest('[data-form]')){e.preventDefault();toast('This is a mock-up, so nothing was sent.')}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(openProject)closeProj();else closeMenu()}});
@@ -292,8 +411,8 @@ window.addEventListener('pointerup',()=>{film=null;setTimeout(()=>{dragged=false
 function apply(next,prev,why){
  const ch=k=>JSON.stringify(next[k])!==JSON.stringify(prev[k]);
  const any=ks=>ks.some(ch);
- const structural=SECTIONS.filter(ch),full=ch('off')||ch('flow')||ch('extras')||structural.length>1||(structural.length&&ch('nav'));
- const flags={look:any(['surface','ink','grain','pointer','air','custom','extras','backdrop']),type:ch('type'),cursor:ch('cursor'),back:any(['backdrop','ink','grain','surface','custom']),nav:ch('nav'),project:ch('project'),spec:ch('specimen'),flow:ch('flow')};
+ const structural=SECTIONS.filter(ch),navCh=ch('nav')||ch('brand'),full=ch('off')||ch('flow')||ch('extras')||ch('element')||ch('signoff')||structural.length>1||(structural.length&&navCh);
+ const flags={look:any(['surface','ink','grain','pointer','air','custom','extras','backdrop','text','element']),type:ch('type'),cursor:ch('cursor'),back:any(['backdrop','ink','grain','surface','custom','text','clip']),nav:navCh,clip:ch('clip'),project:ch('project'),spec:ch('specimen'),flow:ch('flow')};
  live=next;
  if(flags.look)applyLook(next);
  if(flags.type)applyType(next);
@@ -304,6 +423,7 @@ function apply(next,prev,why){
  else{if(structural.length)renderPart(structural[0],next);if(flags.nav)renderPart('nav',next)}
  if(flags.project&&openProject){const id=openProject;unmount(pvHost);pvHost.innerHTML=P.project(next.project,id);mount(pvHost)}
  if(flags.spec)setSpecimen(next);
+ if(flags.clip)setClip(next);
  if(flags.type)refreshText();
  updateBinds(next);tagAll(next);
  const w=$('[data-air-toggle]',page);if(w)w.setAttribute('aria-pressed',String(next.air==='wind'));
@@ -323,11 +443,13 @@ function undo(){const h=history.pop();if(!h)return;S.cfg=h.cfg;S.version=h.versi
 let pvT=0,rvT=0,saved=null,hoverEl=null,demoRaf=0;
 function showBadge(html){const b=$('#preview-badge');b.innerHTML=html;b.hidden=false}
 function hideBadge(){$('#preview-badge').hidden=true}
-function reveal(slot){
+function reveal(slot,toSign){
  const target=SCREEN_OF[slot];if(!target)return;
  saved=saved||{};
- if(live.flow==='screens'){if(screen!==target){if(saved.screen==null)saved.screen=screen;screen=target;page.dataset.at=target;page.scrollTop=0;markNav();refreshText();D.invalidate()}return}
- const el=$(`.part[data-slot="${slot}"]`,page);if(!el)return;
+ if(live.flow==='screens'&&screen!==target){if(saved.screen==null)saved.screen=screen;screen=target;page.dataset.at=target;page.scrollTop=0;markNav();refreshText();D.invalidate()}
+ let el=$(`.part[data-slot="${slot}"]`,page);if(!el)return;
+ if(toSign){const sg=$('[data-signoff]',el);if(sg){if(saved.scroll==null)saved.scroll=page.scrollTop;page.scrollTo({top:Math.max(0,el.offsetTop+sg.offsetTop-page.clientHeight*.45),behavior:'auto'});return}}
+ if(live.flow==='screens')return;
  const top=el.offsetTop,bottom=top+el.offsetHeight,vt=page.scrollTop,vb=vt+page.clientHeight;
  if(top<vt-4||top>vb-page.clientHeight*.45||bottom<vt+80){if(saved.scroll==null)saved.scroll=page.scrollTop;page.scrollTo({top:Math.max(0,top),behavior:'auto'})}
 }
@@ -344,7 +466,7 @@ function startPreview(el){
  clearTimeout(pvT);clearTimeout(rvT);
  pvT=setTimeout(()=>{
   let next,label,slot=el.dataset.slot;
-  if(el.dataset.version!=null){const i=+el.dataset.version,p=C.presets[i];next=normalize(p.cfg);label=`Trying version <b>${pad(i+1)} ${p.name}</b>`;slot='hero'}
+  if(el.dataset.version!=null){const i=+el.dataset.version,p=C.presets[i];next=normalize(p.cfg);label=`Trying version <b>${pad(i)} ${p.name}</b>`;slot='hero'}
   else if(el.dataset.build!=null){const b=S.builds.find(x=>x.id===el.dataset.build);if(!b)return;next=normalize(b.cfg);label=`Trying saved build <b></b>`;slot='hero'}
   else{const v=C.variant(slot,el.dataset.id);next=clone(S.cfg);next[slot]=v.id;if(next.off[slot])delete next.off[slot];
    label=`Trying <b>${C.slotById[slot].name}: ${v.name}</b> ${v.code}. Click to keep it.`}
@@ -352,7 +474,9 @@ function startPreview(el){
   if(el.dataset.build!=null)$('#preview-badge b').textContent=S.builds.find(x=>x.id===el.dataset.build).name;
   if(slot==='project'){if(!openProject)openProj(C.projects[0].id,true)}
   else if(SCREEN_OF[slot])reveal(slot);
-  else if(LOOK_SLOTS.includes(slot)&&slot!=='cursor'&&slot!=='transition'&&slot!=='intro')reveal('hero');
+  else if(slot==='signoff'){const id=el.dataset.id;reveal(id==='footer'||(id==='none'&&S.cfg.signoff==='footer')?'footer':'about',true)}
+  else if(LOOK_SLOTS.includes(slot)&&!['cursor','transition','intro','brand'].includes(slot))reveal('hero');
+  if(slot==='intro')playIntro();
   if(slot==='pointer')demoPointer();else stopDemo();
   if(slot==='transition')transition(()=>{});
  },70);
@@ -374,10 +498,11 @@ function wf(str){
   if(k==='r')return `<rect x="${n[0]}" y="${n[1]}" width="${n[2]}" height="${n[3]}" fill="currentColor" opacity="${n[4]==null?1:n[4]}"/>`;
   if(k==='o')return `<rect x="${n[0]}" y="${n[1]}" width="${n[2]}" height="${n[3]}" fill="none" stroke="currentColor" stroke-width=".6" opacity=".65"/>`;
   if(k==='c')return `<circle cx="${n[0]}" cy="${n[1]}" r="${n[2]}" fill="url(#wfdots)"/>`;
+  if(k==='s')return `<path transform="translate(${n[0]},${n[1]}) scale(${n[2]/30})" d="M0,6c3,-8 6,-8 5,0c-1,6 4,2 7,-3c2,-3 3,3 5,1c3,-3 2,-7 5,-4c2,2 -1,6 8,2" fill="none" stroke="#ff754a" stroke-width="1.3" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;
   return `<rect x="${n[0]}" y="${n[1]}" width="${n[2]}" height="${n[3]}" fill="url(#wfdots)"/>`}).join('')+`</svg>`;
 }
 const keepBtn=(slot,v)=>`<button class="keep${S.kept[slot+':'+v.id]?' kept':''}" data-keep="${slot}:${v.id}" aria-pressed="${!!S.kept[slot+':'+v.id]}" aria-label="Keep ${v.name}" title="Keep this part">${S.kept[slot+':'+v.id]?'♥':'♡'}</button>`;
-function card(slot,v){
+function card(slot,v,prefix){
  const on=S.cfg[slot]===v.id&&!S.cfg.off[slot];let thumb='';
  if(v.wf)thumb=wf(v.wf);
  else if(slot==='specimen')thumb=`<img src="${C.thumb(v.id)}" alt="" loading="lazy" width="90" height="90">`;
@@ -385,8 +510,10 @@ function card(slot,v){
  else if(slot==='ink'){const k=v.id==='custom'?inkOf(Object.assign({},S.cfg,{ink:'custom'})):C.inks[v.id];
   thumb=`<span class="sw"><i style="background:${k.bg}"></i><i style="background:radial-gradient(${k.a} 1.2px,transparent 1.5px) 0 0/5px 5px;clip-path:circle(34% at ${k.b?42:50}% 50%)"></i>${k.b?`<i style="background:radial-gradient(${k.b} 1.2px,transparent 1.5px) 2px 2px/5px 5px;clip-path:circle(24% at 64% 46%)"></i>`:''}</span>`}
  else if(slot==='type'){const t=C.types[v.id];thumb=`<span class="aa" style="font-family:${t.display.replace(/"/g,"'")};font-style:${t.style};font-weight:${t.weight};text-transform:${t.up}">Aa</span>`}
+ else if(slot==='brand')thumb=`<span class="aa bthumb">${P.brandInner(v.id==='live'?'mark':v.id)}${v.id==='live'?'<em>live</em>':''}</span>`;
+ else if(slot==='clip')thumb=`<img class="wide" src="${C.clip(v.id).poster}" alt="" loading="lazy" width="264" height="120">`;
  const txt=!thumb;
- return `<div class="vcard${on?' on':''}" data-card="${slot}:${v.id}"><button class="vpick${txt?' txt':''}" data-pv data-slot="${slot}" data-id="${v.id}" title="${(v.hint||'').replace(/"/g,'&quot;')}" aria-pressed="${on}">${thumb}<span class="vn">${v.name}</span><span class="vc">${v.code}</span></button>${keepBtn(slot,v)}</div>`;
+ return `<div class="vcard${on?' on':''}" data-card="${slot}:${v.id}"><button class="vpick${txt?' txt':''}" data-pv data-slot="${slot}" data-id="${v.id}" title="${(v.hint||'').replace(/"/g,'&quot;')}" aria-pressed="${on}">${thumb}<span class="vn">${prefix?C.slotById[slot].name+': ':''}${v.name}</span><span class="vc">${v.code}</span></button>${keepBtn(slot,v)}</div>`;
 }
 function slotBlock(id,cols){
  const s=C.slotById[id],cur=C.variant(id,S.cfg[id]),off=!!S.cfg.off[id];
@@ -401,11 +528,17 @@ function slotBlock(id,cols){
 function customPanel(){const c=S.cfg.custom;
  return `<div class="custom"><label>Ink<input type="color" data-custom="a" value="${c.a}"></label><label>Second ink<input type="color" data-custom="b" value="${c.b}"></label><label>Ground<input type="color" data-custom="bg" value="${c.bg}"></label></div>
  <div class="toggles" style="margin-top:8px"><label><input type="checkbox" data-custom-duo ${c.duo?'checked':''}> Use two inks</label></div>`}
+function textPanel(){
+ const t=textOf(S.cfg),own=!!S.cfg.text.on;
+ return `<section class="slot" data-slotbox="text"><div class="slot-head"><h3>Text colours<span>${own?'Your own':'Taken from the ink'}</span></h3>${own?'<button class="s-act" data-text-reset>Reset</button>':''}</div>
+  <div class="custom four">${[['head','Headings'],['body','Body'],['muted','Quiet text'],['accent','Accent']].map(([k,n])=>`<label>${n}<input type="color" data-text="${k}" value="${t[k]}" aria-label="${n} colour"></label>`).join('')}</div></section>`;
+}
 function sheetText(){
  const c=S.cfg,line=(id)=>{const s=C.slotById[id],v=C.variant(id,c[id]);return c.off[id]?`(removed)  ${s.name}`:`${v.code.padEnd(7)} ${s.name}: ${id==='ink'?inkOf(c).name:v.name}`};
  const kept=Object.keys(S.kept).map(k=>{const[s,i]=k.split(':'),v=C.variant(s,i);return `${v.code} ${v.name}`});
- return ['Dither Portfolio Builder, build sheet',`Started from version ${pad(S.version+1)}, ${C.presets[S.version].name}`,'','PARTS',...PART_SLOTS.map(line),'','LOOK',...LOOK_SLOTS.map(line),
+ return ['Dither Portfolio Builder, build sheet',`Started from version ${pad(S.version)}, ${C.presets[S.version].name}`,'','PARTS',...PART_SLOTS.map(line),'','LOOK',...LOOK_SLOTS.map(line),
   `GRAIN   ${c.grain}`,...(c.ink==='custom'?[`CUSTOM  ink ${c.custom.a}${c.custom.duo?', second ink '+c.custom.b:''}, ground ${c.custom.bg}`]:[]),
+  ...(c.text&&c.text.on?[`TEXT    headings ${c.text.head}, body ${c.text.body}, quiet ${c.text.muted}, accent ${c.text.accent}`]:[]),
   `EXTRAS  ${C.extras.map(x=>x.name.toLowerCase()+' '+(c.extras[x.id]?'on':'off')).join(', ')}`,
   ...(kept.length?['','KEPT',kept.join(', ')]:[]),...(S.notes.trim()?['','NOTES',S.notes.trim()]:[])].join('\n');
 }
@@ -415,15 +548,20 @@ function renderBin(){
  let h='';
  if(S.tab==='versions'){
   h=`<p class="hint">Ten complete versions. Move over one to try it on the page, click to start from it. Every part can be swapped afterwards.</p>`+
-   C.presets.map((p,i)=>{const k=C.inks[p.cfg.ink];return `<button class="ver${S.version===i?' on':''}" data-pv data-version="${i}"><canvas class="dv" data-src="${p.cfg.specimen}" data-mode="${p.cfg.surface}" data-cell="2" data-reveal="0" data-scale="1.08" data-inka="${k.a}" data-inkb="${k.b||k.a}" data-bg="${k.bg}" data-duo="${k.b?1:0}" data-positive="${k.positive?1:0}"></canvas><span><b>${p.name}<i>${pad(i+1)}</i></b><span>${p.blurb}</span></span></button>`}).join('');
+   C.presets.map((p,i)=>{const k=inkOf(p.cfg);return `<button class="ver${S.version===i?' on':''}" data-pv data-version="${i}"><canvas class="dv" data-src="${p.cfg.specimen}" data-mode="${p.cfg.surface}" data-cell="2" data-reveal="0" data-scale="1.08" data-inka="${k.a}" data-inkb="${k.b||k.a}" data-bg="${k.bg}" data-duo="${k.b?1:0}" data-positive="${k.positive?1:0}"></canvas><span><b>${p.name}<i>${pad(i)}</i></b><span>${p.blurb}</span></span></button>`}).join('');
  }else if(S.tab==='parts'){
   h=`<p class="hint">Move over a part to preview it on the page. Click to use it, tap the heart to keep it for later, or remove a section entirely.</p>`+
    PART_SLOTS.map(s=>slotBlock(s,C.slotById[s].variants.length===2?'two':'')).join('');
  }else if(S.tab==='look'){
-  h=`<p class="hint">How everything is drawn. These apply to the whole page at once.</p>`+slotBlock('specimen','five')+slotBlock('surface','four')+slotBlock('ink','four')+
+  h=`<p class="hint">How everything is drawn. These apply to the whole page at once.</p>`+slotBlock('specimen','five')+slotBlock('surface','four')+slotBlock('ink','four')+textPanel()+
    `<section class="slot" data-slotbox="grain"><div class="slot-head"><h3>Grain<span>dot size</span></h3><button class="s-act" data-lock="grain" aria-pressed="${!!S.locked.grain}">${S.locked.grain?'Locked':'Lock'}</button></div><div class="range"><input type="range" id="grain-range" min="2" max="8" step="1" value="${S.cfg.grain}" aria-label="Grain"><output id="grain-out">${S.cfg.grain} px</output></div></section>`+
    ['pointer','air','backdrop'].map(s=>slotBlock(s)).join('')+slotBlock('type')+['cursor','transition','intro'].map(s=>slotBlock(s)).join('')+
    `<section class="slot" data-slotbox="extras"><div class="slot-head"><h3>Cabinet details<span>small touches</span></h3></div><div class="toggles">${C.extras.map(x=>`<label title="${x.hint}"><input type="checkbox" data-extra="${x.id}" ${S.cfg.extras[x.id]?'checked':''}> ${x.name}</label>`).join('')}</div></section>`;
+ }else if(S.tab==='signature'){
+  h=`<p class="hint">Your 3D mark and signature, converted so the page can draw them in dots. Move over any option to see where it lands on the page.</p>`+
+   slotBlock('element','two')+slotBlock('brand','four')+slotBlock('signoff','four')+
+   `<section class="slot" data-slotbox="sigmore"><div class="slot-head"><h3>More places<span>inside other parts</span></h3></div><div class="vgrid">${[['backdrop','clip'],['intro','signature'],['transition','slash']].map(([a,b])=>card(a,C.variant(a,b),true)).join('')}</div></section>`+
+   slotBlock('clip','two');
  }else{
   const kept=Object.keys(S.kept);
   h=`<p class="hint">Everything on the page right now, by label. Copy it into the chat and it can be built exactly.</p><pre class="sheet" id="sheet" tabindex="0"></pre>
@@ -437,7 +575,7 @@ function renderBin(){
  binBody.innerHTML=h;
  if(S.tab==='build'){$('#sheet').textContent=sheetText();$('#notes').value=S.notes;$('#sync').textContent=syncMsg;$$('#builds .saved span').forEach((n,i)=>{n.textContent=S.builds[i].name})}
  mount(binBody);
- $('#bin-sub').textContent=`Version ${pad(S.version+1)}, ${C.presets[S.version].name}`;
+ $('#bin-sub').textContent=`Version ${pad(S.version)}, ${C.presets[S.version].name}`;
  $('#undo').disabled=!history.length;
 }
 function syncBin(){ // cheap update after a change, without rebuilding the tab
@@ -447,14 +585,15 @@ function syncBin(){ // cheap update after a change, without rebuilding the tab
  const sh=$('#sheet');if(sh)sh.textContent=sheetText();
  const g=$('#grain-range');if(g){g.value=S.cfg.grain;$('#grain-out').textContent=S.cfg.grain+' px'}
  $$('[data-extra]',binBody).forEach(i=>{i.checked=!!S.cfg.extras[i.dataset.extra]});
+ const tb=$('[data-slotbox="text"]',binBody);if(tb){const t=textOf(S.cfg);$$('[data-text]',tb).forEach(i=>{i.value=t[i.dataset.text]});if(!!$('[data-text-reset]',tb)!==!!S.cfg.text.on){const y=binBody.scrollTop;renderBin();binBody.scrollTop=y}}
  const needCustom=S.cfg.ink==='custom',has=!!$('.custom',binBody);
  if(S.tab==='look'&&needCustom!==has){const y=binBody.scrollTop;renderBin();binBody.scrollTop=y}
- $('#bin-sub').textContent=`Version ${pad(S.version+1)}, ${C.presets[S.version].name}`;
+ $('#bin-sub').textContent=`Version ${pad(S.version)}, ${C.presets[S.version].name}`;
  $('#undo').disabled=!history.length;
 }
 function focusSlot(slot){
  app.classList.remove('bin-off');$('#bin-show').hidden=true;
- const tab=PART_SLOTS.includes(slot)?'parts':'look';
+ const tab=PART_SLOTS.includes(slot)?'parts':(SIG_SLOTS.includes(slot)?'signature':'look');
  if(S.tab!==tab){S.tab=tab;renderBin()}
  const box=$(`[data-slotbox="${slot}"]`,binBody);
  if(box){binBody.scrollTo({top:box.offsetTop-binBody.offsetTop-6,behavior:reduced?'auto':'smooth'});box.classList.remove('flash');void box.offsetWidth;box.classList.add('flash')}
@@ -469,9 +608,10 @@ binBody.addEventListener('click',e=>{
  if((n=t.closest('[data-off]'))){const s=n.dataset.off,off=Object.assign({},S.cfg.off);if(off[s])delete off[s];else off[s]=true;commit({off});const y=binBody.scrollTop;renderBin();binBody.scrollTop=y;return}
  if((n=t.closest('[data-lock]'))){const s=n.dataset.lock;if(S.locked[s])delete S.locked[s];else S.locked[s]=true;n.setAttribute('aria-pressed',String(!!S.locked[s]));n.textContent=S.locked[s]?'Locked':'Lock';saveLocal();return}
  if((n=t.closest('[data-filter]'))){S.filter=n.dataset.filter;const y=binBody.scrollTop;renderBin();binBody.scrollTop=y;return}
+ if(t.closest('[data-text-reset]')){commit({text:Object.assign({},S.cfg.text,{on:false})});const y=binBody.scrollTop;renderBin();binBody.scrollTop=y;return}
  if(t.id==='copy-sheet'){copyText(sheetText(),'Build sheet copied');return}
  if(t.id==='replay'){page.scrollTop=0;playIntro();return}
- if(t.id==='reset'){commit(clone(C.presets[0].cfg),{version:0});toast('Back to version 01. Undo brings your build back.');renderBin();return}
+ if(t.id==='reset'){commit(clone(C.presets[0].cfg),{version:0});toast('Back to your build. Undo brings the last one back.');renderBin();return}
  if(t.id==='save-build'){const name=($('#build-name').value||'').trim()||`Build ${S.builds.length+1}`,id='b'+Date.now().toString(36);
   S.builds.push({id,name,cfg:clone(S.cfg)});if(db)db.doc('builds/'+id).set({name,cfg:clone(S.cfg),sheet:sheetText(),createdAt:new Date().toISOString()}).catch(()=>{});persist();renderBin();toast('Build saved');return}
 });
@@ -480,18 +620,20 @@ binBody.addEventListener('input',e=>{
  if(t.id==='grain-range'){$('#grain-out').textContent=t.value+' px';const next=clone(S.cfg);next.grain=+t.value;apply(next,live);return}
  if(t.id==='notes'){S.notes=t.value;persist();return}
  if(t.dataset.custom){const next=clone(live);next.custom[t.dataset.custom]=t.value;apply(next,live);return}
+ if(t.dataset.text){const next=clone(live);next.text=Object.assign({},textOf(live),{on:true,[t.dataset.text]:t.value});apply(next,live);return}
 });
 binBody.addEventListener('change',e=>{
  const t=e.target;
  if(t.id==='grain-range'){commit({grain:+t.value});return}
  if(t.dataset.custom){const custom=Object.assign({},S.cfg.custom,{[t.dataset.custom]:t.value});commit({custom});return}
  if(t.matches('[data-custom-duo]')){commit({custom:Object.assign({},S.cfg.custom,{duo:t.checked})});return}
+ if(t.dataset.text){const text=Object.assign({},textOf(S.cfg),{on:true,[t.dataset.text]:t.value});commit({text});const y=binBody.scrollTop;renderBin();binBody.scrollTop=y;return}
  if(t.dataset.extra){commit({extras:Object.assign({},S.cfg.extras,{[t.dataset.extra]:t.checked})});return}
 });
 $$('.bin-tabs [data-tab]').forEach(b=>b.addEventListener('click',()=>{endPreview();S.tab=b.dataset.tab;renderBin();binBody.scrollTop=0}));
 $('#shuffle').addEventListener('click',()=>{
  const patch={},pick=a=>a[Math.floor(Math.random()*a.length)];
- PART_SLOTS.concat(LOOK_SLOTS).forEach(s=>{if(S.locked[s])return;let vs=C.slotById[s].variants;if(s==='ink')vs=vs.filter(v=>v.id!=='custom');if(s==='intro')return;patch[s]=pick(vs).id});
+ PART_SLOTS.concat(LOOK_SLOTS).forEach(s=>{if(S.locked[s])return;let vs=C.slotById[s].variants;if(s==='ink')vs=vs.filter(v=>v.id!=='custom');if(s==='intro'||SIG_SLOTS.includes(s))return;if(s==='backdrop')vs=vs.filter(v=>v.id!=='clip');patch[s]=pick(vs).id});
  if(!S.locked.grain)patch.grain=2+Math.floor(Math.random()*4);
  commit(patch);screen='home';page.dataset.at='home';page.scrollTop=0;replayVisible();
 });
@@ -509,7 +651,7 @@ D.init();
 applyType(S.cfg);applyLook(S.cfg);setCursor(S.cfg);setBackdrop(S.cfg);
 buildPage(S.cfg);renderBin();playIntro();
 let rsT=0;
-new ResizeObserver(()=>{clearTimeout(rsT);rsT=setTimeout(()=>{const n=stage.clientWidth<760;if(n!==narrow){narrow=n;buildPage(live)}else{refreshText();D.invalidate();onScroll()}},120)}).observe(stage);
+new ResizeObserver(()=>{clearTimeout(rsT);rsT=setTimeout(()=>{const n=stage.clientWidth<760;if(n!==narrow){narrow=n;buildPage(live)}else{refreshText();D.invalidate();onScroll();syncFilm()}},120)}).observe(stage);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(refreshText);
 initDb(hadLocal);
 window.__builder={S,commit,apply,go,openProj,sheetText,get live(){return live}};

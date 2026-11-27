@@ -17,7 +17,7 @@ const FS=`#version 300 es
 precision highp float;precision highp int;
 uniform sampler2D u_tex,u_blue,u_glyph;
 uniform vec2 u_res;uniform vec4 u_rect;uniform vec4 u_mouse;uniform vec3 u_inkA,u_inkB,u_bg;
-uniform float u_lodBase,u_cell,u_time,u_dpr,u_glyphs,u_reveal,u_exposure,u_under,u_bloom,u_duo,u_split,u_positive,u_wind,u_drift,u_lamp,u_gain,u_clear;
+uniform float u_lodBase,u_cell,u_time,u_dpr,u_glyphs,u_reveal,u_exposure,u_under,u_bloom,u_duo,u_split,u_positive,u_wind,u_drift,u_lamp,u_gain,u_clear,u_cut;
 uniform int u_mode,u_src,u_ptr;
 out vec4 o;
 const float B4[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);
@@ -60,6 +60,7 @@ vec2 at(vec2 px,float slod){
   vec3 L=normalize(vec3(u_mouse.xy-px,u_rect.z*.55));
   float fall=clamp(1.2-length(u_mouse.xy-px)/(u_rect.z*2.4),.15,1.2);
   t*=mix(1.,(.25+1.25*max(dot(n,L),0.))*fall,u_lamp);}
+ if(u_cut>0.)t=t<u_cut?0.:t;
  float cov=step(.02,t);
  t=clamp(t*u_exposure*u_gain,0.,1.);
  if(u_positive>.5)t=max(0.,cov-t)*.92;
@@ -178,7 +179,7 @@ function init(){
  blank=tex(gl.NEAREST,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([0,0,0,255]));
  gl.enable(gl.SCISSOR_TEST);
  glc.addEventListener('webglcontextlost',e=>{e.preventDefault();ok=false});
- glc.addEventListener('webglcontextrestored',()=>{gl=null;U={};cache.clear();init();views.forEach(v=>{v._own=null;v.setSrc(v.opts.src,true)})});
+ glc.addEventListener('webglcontextrestored',()=>{gl=null;U={};const vids=[...cache.values()].filter(e=>e.video);cache.clear();init();vids.forEach(e=>{if(ok&&e.videoReady){e.tex=tex(gl.LINEAR_MIPMAP_LINEAR,gl.CLAMP_TO_EDGE);e.stamp=-1}cache.set(e.url,e)});views.forEach(v=>{v._own=null;v.setSrc(v.opts.src,true)})});
  ok=true;return true;
 }
 function buildGlyphs(){
@@ -197,6 +198,30 @@ function load(url){
  e.img.onload=()=>{e.w=e.img.naturalWidth;e.h=e.img.naturalHeight;if(ok)e.tex=upload(e.img);e.ready=true;e.waiters.splice(0).forEach(f=>f())};
  e.img.onerror=()=>{e.failed=true};
  e.img.src=url;return e;
+}
+
+function pushFrame(e){
+ if(!ok||!e.tex)return;const v=e.video;if(v.readyState<2)return;
+ try{gl.bindTexture(gl.TEXTURE_2D,e.tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,gl.RGBA,gl.UNSIGNED_BYTE,v);gl.generateMipmap(gl.TEXTURE_2D);e.stamp=v.currentTime}catch(err){}
+}
+// A looping video as a tone source. Falls back to a still poster if it cannot play.
+function video(key,srcs,o){
+ o=o||{};let e=cache.get(key);if(e)return e;
+ const v=document.createElement('video');v.muted=true;v.defaultMuted=true;v.loop=o.loop!==false;v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';
+ e={url:key,isVideo:false,videoReady:false,video:v,img:null,ready:false,failed:false,tex:null,w:528,h:240,waiters:[],stamp:-1,still:o.still||0};cache.set(key,e);
+ const done=()=>{e.ready=true;e.waiters.splice(0).forEach(f=>f());invalidate()};
+ // show the poster straight away, then switch to the moving clip once it has loaded
+ if(o.poster){const p=load(o.poster),use=()=>{if(e.videoReady)return;e.tex=p.tex;e.img=p.img;e.w=p.w;e.h=p.h;done()};p.ready?use():p.waiters.push(use)}
+ v.addEventListener('loadeddata',()=>{e.videoReady=true;e.isVideo=true;e.img=v;e.w=v.videoWidth||e.w;e.h=v.videoHeight||e.h;if(ok){e.tex=tex(gl.LINEAR_MIPMAP_LINEAR,gl.CLAMP_TO_EDGE);pushFrame(e)}done()});
+ v.addEventListener('error',()=>{e.failed=true});
+ v.addEventListener('seeked',()=>{e.stamp=-1;invalidate()});
+ v.addEventListener('pause',()=>{e.stamp=-1;invalidate()});
+ v.addEventListener('playing',()=>{invalidate()});
+ if(reduced)return e;
+ const mp4=v.canPlayType('video/mp4; codecs="avc1.42E01E"');
+ v.src=(mp4&&srcs.mp4)?srcs.mp4:srcs.webm;
+ if(o.autoplay!==false){const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{})}
+ return e;
 }
 
 class View{
@@ -221,6 +246,7 @@ class View{
   this.opts.src=src;
   if(this.opts.kind!=='image'){this.dirty=true;return}
   if(src&&typeof src==='object'&&src.getContext){this.srcCanvas=src;this.refresh();return}
+  if(src&&src.waiters){const e=src,use=()=>{if(this.opts.src===src){this.entry=e;this.dirty=true;start()}};e.ready?use():e.waiters.push(use);return}
   if(!src)return;
   const e=load(src);
   const use=()=>{if(this.opts.src===src){this.entry=e;this.dirty=true}};
@@ -241,6 +267,7 @@ class View{
   const o=this.opts,air=o.air||look.air;
   if(reduced)return false;
   if(this.rv<1)return !!this.rvStart;
+  const en=this.entry;if(en&&en.isVideo&&en.video&&!en.video.paused&&!en.video.ended)return true;
   if(o.kind!=='image')return o.still?false:true;
   if(air!=='calm')return true;
   if(Math.abs(this.mouse.k-this.mouse.target)>.004)return true;
@@ -279,20 +306,20 @@ class View{
   gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,blueTex);gl.uniform1i(U.u_blue,1);
   gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,glyphTex);gl.uniform1i(U.u_glyph,2);
   gl.uniform2f(U.u_res,this.w,this.h);gl.uniform4f(U.u_rect,r[0],r[1],r[2],r[3]);
-  gl.uniform1f(U.u_lodBase,kind==='image'?Math.log2(Math.max(1e-3,this.entry.w/(2*r[2]))):0);
+  gl.uniform1f(U.u_lodBase,kind==='image'?Math.log2(Math.max(1e-3,this.entry.w/(2*r[2])))+(o.lodBias||0):0);
   gl.uniform1f(U.u_cell,cell);gl.uniform1f(U.u_dpr,this.dpr);gl.uniform1f(U.u_glyphs,GLYPHS.length);
   gl.uniform1f(U.u_time,frozenTime??((now-t0)/1000));
   gl.uniform1f(U.u_reveal,this.rv);gl.uniform1f(U.u_exposure,o.exposure??look.exposure);gl.uniform1f(U.u_gain,o.gain??1);
   const A=hex(o.inkA||look.inkA),B=hex(o.inkB||look.inkB),G=hex(o.bg||look.bg);
   gl.uniform3f(U.u_inkA,A[0],A[1],A[2]);gl.uniform3f(U.u_inkB,B[0],B[1],B[2]);gl.uniform3f(U.u_bg,G[0],G[1],G[2]);
-  gl.uniform1f(U.u_duo,(o.duo??look.duo)?1:0);gl.uniform1f(U.u_split,look.split);gl.uniform1f(U.u_positive,(o.positive??look.positive)?1:0);
+  gl.uniform1f(U.u_duo,(o.duo??look.duo)?1:0);gl.uniform1f(U.u_split,o.split??look.split);gl.uniform1f(U.u_positive,(o.positive??look.positive)?1:0);
   const pos=(o.positive??look.positive);gl.uniform1f(U.u_under,pos?0:look.under);gl.uniform1f(U.u_bloom,(kind==="image"&&!pos)?look.bloom:0);
   const air=reduced?'calm':(o.air||look.air);
   gl.uniform1f(U.u_wind,air==='wind'?1:0);gl.uniform1f(U.u_drift,air==='drift'?1:0);
   const ptr=o.interactive?(o.pointer||look.pointer):'still';
   gl.uniform1i(U.u_ptr,PTR[ptr]??0);gl.uniform1f(U.u_lamp,ptr==='lamp'?m.k:0);
   gl.uniform4f(U.u_mouse,m.x*this.dpr,m.y*this.dpr,(o.lens||look.lens)*this.dpr*(o.lensScale||1),m.k);
-  const clear=!!(o.clear??look.clear);gl.uniform1f(U.u_clear,clear?1:0);
+  const clear=!!(o.clear??look.clear);gl.uniform1f(U.u_clear,clear?1:0);gl.uniform1f(U.u_cut,o.cut||0);
   gl.uniform1i(U.u_mode,mode);gl.uniform1i(U.u_src,SRC[kind]??0);
   gl.drawArrays(gl.TRIANGLES,0,3);
   if(clear)this.ctx.clearRect(0,0,this.w,this.h);
@@ -319,6 +346,7 @@ function drawCPU(v){
 
 function frame(now){
  raf=0;let again=false;
+ views.forEach(v=>{const e=v.entry;if(e&&e.isVideo&&v.visible&&e.video.currentTime!==e.stamp)pushFrame(e)});
  views.forEach(v=>{
   if(!v.visible||!v.canvas.isConnected)return;
   const anim=v.animated;
@@ -335,5 +363,5 @@ function setLook(patch){Object.assign(look,patch);invalidate()}
 // keep idle views honest: a dirty flag set outside the loop needs a kick
 setInterval(()=>{if(dirtyAny())start()},250);
 
-window.Dither={init,View,look,setLook,invalidate,preload:load,get gpu(){return ok},freeze(t){frozenTime=t;invalidate()},views,MODES};
+window.Dither={init,View,look,setLook,invalidate,preload:load,video,get gpu(){return ok},freeze(t){frozenTime=t;invalidate()},views,MODES};
 })();

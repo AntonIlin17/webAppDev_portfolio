@@ -38,3 +38,15 @@ Parts: navigation (5), landing (7), work (5), project view (3), about (3), stack
 contact (3), footer (2), flow (2).
 Look: specimen (58), surface (8), ink (11), grain, pointer (5), motion (3), backdrop (3),
 type (6), cursor (3), transition (4), opening (3), and four small cabinet details.
+
+## Signature and mark
+
+`assets/sig/` holds the two signature recordings, converted from the original GIFs into
+small greyscale tone videos (`sig-a`, `sig-b`, as mp4 and webm) so the dither engine can
+draw them in any ink, plus a still of each, the AI mark as two masks (letters and slash)
+and the handwritten signature on its own. The Signature tab places them: as the landing
+element, the top-left mark (still, live or signature), a sign-off that writes itself under
+the statement or in the footer, a page backdrop, an opening, and a slash transition.
+
+Text colours (headings, body, quiet text, accent) are set in the Look tab and override
+the colours taken from the ink.
