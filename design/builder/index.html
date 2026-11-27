@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>html{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>Dither Portfolio Builder</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,800&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Doto:wght@500;900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Jersey+10&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="builder.css">
+
+<div id="app" class="labels-on">
+  <main id="stage" aria-label="The portfolio you are building">
+    <canvas id="backdrop" aria-hidden="true"></canvas>
+    <div id="page" tabindex="-1"></div>
+    <div id="overlay">
+      <div id="nav-host"></div>
+      <div id="pv-host"></div>
+      <i id="progress" aria-hidden="true"></i>
+      <div id="grain" aria-hidden="true"></div>
+      <canvas id="wipe" aria-hidden="true"></canvas>
+      <div id="scan" aria-hidden="true"></div>
+      <div id="intro" hidden><span id="intro-text"></span></div>
+      <div id="preview-badge" hidden></div>
+      <div id="toast" role="status" aria-live="polite"></div>
+      <i id="cursor" aria-hidden="true"></i>
+    </div>
+  </main>
+
+  <aside id="bin" aria-label="Parts bin">
+    <header class="bin-head">
+      <div><strong>Parts bin</strong><span id="bin-sub"></span></div>
+      <button id="bin-hide" class="b-btn" aria-controls="bin">Hide</button>
+    </header>
+    <div class="bin-tabs" role="tablist">
+      <button role="tab" data-tab="versions">Versions</button>
+      <button role="tab" data-tab="parts">Parts</button>
+      <button role="tab" data-tab="look">Look</button>
+      <button role="tab" data-tab="build">My build</button>
+    </div>
+    <div id="bin-body" class="bin-body"></div>
+    <footer class="bin-foot">
+      <button id="shuffle" class="b-btn" title="Change every part that is not locked">Shuffle</button>
+      <button id="undo" class="b-btn" disabled>Undo</button>
+      <label class="b-check"><input type="checkbox" id="labels" checked> Labels</label>
+    </footer>
+  </aside>
+  <button id="bin-show" class="b-btn" hidden>Parts bin</button>
+</div>
+
+<script src="engine.js"></script>
+<script src="content.js"></script>
+<script src="parts.js"></script>
+<script src="app.js"></script>
+</body></html>
