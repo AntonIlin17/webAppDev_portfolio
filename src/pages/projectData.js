@@ -34,16 +34,18 @@ const projects = [
   {
     title: 'OpenClaw Desktop',
     description: 'A Windows workspace for chatting with a local assistant, attaching files, and collecting daily market data.',
-    approach: 'An Electron and React client connects to an existing OpenClaw installation in WSL. The data collector stores OHLCV history in local SQLite, supports scheduled runs, and exports CSV files.',
+    approach: 'An Electron and React client connects to OpenClaw in WSL and runs Qwen through Ollama. It supports file analysis, voice dictation, and chat exports. A separate workspace schedules market-data collection, stores it in SQLite, and exports CSV.',
     stack: ['Electron', 'TypeScript', 'React', 'SQLite', 'Ollama'],
     links: [
       { label: 'Watch demo', url: '/demos/openclaw-desktop.webm' },
       { label: 'Source code', url: 'https://github.com/AntonIlin17/openclawUI' },
     ],
     images: [
-      { src: '/projects/openclaw/overview.webp', alt: 'OpenClaw Desktop overview with its local assistant connected', caption: 'Connected assistant workspace' },
-      { src: '/projects/openclaw/conversation.webp', alt: 'OpenClaw Desktop conversation showing a local model response', caption: 'Local model conversation' },
-      { src: '/projects/openclaw/stocks.webp', alt: 'Market data collection dashboard with a watchlist and price chart', caption: 'Scheduled market data workspace' },
+      { src: '/projects/openclaw/conversation.webp', alt: 'Complete Qwen conversation with an attached warehouse CSV, a finished file read, a results table, and an 8.2% follow-up calculation', caption: 'Full local conversation with CSV analysis' },
+      { src: '/projects/openclaw/working.webp', alt: 'The assistant has accepted a follow-up request and displays the live run status and stop control', caption: 'Live run progress and stop control' },
+      { src: '/projects/openclaw/voice-input.webp', alt: 'Windows speech recognition has added a dictated phrase to the existing chat draft', caption: 'Windows dictation in the chat composer' },
+      { src: '/projects/openclaw/connection.webp', alt: 'Connection settings show Ollama available, the Qwen model selected, and OpenClaw connected', caption: 'Connected Ollama and OpenClaw services' },
+      { src: '/projects/openclaw/stocks.webp', alt: 'Market workspace shows 753 collected price records, a real price chart, and a saved collection schedule', caption: 'Live market data and collection schedule' },
     ],
   },
   {
