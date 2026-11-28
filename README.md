@@ -18,7 +18,7 @@ A simple, fast portfolio built with React + Vite for COMP 229. It demonstrates c
 ## Project Structure
 - `src/main.jsx` — Router setup and app mount
 - `src/App.jsx` — The frame around every page: backdrop, top bar, page wipe, opening, cursor, `<Outlet />`
-- `src/pages/*` — Route components: Home, PortfolioAbout, Projects, ProjectPage, PortfolioContact, plus the older Education, Services, Contact form, Login, Register and Dashboard pages
+- `src/pages/*` — Route components: Home, PortfolioAbout, Projects, ProjectPage, PortfolioContact, plus the older Services, Contact form, Login, Register and Dashboard pages
 - `src/pages/projectData.js` — Every project shown on the site. Each one gets a page at `/projects/<slug>`
 - `src/components/portfolio/*` — The dither renderer, artwork, lightbox, opening, cursor, and `portfolio.css`
 - `public/build-art` — The Dither Cabinet elements, the 3D mark and the signature recording
@@ -125,7 +125,7 @@ On first deploy, Vercel will detect the Vite project automatically. If using a d
 - `src/pages/Contact.jsx` — Email and phone
 - `src/pages/Home.jsx` — Intro/mission text
 - `src/pages/projectData.js` — Projects, screenshots and demo videos
-- `src/components/portfolio/identity.js` — Name, role, the facts on the About page, the tools list
+- `src/components/portfolio/identity.js` — Name, role, the facts, work experience and education on the About page, the tools list
 - `src/components/portfolio/theme.js` and `portfolio.css` — Colours
 - `src/pages/Services.jsx` — Services and icons
 

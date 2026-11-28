@@ -215,6 +215,20 @@
 .build-spec-sheet h1 { font-size: clamp(42px, 6vw, 96px); }
 .build-spec-sheet .build-facts { align-self: stretch; margin-top: 10px; }
 .build-slash { padding-inline: .9em; color: var(--accent); }
+.build-records { padding: 0 var(--build-gutter) clamp(56px, 11svh, 120px); }
+.build-record { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 20px clamp(16px, 3vw, 48px); padding-top: clamp(28px, 6svh, 64px); scroll-margin-top: var(--build-header); }
+.build-record + .build-record { margin-top: clamp(28px, 6svh, 64px); border-top: 1px solid var(--border); }
+.build-record h2 { font-size: clamp(34px, 4vw, 60px); }
+.build-record-list { list-style: none; margin: 0; padding: 0; }
+.build-record-list > li { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 4fr) minmax(0, 5fr); gap: 8px clamp(16px, 2.4vw, 40px); padding: 20px 0; border-top: 1px solid var(--border); }
+.build-record-list > li > .build-small { margin: 0; padding-top: 7px; }
+.build-record-list h3 { font-size: clamp(24px, 2.2vw, 34px); line-height: 1.04; }
+.build-record-where { margin: 8px 0 0; font-size: 14px; color: var(--text); }
+.build-record-points { display: grid; gap: 8px; list-style: none; margin: 0; padding: 4px 0 0; color: var(--text); font-size: 15px; }
+.build-record-points li { position: relative; padding-left: 18px; }
+.build-record-points li::before { content: ''; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; background: var(--accent); }
+.build-record-courses { display: grid; gap: 10px; align-content: start; padding-top: 7px; }
+.build-record-courses .build-small { margin: 0; }
 .build-copy a { color: var(--heading); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
 .build-inline-links { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .build-inline-links a:not(.build-pill), .build-inline-links button:not(.build-pill) { color: var(--heading); text-underline-offset: 4px; text-decoration: underline; text-decoration-color: var(--accent); }
@@ -241,6 +255,9 @@
 .build-signoff .build-art { aspect-ratio: 528/240; }
 .build-signoff .build-small { padding-left: 8px; }
 
+@media (max-width: 1100px) {
+  .build-record { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 760px) {
   .build-app { --build-header: 64px; }
   .build-mark { width: 62px; height: 45px; }
@@ -255,6 +272,8 @@
   .build-project-copy { padding-right: var(--build-gutter); padding-bottom: 8px; }
   .build-project-media { padding-left: var(--build-gutter); padding-top: 12px; }
   .build-facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .build-record, .build-record-list > li { grid-template-columns: minmax(0, 1fr); }
+  .build-record-list > li > .build-small { padding-top: 0; }
   .build-name { font-size: 15vw; }
   .build-contact { align-content: center; gap: 0; padding-top: calc(var(--build-header) + 32px); }
   .build-contact-art { width: min(100%, 302px); justify-self: center; }

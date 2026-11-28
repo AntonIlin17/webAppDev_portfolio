@@ -39,10 +39,17 @@ describe('Portfolio App E2E Tests', () => {
       cy.get('h1').should('contain', 'Selected work')
     })
 
-    it('navigates to Education page', () => {
+    it('shows work experience and education on the About page', () => {
       cy.visit('/about')
       cy.contains('a', 'Education').click()
-      cy.url().should('include', '/education')
+      cy.url().should('include', '/about#education')
+      cy.contains('h2', 'Work experience').should('exist')
+      cy.contains('h3', 'Artificial Intelligence and Software Engineering').should('be.visible')
+    })
+
+    it('sends the old Education address to the About page', () => {
+      cy.visit('/education')
+      cy.url().should('include', '/about#education')
     })
 
     it('navigates to Services page', () => {

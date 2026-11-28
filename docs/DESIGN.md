@@ -12,7 +12,7 @@ choices behind the build so that new work, the project pages in particular, matc
 | Landing | Monolith: one large orchid with the name set across it |
 | Work | Filmstrip: frames you scroll, drag, or move with the bar underneath |
 | Project view | Full page: write-up on the left, demo and screenshots on the right |
-| About | Specimen sheet: a framed element, a sheet of facts, the signature underneath |
+| About | Specimen sheet: a framed element, a sheet of facts, the signature underneath. Then the record: work experience and education |
 | Stack | Marquee: one moving line of tools |
 | Contact | The email address set large beside a reaching hand |
 | Footer | One line |
@@ -67,6 +67,7 @@ All in `src/components/portfolio/`. Class names are prefixed `build-`.
 | `.build-tabs` | Dashed tabs that go solid when pressed (`aria-pressed`) |
 | `.build-inline-links` | A row of underlined links |
 | `.build-copy` | A paragraph capped at a readable width |
+| `.build-record` | A titled list of dated rows: date, title and place, then detail. Used for work experience and education |
 
 `App.jsx` supplies the frame around every page: backdrop, top bar, page wipe, opening, cursor and
 the progress line. A page only renders its own section.

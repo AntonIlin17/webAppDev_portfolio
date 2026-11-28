@@ -1,6 +1,6 @@
 import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 
 import './index.css'
 import App from './App.jsx'
@@ -15,7 +15,6 @@ const PortfolioContact = lazy(() => import('./pages/PortfolioContact.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const Projects = lazy(() => import('./pages/Projects.jsx'));
 const ProjectPage = lazy(() => import('./pages/ProjectPage.jsx'));
-const Education = lazy(() => import('./pages/Education.jsx'));
 const Services = lazy(() => import('./pages/Services.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
@@ -48,7 +47,8 @@ const router = createBrowserRouter([
       { path: "contact/form", element: withSuspense(Contact) },
       { path: "projects", element: withSuspense(Projects) },
       { path: "projects/:slug", element: withSuspense(ProjectPage) },
-      { path: "education", element: withSuspense(Education) },
+      // Education used to be a page of its own. It is now a section of About.
+      { path: "education", element: <Navigate to="/about#education" replace /> },
       { path: "services", element: withSuspense(Services) },
       { path: "login", element: withSuspense(Login) },
       { path: "register", element: withSuspense(Register) },
