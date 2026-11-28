@@ -110,4 +110,4 @@ npm run test
 npm run build
 ```
 
-The GitHub workflow runs both before it deploys to Vercel.
+The GitHub workflow runs both on every push. Vercel deploys `main` through its own Git connection.
