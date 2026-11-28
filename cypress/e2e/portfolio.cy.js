@@ -8,7 +8,7 @@ describe('Portfolio App E2E Tests', () => {
 
   describe('Homepage Tests', () => {
     it('loads homepage successfully', () => {
-      cy.get('h1').should('contain', 'Welcome to My Portfolio')
+      cy.get('h1').should('contain', 'Anton Ilin')
       cy.title().should('not.be.empty')
     })
 
@@ -16,13 +16,13 @@ describe('Portfolio App E2E Tests', () => {
       cy.contains('Anton Ilin').should('be.visible')
     })
 
-    it('displays mission statement', () => {
-      cy.contains('My Mission').should('be.visible')
+    it('displays the school and location', () => {
+      cy.contains('Centennial College, Toronto').should('be.visible')
     })
 
-    it('has working "More About Me" link', () => {
-      cy.contains('More About Me').click()
-      cy.url().should('include', '/about')
+    it('links the landing page to the filmstrip', () => {
+      cy.contains('See the work').click()
+      cy.url().should('include', '/projects')
     })
   })
 
@@ -30,39 +30,42 @@ describe('Portfolio App E2E Tests', () => {
     it('navigates to About page', () => {
       cy.get('nav').contains('About').click()
       cy.url().should('include', '/about')
-      cy.get('h1').should('contain', 'About Me')
+      cy.get('h1').should('contain', 'free software')
     })
 
     it('navigates to Projects page', () => {
-      cy.get('nav').contains('Projects').click()
+      cy.get('nav').contains('Work').click()
       cy.url().should('include', '/projects')
-      cy.get('h1').should('contain', 'My Work')
+      cy.get('h1').should('contain', 'Selected work')
     })
 
     it('navigates to Education page', () => {
-      cy.get('nav').contains('Education').click()
+      cy.visit('/about')
+      cy.contains('a', 'Education').click()
       cy.url().should('include', '/education')
     })
 
     it('navigates to Services page', () => {
-      cy.get('nav').contains('Services').click()
+      cy.visit('/about')
+      cy.contains('a', 'Services').click()
       cy.url().should('include', '/services')
     })
 
     it('navigates to Contact page', () => {
       cy.get('nav').contains('Contact').click()
       cy.url().should('include', '/contact')
-      cy.get('h1').should('contain', 'Contact Me')
+      cy.get('h1 a').should('have.attr', 'href', 'mailto:antonilin107@gmail.com')
     })
 
     it('navigates to Login page', () => {
-      cy.get('nav').contains('Login').click()
+      cy.visit('/contact')
+      cy.contains('a', 'Login').click()
       cy.url().should('include', '/login')
     })
 
     it('can navigate back to Home from any page', () => {
       cy.get('nav').contains('About').click()
-      cy.get('nav').contains('Home').click()
+      cy.get('[aria-label="Anton Ilin, home"]').click()
       cy.url().should('eq', Cypress.config().baseUrl + '/')
     })
   })
@@ -72,16 +75,16 @@ describe('Portfolio App E2E Tests', () => {
       cy.visit('/about')
     })
 
-    it('displays profile image', () => {
-      cy.get('img[alt="Anton Ilin"]').should('be.visible')
+    it('displays the fact sheet', () => {
+      cy.contains('Toronto, Canada').should('be.visible')
     })
 
     it('displays download resume button', () => {
-      cy.contains('Download My Resume').should('be.visible')
+      cy.contains('Download my resume').should('be.visible')
     })
 
     it('mentions skills', () => {
-      cy.contains('React, Java, and C#').should('be.visible')
+      cy.contains('React, Java and C#').should('be.visible')
     })
   })
 
@@ -92,12 +95,13 @@ describe('Portfolio App E2E Tests', () => {
 
     it('displays project list', () => {
       cy.contains('Autonomous Warehouse Robot').should('be.visible')
-      cy.contains('OpenClaw Desktop').should('be.visible')
+      cy.get('[aria-label^="Open project:"]').should('have.length', 5)
     })
 
     it('displays a gallery with directional buttons only where applicable', () => {
+      cy.get('[aria-label="Open project: Autonomous Warehouse Robot"]').click()
       cy.get('[aria-label="Enlarge The warehouse in Gazebo"]').click()
-      cy.get('dialog').should('be.visible').within(() => {
+      cy.get('.lightbox-overlay').should('be.visible').within(() => {
         cy.get('[aria-label="Previous image"]').should('not.exist')
         cy.get('[aria-label="Next image"]').click()
         cy.get('[aria-label="Previous image"]').should('be.visible')
@@ -105,13 +109,14 @@ describe('Portfolio App E2E Tests', () => {
         cy.get('[aria-label="Next image"]').should('not.exist')
         cy.get('[aria-label="Close gallery"]').click()
       })
-      cy.get('dialog').should('not.exist')
+      cy.get('.lightbox-overlay').should('not.exist')
+      cy.get('[aria-label="Close project"]').click()
     })
   })
 
   describe('Contact Page Tests', () => {
     beforeEach(() => {
-      cy.visit('/contact')
+      cy.visit('/contact/form')
     })
 
     it('displays contact information', () => {
@@ -142,7 +147,8 @@ describe('Portfolio App E2E Tests', () => {
   })
 
   describe('Footer Tests', () => {
-    it('displays copyright with current year', () => {
+    it('displays the signature with current year', () => {
+      cy.visit('/contact')
       const currentYear = new Date().getFullYear()
       cy.get('footer').should('contain', currentYear.toString())
       cy.get('footer').should('contain', 'Anton Ilin')

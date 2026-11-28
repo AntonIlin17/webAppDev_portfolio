@@ -1,41 +1,63 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import Reveal from '../components/Reveal.jsx'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import Artwork from '../components/portfolio/Artwork.jsx'
 import projects from './projectData.js'
 
-function ProjectCard({ project, onOpen }) {
-  const { title, description, approach, contribution, stack, links, images } = project
+const projectArtwork = ['gyroscope', 'dahlia', 'coral', 'helix', 'ammonite']
+const displayIndex = (index) => String(index).padStart(2, '0')
 
+function ProjectSheet({ project, onEnlarge, onClose }) {
+  const dialog = useRef(null)
+  const close = useRef(null)
+  useOpenDialog(dialog, close)
+  const { title, description, approach, contribution, stack, links, images } = project
+  const cover = images[0]
   return (
-    <Reveal as="li" className="project">
-      <h2>{title}</h2>
-      <div className="project-media">
-        {images.map(({ src, alt, caption }, index) => (
-          <button
-            className={`project-image${index === 0 ? ' project-image--cover' : ''}`}
-            type="button"
-            key={src}
-            onClick={() => onOpen({ project, index })}
-            aria-label={`Enlarge ${caption}`}
-          >
-            <img src={src} alt={alt} decoding="async" loading="lazy" />
-          </button>
-        ))}
-      </div>
-      <div className="project-details">
-        <p>{description}</p>
-        <p><strong>How it was built</strong> {approach}</p>
-        {contribution && <p><strong>My contribution</strong> {contribution}</p>}
-        <ul className="project-stack" aria-label="Technologies">
-          {stack.map((technology) => <li key={technology}>{technology}</li>)}
-        </ul>
-        {links.length > 0 && (
-          <div className="project-links">
-            {links.map(({ label, url }) => <a key={url} href={url}>{label} <span aria-hidden="true">↗</span></a>)}
+    <dialog ref={dialog} className="build-project-sheet" aria-label={title}
+      onCancel={(event) => { event.preventDefault(); onClose() }}
+      onClick={(event) => { if (event.target === event.currentTarget) onClose() }}>
+      <div className="build-sheet-inner">
+        <button type="button" ref={close} className="build-pill build-sheet-close" aria-label="Close project" onClick={onClose}>Close ×</button>
+        <div className="build-sheet-copy">
+          <h2 className="build-display">{title}</h2>
+          <p className="build-copy">{description}</p>
+          <dl className="build-facts">
+            <div><dt>How it was built</dt><dd>{approach}</dd></div>
+            {contribution && <div><dt>My contribution</dt><dd>{contribution}</dd></div>}
+          </dl>
+          <ul className="build-tags" aria-label="Technologies">{stack.map((tool) => <li key={tool}>{tool}</li>)}</ul>
+          <div className="build-inline-links">{links.map(({ label, url }) => <a className="build-pill" key={url} href={url}>{label} <span aria-hidden="true">↗</span></a>)}</div>
+        </div>
+        <div className="build-sheet-media">
+          <figure className="build-shot">
+            <figcaption><span aria-hidden="true">○ ○ ○</span> {cover.caption}</figcaption>
+            <button type="button" onClick={() => onEnlarge(0)} aria-label={`Enlarge ${cover.caption}`}>
+              <img src={cover.src} alt={cover.alt} />
+            </button>
+          </figure>
+          <div className="build-thumbnails" role="group" aria-label="More project screenshots">
+            {images.slice(1).map(({ src, alt, caption }, index) => (
+              <button type="button" key={src} onClick={() => onEnlarge(index + 1)} aria-label={`Enlarge ${caption}`}>
+                <img src={src} alt={alt} loading="lazy" />
+              </button>
+            ))}
           </div>
-        )}
+        </div>
       </div>
-    </Reveal>
+    </dialog>
   )
+}
+
+function useOpenDialog(dialogRef, closeRef) {
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current
+    const opener = document.activeElement
+    dialog.showModal()
+    closeRef.current.focus()
+    return () => {
+      dialog.close()
+      if (opener?.isConnected) opener.focus()
+    }
+  }, [dialogRef, closeRef])
 }
 
 function ProjectLightbox({ project, startIndex, onClose }) {
@@ -45,16 +67,7 @@ function ProjectLightbox({ project, startIndex, onClose }) {
   const { images, title } = project
   const image = images[index]
 
-  useLayoutEffect(() => {
-    const dialog = dialogRef.current
-    const opener = document.activeElement
-    dialog.showModal()
-    closeRef.current.focus()
-    return () => {
-      dialog.close()
-      opener?.focus()
-    }
-  }, [])
+  useOpenDialog(dialogRef, closeRef)
 
   useLayoutEffect(() => {
     const dialog = dialogRef.current
@@ -103,21 +116,97 @@ function ProjectLightbox({ project, startIndex, onClose }) {
 }
 
 export default function Projects() {
-  const [gallery, setGallery] = useState(null)
+  const film = useRef(null)
+  const drag = useRef(null)
+  const [position, setPosition] = useState({ percent: 0, ratio: 1, first: 1, last: 1 })
+  const [project, setProject] = useState(null)
+  const [imageIndex, setImageIndex] = useState(null)
+
+  function syncFilm() {
+    const node = film.current
+    const cards = [...node.children]
+    const max = node.scrollWidth - node.clientWidth
+    const visible = cards.filter((card) => card.offsetLeft + card.offsetWidth > node.scrollLeft + 8 && card.offsetLeft + 8 < node.scrollLeft + node.clientWidth)
+    setPosition({
+      percent: max > 0 ? Math.round(node.scrollLeft / max * 100) : 0,
+      ratio: node.scrollWidth ? node.clientWidth / node.scrollWidth : 1,
+      first: visible.length ? cards.indexOf(visible[0]) + 1 : 1,
+      last: visible.length ? cards.indexOf(visible.at(-1)) + 1 : 1,
+    })
+  }
+
+  useEffect(() => {
+    const node = film.current
+    syncFilm()
+    function wheel(event) {
+      if (Math.abs(event.deltaX) >= Math.abs(event.deltaY) || event.ctrlKey) return
+      const limit = node.scrollWidth - node.clientWidth
+      if (event.deltaY > 0 ? node.scrollLeft >= limit - 1 : node.scrollLeft <= 0) return
+      event.preventDefault()
+      node.scrollBy({ left: (event.deltaMode === 1 ? 16 : 1) * event.deltaY })
+    }
+    node.addEventListener('wheel', wheel, { passive: false })
+    const observer = window.ResizeObserver && new ResizeObserver(syncFilm)
+    observer?.observe(node)
+    return () => {
+      observer?.disconnect()
+      node.removeEventListener('wheel', wheel)
+    }
+  }, [])
+
+  function stepFilm(direction) {
+    const node = film.current
+    const motion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    node.scrollBy({ left: direction * node.firstElementChild.offsetWidth, behavior: motion })
+  }
+
+  function beginDrag(event) {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return
+    drag.current = { x: event.clientX, start: film.current.scrollLeft, moved: false }
+  }
+
+  function moveDrag(event) {
+    const current = drag.current
+    if (!current || !(event.buttons & 1)) return
+    const distance = event.clientX - current.x
+    if (!current.moved && Math.abs(distance) < 6) return
+    current.moved = true
+    film.current.scrollLeft = current.start - distance
+  }
+
+  function openProject(item, event) {
+    if (event.detail && drag.current?.moved) return
+    setProject(item)
+  }
 
   return (
-    <section className="card">
-      <Reveal>
-        <h1>My Work</h1>
-      </Reveal>
-      <ul className="project-list">
-        {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} onOpen={setGallery} />
+    <section className="build-work" aria-labelledby="work-heading">
+      <div className="build-work-heading">
+        <h1 id="work-heading" className="build-display">Selected work</h1>
+        <p>Scroll, drag, or use the bar below.</p>
+      </div>
+      <div className="build-film" ref={film} onScroll={syncFilm} onPointerDown={beginDrag} onPointerMove={moveDrag}>
+        {projects.map((item, index) => (
+          <button className="build-frame" type="button" key={item.title} onClick={(event) => openProject(item, event)} aria-label={`Open project: ${item.title}`}>
+            <span className="build-frame-number" aria-hidden="true">{displayIndex(index + 1)}</span>
+            <Artwork specimen={projectArtwork[index]} scale={0.84} />
+            <strong className="build-display">{item.title}</strong>
+            <span className="build-frame-description">{item.description}</span>
+            <span className="build-frame-open" aria-hidden="true">Open project</span>
+          </button>
         ))}
-      </ul>
-      {gallery && (
-        <ProjectLightbox project={gallery.project} startIndex={gallery.index} onClose={() => setGallery(null)} />
-      )}
+      </div>
+      <div className="build-film-controls">
+        <button type="button" className="build-round" aria-label="Previous project" onClick={() => stepFilm(-1)} disabled={position.percent === 0}>←</button>
+        <input type="range" min="0" max="100" value={position.percent} style={{ '--film-thumb': `${position.ratio * 100}%` }} aria-label="Scroll the projects" onChange={(event) => {
+          const node = film.current
+          node.scrollLeft = (node.scrollWidth - node.clientWidth) * Number(event.target.value) / 100
+        }} />
+        <span>{displayIndex(position.first)}–{displayIndex(position.last)} / {displayIndex(projects.length)}</span>
+        <button type="button" className="build-round" aria-label="Next project" onClick={() => stepFilm(1)} disabled={position.percent === 100}>→</button>
+      </div>
+      {project && <ProjectSheet project={project} onEnlarge={setImageIndex} onClose={() => setProject(null)} />}
+      {imageIndex !== null && <ProjectLightbox project={project} startIndex={imageIndex} onClose={() => setImageIndex(null)} />}
     </section>
   )
 }

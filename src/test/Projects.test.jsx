@@ -21,19 +21,19 @@ afterAll(() => {
 describe('Projects Component', () => {
   it('renders the current projects with descriptions, approaches and galleries', () => {
     render(<Projects />)
-    expect(screen.getByRole('heading', { name: 'My Work' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Autonomous Warehouse Robot' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Dither Cabinet' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'OpenClaw Desktop' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Neural Networks from Scratch and CIFAR-10' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Clustering and Anomaly Detection' })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: /RSS Aggregator|TourConnect|QA Automation Examples/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Selected work' })).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: /^Open project:/ })).toHaveLength(5)
+    expect(screen.queryByRole('button', { name: /RSS Aggregator|TourConnect|QA Automation Examples/ })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Open project: Autonomous Warehouse Robot' }))
     expect(screen.getAllByText('How it was built').length).toBeGreaterThan(0)
     expect(screen.getByRole('button', { name: 'Enlarge The warehouse in Gazebo' })).toBeInTheDocument()
   })
 
   it('bounds button and keyboard navigation and restores focus after closing', () => {
     render(<Projects />)
+    const card = screen.getByRole('button', { name: 'Open project: Autonomous Warehouse Robot' })
+    card.focus()
+    fireEvent.click(card)
     const opener = screen.getByRole('button', { name: 'Enlarge The warehouse in Gazebo' })
     opener.focus()
     fireEvent.click(opener)
@@ -56,12 +56,15 @@ describe('Projects Component', () => {
     fireEvent.click(gallery.getByRole('button', { name: 'Close gallery' }))
     expect(dialog).not.toBeInTheDocument()
     expect(opener).toHaveFocus()
+    fireEvent.click(screen.getByRole('button', { name: 'Close project' }))
+    expect(card).toHaveFocus()
   })
 
   it('opens a thumbnail at its own position', () => {
     render(<Projects />)
+    fireEvent.click(screen.getByRole('button', { name: 'Open project: Autonomous Warehouse Robot' }))
     fireEvent.click(screen.getByRole('button', { name: 'Enlarge Nav2 route in RViz' }))
-    const gallery = within(screen.getByRole('dialog'))
+    const gallery = within(screen.getByRole('dialog', { name: 'Autonomous Warehouse Robot image gallery' }))
     expect(gallery.getByText('2 / 3')).toBeInTheDocument()
     expect(gallery.getByRole('img', { name: /occupancy map/ })).toBeInTheDocument()
   })

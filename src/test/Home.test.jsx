@@ -1,25 +1,16 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import Home from '../pages/Home'
 
-// Mock react-router-dom's useLocation
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useLocation: () => ({ state: null }),
-  }
-})
-
 describe('Home Component', () => {
-  it('renders welcome heading', () => {
+  it('renders the monolith name heading', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     )
-    expect(screen.getByText('Welcome to My Portfolio')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Anton Ilin' })).toBeInTheDocument()
   })
 
   it('renders intro text with name', () => {
@@ -28,26 +19,26 @@ describe('Home Component', () => {
         <Home />
       </MemoryRouter>
     )
-    expect(screen.getByText(/Anton Ilin/i)).toBeInTheDocument()
+    expect(screen.getByText(/AI and software engineering student/i)).toBeInTheDocument()
   })
 
-  it('renders mission statement section', () => {
+  it('shows confirmation after a contact submission', () => {
+    render(
+      <MemoryRouter initialEntries={[{ pathname: '/', state: { submittedName: 'Sam' } }]}>
+        <Home />
+      </MemoryRouter>
+    )
+    expect(screen.getByRole('status')).toHaveTextContent('Thanks, Sam!')
+  })
+
+  it('links to the work filmstrip', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     )
-    expect(screen.getByText('My Mission')).toBeInTheDocument()
-  })
-
-  it('renders "More About Me" link', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    )
-    const link = screen.getByRole('link', { name: /more about me/i })
+    const link = screen.getByRole('link', { name: /see the work/i })
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/about')
+    expect(link).toHaveAttribute('href', '/projects')
   })
 })
