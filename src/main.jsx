@@ -10,7 +10,8 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './pages/Home.jsx';
 
 // Lazy load other routes for code splitting (performance optimization)
-const About = lazy(() => import('./pages/About.jsx'));
+const About = lazy(() => import('./pages/PortfolioAbout.jsx'));
+const PortfolioContact = lazy(() => import('./pages/PortfolioContact.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const Projects = lazy(() => import('./pages/Projects.jsx'));
 const Education = lazy(() => import('./pages/Education.jsx'));
@@ -42,7 +43,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "about", element: withSuspense(About) },
-      { path: "contact", element: withSuspense(Contact) },
+      { path: "contact", element: withSuspense(PortfolioContact) },
+      { path: "contact/form", element: withSuspense(Contact) },
       { path: "projects", element: withSuspense(Projects) },
       { path: "education", element: withSuspense(Education) },
       { path: "services", element: withSuspense(Services) },
