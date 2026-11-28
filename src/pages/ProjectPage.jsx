@@ -73,7 +73,7 @@ export default function ProjectPage() {
     <article className="build-project" aria-labelledby="project-title">
       <div className="build-project-copy">
         <Link className="build-pill build-back" to="/projects"><span aria-hidden="true">←</span> Back to work</Link>
-        <p className="build-small">{kind}, project {displayIndex(index + 1)} of {displayIndex(projects.length)}</p>
+        <p className="build-small">{kind}</p>
         <h1 id="project-title" className="build-display">{title}</h1>
         <p className="build-copy">{description}</p>
         <dl className="build-facts">

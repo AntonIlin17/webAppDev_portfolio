@@ -18,8 +18,8 @@ function Entry({ dates, title, where, children }) {
   )
 }
 
-// The about page, set the way the Dither Cabinet describes one of its elements:
-// a framed specimen on the left, a sheet of facts on the right, signed underneath.
+// The about page: a framed element on the left, who Anton is and a sheet of facts on the right,
+// signed underneath.
 // The record follows: work experience, then education.
 export default function PortfolioAbout() {
   const { hash } = useLocation()
@@ -36,16 +36,27 @@ export default function PortfolioAbout() {
           <Artwork specimen="orchid" scale={0.84} />
         </figure>
         <div className="build-spec-sheet">
-          <p className="build-small">{me.elements.length + 1}<span className="build-slash">/</span>Developer</p>
+          <p className="build-small">Frontend developer<span className="build-slash">/</span>{me.place}</p>
           <h1 className="build-display">{me.name}</h1>
           <p className="build-copy">
-            The <Link to="/projects/dither-cabinet">Dither Cabinet</Link> holds {me.elements.length} elements. This is the one that made them.
+            I'm a frontend developer and an AI and software engineering student at {me.school} in {me.place}.
+            I build React and TypeScript interfaces, connect them to APIs, and test them the way a real user would use them.
+          </p>
+          <p className="build-copy">
+            In the summer of 2026 I worked as a frontend developer at Paideum. On my own time I build projects end to end,
+            like a <Link to="/projects/openclaw-desktop">desktop client for local AI agents</Link>,
+            an <Link to="/projects/warehouse-robot">autonomous warehouse robot</Link> and
+            a receipt splitter that reads a photo of the bill.
+          </p>
+          <p className="build-copy">
+            Before code I led a painting crew and ran door-to-door sales, so I'm used to talking with clients,
+            owning a deadline and explaining things plainly. I care about clean architecture and interfaces that explain themselves.
           </p>
           <dl className="build-facts">
             {me.facts.map(([term, text]) => <div key={term}><dt>{term}</dt><dd>{text}</dd></div>)}
           </dl>
           <div className="build-inline-links">
-            <a href={resumePdf} download>Download my resume</a>
+            <a href={resumePdf} download="Anton_Ilin_Resume.pdf">Download my resume</a>
             <Link to="/about#experience">Work experience</Link>
             <Link to="/about#education">Education</Link>
             <Link to="/services">Services</Link>

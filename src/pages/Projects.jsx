@@ -3,26 +3,21 @@ import { Link } from 'react-router-dom'
 import Artwork from '../components/portfolio/Artwork.jsx'
 import projects from './projectData.js'
 
-const displayIndex = (index) => String(index).padStart(2, '0')
 
 // The work page: a filmstrip of projects. Scroll it with the wheel, drag it,
 // or use the bar underneath. Each frame opens that project's own page.
 export default function Projects() {
   const film = useRef(null)
   const drag = useRef(null)
-  const [position, setPosition] = useState({ percent: 0, ratio: 1, first: 1, last: 1 })
+  const [position, setPosition] = useState({ percent: 0, ratio: 1 })
 
   function syncFilm() {
     const node = film.current
     if (!node) return // a resize can still be reported just after leaving the page
-    const cards = [...node.children]
     const max = node.scrollWidth - node.clientWidth
-    const visible = cards.filter((card) => card.offsetLeft + card.offsetWidth > node.scrollLeft + 8 && card.offsetLeft + 8 < node.scrollLeft + node.clientWidth)
     setPosition({
       percent: max > 0 ? Math.round(node.scrollLeft / max * 100) : 0,
       ratio: node.scrollWidth ? node.clientWidth / node.scrollWidth : 1,
-      first: visible.length ? cards.indexOf(visible[0]) + 1 : 1,
-      last: visible.length ? cards.indexOf(visible.at(-1)) + 1 : 1,
     })
   }
 
@@ -78,9 +73,8 @@ export default function Projects() {
         <p>Scroll, drag, or use the bar below.</p>
       </div>
       <div className="build-film" ref={film} onScroll={syncFilm} onPointerDown={beginDrag} onPointerMove={moveDrag}>
-        {projects.map((item, index) => (
+        {projects.map((item) => (
           <Link className="build-frame" key={item.slug} to={`/projects/${item.slug}`} draggable={false} onClick={guardClick} aria-label={`Open project: ${item.title}`}>
-            <span className="build-frame-number" aria-hidden="true">{displayIndex(index + 1)}</span>
             <Artwork specimen={item.specimen} scale={0.84} />
             <strong className="build-display">{item.title}</strong>
             <span className="build-frame-description">{item.description}</span>
@@ -94,7 +88,6 @@ export default function Projects() {
           const node = film.current
           node.scrollLeft = (node.scrollWidth - node.clientWidth) * Number(event.target.value) / 100
         }} />
-        <span>{displayIndex(position.first)} to {displayIndex(position.last)} of {displayIndex(projects.length)}</span>
         <button type="button" className="build-round" aria-label="Next project" onClick={() => stepFilm(1)} disabled={position.percent === 100}>→</button>
       </div>
     </section>

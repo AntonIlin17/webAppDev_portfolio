@@ -12,7 +12,7 @@ choices behind the build so that new work, the project pages in particular, matc
 | Landing | Monolith: one large orchid with the name set across it |
 | Work | Filmstrip: frames you scroll, drag, or move with the bar underneath |
 | Project view | Full page: write-up on the left, demo and screenshots on the right |
-| About | Specimen sheet: a framed element, a sheet of facts, the signature underneath. Then the record: work experience and education |
+| About | Specimen sheet: a framed element, a short introduction, a sheet of facts, the signature underneath. Then the record: work experience and education |
 | Stack | Marquee: one moving line of tools |
 | Contact | The email address set large beside a reaching hand |
 | Footer | One line |
@@ -86,8 +86,8 @@ The page is a two-column grid, `.build-project`:
   screenshot. `.build-tabs` underneath choose the item, and a screenshot opens in the lightbox.
 
 To add a project, append an entry to `projectData.js`, put its screenshots in
-`public/projects/<name>/` and any demo video in `public/demos/`. The filmstrip, the count in the
-navigation and the next-project links follow from the data.
+`public/projects/<name>/` and any demo video in `public/demos/`. The filmstrip and the
+next-project links follow from the data. Projects are not numbered anywhere.
 
 To give one project a different media area, such as an embedded live demo, branch inside
 `ProjectMedia` on a new field of the entry and keep the `.build-shot` frame around it so it sits

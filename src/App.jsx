@@ -4,7 +4,6 @@ import Artwork from './components/portfolio/Artwork.jsx'
 import Cursor from './components/portfolio/Cursor.jsx'
 import Opening from './components/portfolio/Opening.jsx'
 import Wipe from './components/portfolio/Wipe.jsx'
-import projects from './pages/projectData.js'
 import './App.css'
 import './components/portfolio/portfolio.css'
 
@@ -48,7 +47,7 @@ export default function App() {
           <span aria-hidden="true" /><span aria-hidden="true" />
         </Link>
         <nav aria-label="Main navigation">
-          <NavLink to="/projects">Work <small>{projects.length}</small></NavLink>
+          <NavLink to="/projects">Work</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/contact">Contact</NavLink>
         </nav>

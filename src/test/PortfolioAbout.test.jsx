@@ -10,12 +10,13 @@ function renderAbout() {
 }
 
 describe('About page', () => {
-  it('is headed by the name and lists the facts', () => {
+  it('is headed by the name, says who Anton is and lists the facts', () => {
     renderAbout()
     expect(screen.getByRole('heading', { level: 1, name: 'Anton Ilin' })).toBeInTheDocument()
+    expect(screen.getByText(/frontend developer and an AI and software engineering student/)).toBeInTheDocument()
     expect(screen.getByText('Toronto, Canada')).toBeInTheDocument()
-    expect(screen.getByText(/React, JavaScript, Java, C#/)).toBeInTheDocument()
-    expect(screen.getByText('Cares about')).toBeInTheDocument()
+    expect(screen.getByText('React, TypeScript, JavaScript, Python, Java, C#, SQL')).toBeInTheDocument()
+    expect(screen.getByText('English and Russian')).toBeInTheDocument()
   })
 
   it('lists work experience, newest first', () => {
@@ -35,12 +36,13 @@ describe('About page', () => {
     expect(within(section).getByText('Machine Learning')).toBeInTheDocument()
   })
 
-  it('links to the resume, its own sections, services and the Dither Cabinet project', () => {
+  it('links to the resume, its own sections, services and two projects', () => {
     renderAbout()
-    expect(screen.getByRole('link', { name: /download my resume/i })).toHaveAttribute('download')
+    expect(screen.getByRole('link', { name: /download my resume/i })).toHaveAttribute('download', 'Anton_Ilin_Resume.pdf')
     expect(screen.getByRole('link', { name: 'Work experience' })).toHaveAttribute('href', '/about#experience')
     expect(screen.getByRole('link', { name: 'Education' })).toHaveAttribute('href', '/about#education')
     expect(screen.getByRole('link', { name: 'Services' })).toHaveAttribute('href', '/services')
-    expect(screen.getByRole('link', { name: 'Dither Cabinet' })).toHaveAttribute('href', '/projects/dither-cabinet')
+    expect(screen.getByRole('link', { name: 'desktop client for local AI agents' })).toHaveAttribute('href', '/projects/openclaw-desktop')
+    expect(screen.getByRole('link', { name: 'autonomous warehouse robot' })).toHaveAttribute('href', '/projects/warehouse-robot')
   })
 })
