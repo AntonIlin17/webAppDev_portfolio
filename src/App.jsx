@@ -1,23 +1,38 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import Artwork from './components/portfolio/Artwork.jsx'
+import Cursor from './components/portfolio/Cursor.jsx'
+import Opening from './components/portfolio/Opening.jsx'
+import Wipe from './components/portfolio/Wipe.jsx'
 import projects from './pages/projectData.js'
 import './App.css'
 import './components/portfolio/portfolio.css'
 
+// Pages designed edge to edge. Every other route gets the centred column used by the older pages.
 const screens = new Set(['/', '/projects', '/about', '/contact'])
+const isScreen = (pathname) => screens.has(pathname) || pathname.startsWith('/projects/')
 
+// The frame around every page: the dotted backdrop, the top bar, the page itself,
+// then the layers that sit over it (page wipe, opening, cursor, progress line).
 export default function App() {
   const { pathname, hash, key } = useLocation()
-  const [specimen, setSpecimen] = useState('orchid')
   const [scrolled, setScrolled] = useState(false)
+  const progress = useRef(null)
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24)
+    const update = () => {
+      const range = document.documentElement.scrollHeight - window.innerHeight
+      setScrolled(window.scrollY > 24)
+      if (progress.current) progress.current.style.transform = `scaleX(${range > 4 ? Math.min(1, window.scrollY / range) : 0})`
+    }
     update()
     window.addEventListener('scroll', update, { passive: true })
-    return () => window.removeEventListener('scroll', update)
-  }, [])
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [pathname])
 
   useLayoutEffect(() => {
     if (hash) document.getElementById(hash.slice(1))?.scrollIntoView()
@@ -38,10 +53,13 @@ export default function App() {
           <NavLink to="/contact">Contact</NavLink>
         </nav>
       </header>
-      <main id="main-content" className={screens.has(pathname) ? 'build-page' : 'site-main build-standard'} tabIndex={-1}>
-        <Outlet context={{ specimen, setSpecimen }} />
+      <main id="main-content" className={isScreen(pathname) ? 'build-page' : 'site-main build-standard'} tabIndex={-1}>
+        <Outlet />
       </main>
-      {key !== 'default' && !hash && <span key={key} className="build-wipe" aria-hidden="true" />}
+      <i ref={progress} className="build-progress" aria-hidden="true" />
+      {key !== 'default' && !hash && <Wipe key={key} />}
+      <Opening />
+      <Cursor />
     </div>
   )
 }

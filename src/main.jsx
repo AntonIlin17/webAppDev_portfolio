@@ -14,6 +14,7 @@ const About = lazy(() => import('./pages/PortfolioAbout.jsx'));
 const PortfolioContact = lazy(() => import('./pages/PortfolioContact.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const Projects = lazy(() => import('./pages/Projects.jsx'));
+const ProjectPage = lazy(() => import('./pages/ProjectPage.jsx'));
 const Education = lazy(() => import('./pages/Education.jsx'));
 const Services = lazy(() => import('./pages/Services.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: "contact", element: withSuspense(PortfolioContact) },
       { path: "contact/form", element: withSuspense(Contact) },
       { path: "projects", element: withSuspense(Projects) },
+      { path: "projects/:slug", element: withSuspense(ProjectPage) },
       { path: "education", element: withSuspense(Education) },
       { path: "services", element: withSuspense(Services) },
       { path: "login", element: withSuspense(Login) },

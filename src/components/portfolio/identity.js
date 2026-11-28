@@ -254,6 +254,14 @@ export default {
     [
       "Works with",
       "React, JavaScript, Java, C#, WebGL2 and GLSL, Node"
+    ],
+    [
+      "Tests with",
+      "Vitest, Cypress, and a lot of negative cases"
+    ],
+    [
+      "Cares about",
+      "Free software, clean architecture, interfaces that explain themselves"
     ]
   ],
   "technologies": [

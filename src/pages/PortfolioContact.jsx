@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
-import { Link, useOutletContext } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Artwork from '../components/portfolio/Artwork.jsx'
 import me from '../components/portfolio/identity.js'
 import { useAuth } from '../context/AuthContext.jsx'
 
+// The contact page: the email address set large beside a reaching hand, and a one-line footer.
 export default function PortfolioContact() {
-  const { specimen, setSpecimen } = useOutletContext()
   const { user, logout } = useAuth()
   const [message, setMessage] = useState('')
   const email = useRef(null)
@@ -35,26 +35,15 @@ export default function PortfolioContact() {
         </div>
         <Artwork specimen="hand" scale={0.9} className="build-contact-art" />
       </section>
-      <footer className="build-colophon">
-        <div className="build-specimens" aria-label="Change the landing illustration">
-          {me.elements.map(([id, name]) => (
-            <button key={id} type="button" title={name} aria-label={name} aria-pressed={id === specimen} onClick={() => setSpecimen(id)}>
-              <img src={`/build-art/${id}-thumb.webp`} alt="" loading="lazy" width="60" height="60" />
-            </button>
-          ))}
-        </div>
-        <div className="build-colophon-row">
-          <div>
-            <p>Pick an element to change the landing illustration.</p>
-            <div className="build-inline-links">
-              {user ? <><Link to="/dashboard">Dashboard</Link><button type="button" onClick={logout}>Logout</button></> : <Link to="/login">Login</Link>}
-            </div>
-          </div>
-          <div className="build-signoff">
-            <Artwork kind="signature" scale={1.06} />
-            <span className="build-small">{me.name}, {new Date().getFullYear()}</span>
-          </div>
-        </div>
+      <footer className="build-footer">
+        <span>© {new Date().getFullYear()} {me.name}</span>
+        <nav aria-label="Footer">
+          <Link to="/projects">Work</Link>
+          <Link to="/about">About</Link>
+          {user
+            ? <><Link to="/dashboard">Dashboard</Link><button type="button" onClick={logout}>Logout</button></>
+            : <Link to="/login">Login</Link>}
+        </nav>
       </footer>
     </>
   )

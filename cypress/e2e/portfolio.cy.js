@@ -30,7 +30,7 @@ describe('Portfolio App E2E Tests', () => {
     it('navigates to About page', () => {
       cy.get('nav').contains('About').click()
       cy.url().should('include', '/about')
-      cy.get('h1').should('contain', 'free software')
+      cy.get('h1').should('contain', 'Anton Ilin')
     })
 
     it('navigates to Projects page', () => {
@@ -84,7 +84,7 @@ describe('Portfolio App E2E Tests', () => {
     })
 
     it('mentions skills', () => {
-      cy.contains('React, Java and C#').should('be.visible')
+      cy.contains('React, JavaScript, Java, C#').should('be.visible')
     })
   })
 
@@ -100,6 +100,8 @@ describe('Portfolio App E2E Tests', () => {
 
     it('displays a gallery with directional buttons only where applicable', () => {
       cy.get('[aria-label="Open project: Autonomous Warehouse Robot"]').click()
+      cy.url().should('include', '/projects/warehouse-robot')
+      cy.contains('button', 'The warehouse in Gazebo').click()
       cy.get('[aria-label="Enlarge The warehouse in Gazebo"]').click()
       cy.get('.lightbox-overlay').should('be.visible').within(() => {
         cy.get('[aria-label="Previous image"]').should('not.exist')
@@ -110,7 +112,8 @@ describe('Portfolio App E2E Tests', () => {
         cy.get('[aria-label="Close gallery"]').click()
       })
       cy.get('.lightbox-overlay').should('not.exist')
-      cy.get('[aria-label="Close project"]').click()
+      cy.contains('a', 'Back to work').click()
+      cy.url().should('match', /\/projects$/)
     })
   })
 
@@ -147,7 +150,7 @@ describe('Portfolio App E2E Tests', () => {
   })
 
   describe('Footer Tests', () => {
-    it('displays the signature with current year', () => {
+    it('displays the name with the current year', () => {
       cy.visit('/contact')
       const currentYear = new Date().getFullYear()
       cy.get('footer').should('contain', currentYear.toString())

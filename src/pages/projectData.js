@@ -1,6 +1,21 @@
+// Every project shown on the site. To add one, append an object with these fields:
+//   slug         URL segment: the project opens at /projects/<slug>
+//   title, kind  the name, and a one or two word category shown above it
+//   specimen     which Dither Cabinet element stands for it in the filmstrip (a file in public/build-art)
+//   description  one sentence, shown on the filmstrip frame and under the title
+//   approach     how it was built
+//   contribution optional: your part of a team project
+//   stack        tools, shown as tags
+//   links        [{ label, url }] buttons under the write-up
+//   demo         optional: a video file shown as the first item in the media frame
+//   images       [{ src, alt, caption }] screenshots: the first is the cover
 const projects = [
   {
+    slug: 'warehouse-robot',
     title: 'Autonomous Warehouse Robot',
+    kind: 'Robotics',
+    specimen: 'gyroscope',
+    demo: '/demos/warehouse-navigation.webm',
     description: 'A ROS 2 simulation that sends a mobile robot to named destinations in a custom warehouse.',
     approach: 'Gazebo simulates the robot and LiDAR. Nav2 plans routes on an occupancy map and executes goals from a keyword parser or an optional Mistral command layer.',
     contribution: 'On a five-person team, I built and mapped the Gazebo warehouse, debugged and tested the robot model in it, and prototyped the Mistral connection.',
@@ -17,7 +32,10 @@ const projects = [
     ],
   },
   {
+    slug: 'dither-cabinet',
     title: 'Dither Cabinet',
+    kind: 'Graphics',
+    specimen: 'dahlia',
     description: 'An offline graphics playground that turns 58 sculptural objects into interactive fields of dots.',
     approach: 'WebGL2 renders the artwork on the GPU, with a Canvas fallback. The studio exposes relief, 3D, and drag modes with controls for patterns, ink, lighting, and motion.',
     stack: ['JavaScript', 'WebGL2', 'Canvas'],
@@ -32,7 +50,11 @@ const projects = [
     ],
   },
   {
+    slug: 'openclaw-desktop',
     title: 'OpenClaw Desktop',
+    kind: 'Desktop app',
+    specimen: 'coral',
+    demo: '/demos/openclaw-desktop.webm',
     description: 'A Windows workspace for chatting with a local assistant, attaching files, and collecting daily market data.',
     approach: 'An Electron and React client connects to OpenClaw in WSL and runs Qwen through Ollama. It supports file analysis, voice dictation, and chat exports. A separate workspace schedules market-data collection, stores it in SQLite, and exports CSV.',
     stack: ['Electron', 'TypeScript', 'React', 'SQLite', 'Ollama'],
@@ -49,7 +71,10 @@ const projects = [
     ],
   },
   {
+    slug: 'neural-networks',
     title: 'Neural Networks from Scratch and CIFAR-10',
+    kind: 'Deep learning',
+    specimen: 'helix',
     description: 'Two Colab experiments that explore backpropagation and measure how design choices affect image classification.',
     approach: 'I implemented an Iris network in NumPy and compared eight Keras multilayer perceptrons on a fixed CIFAR-10 split. The validation-selected network scored 46.96% on 10,000 held-out test images.',
     stack: ['NumPy', 'TensorFlow', 'Keras', 'Colab'],
@@ -64,7 +89,10 @@ const projects = [
     ],
   },
   {
+    slug: 'clustering',
     title: 'Clustering and Anomaly Detection',
+    kind: 'Unsupervised learning',
+    specimen: 'ammonite',
     description: 'An unsupervised learning study of clustering and anomaly scores on the Olivetti benchmark.',
     approach: 'I used PCA features with K-means, DBSCAN, Ward clustering, and Gaussian mixtures. In the saved run, the likelihood threshold caught every 30° rotation and performed much worse on flips and darkening.',
     stack: ['Python', 'scikit-learn', 'PCA', 'Matplotlib'],
